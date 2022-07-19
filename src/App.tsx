@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react';
 import Header from './components/Header/Header';
 import Button from './UI/Button/Button';
+import Card from './UI/Card/Card';
 
 type MyProps = {};
 
@@ -43,7 +44,7 @@ export default class App extends React.Component<MyProps, MyStates>{
         isTimerRunning: false,
       })
     }
-    console.log("i updated")
+    console.log("i updated", this.state.timerType)
   }
 
   handleTimer = () => {
@@ -91,26 +92,23 @@ export default class App extends React.Component<MyProps, MyStates>{
       <>
       <Header/>
       <main>
-        <div className="App">
+        <Card>
           <div>
             <Button 
-              isTimerRunning={isTimerRunning}
-              timerTypeButton="Pomodoro"
-              onClickHandler={this.handleTimerType}
+              disableButton={isTimerRunning}
+              onClickHandler={() => this.handleTimerType("pomodoro")}
             >
               Pomodoro
             </Button>
             <Button 
-              isTimerRunning={isTimerRunning}
-              timerTypeButton="ShortBreak"
-              onClickHandler={this.handleTimerType}
+              disableButton={isTimerRunning}
+              onClickHandler={() => this.handleTimerType("shortbreak")}
             >
               Short Break
             </Button>
             <Button 
-              isTimerRunning={isTimerRunning}
-              timerTypeButton="LongBreak"
-              onClickHandler={this.handleTimerType}
+              disableButton={isTimerRunning}
+              onClickHandler={() => this.handleTimerType("longbreak")}
             >
               Long Break
             </Button>
@@ -118,7 +116,7 @@ export default class App extends React.Component<MyProps, MyStates>{
           <p>This is a Pomodoro App, the initial count is: {`${minutes}:${seconds}`}</p>
           <button onClick={this.handleTimer}>{interval ? "Stop timer" : "Start timer"}</button>
         
-        </div>
+        </Card>
       </main>
       <footer></footer>
       </>

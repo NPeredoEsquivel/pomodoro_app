@@ -2,9 +2,8 @@ import React from "react";
 
 type ButtonProps = {
     children: React.ReactNode;
-    timerTypeButton: string;
-    onClickHandler: (arg0: string) => void;
-    isTimerRunning: boolean;
+    onClickHandler: () => void;
+    disableButton: boolean;
 };
 
 export default class Button extends React.Component<ButtonProps, {}> {
@@ -14,10 +13,8 @@ export default class Button extends React.Component<ButtonProps, {}> {
     render() {
         return (
             <button
-                disabled={this.props.isTimerRunning}
-                onClick={() =>
-                    this.props.onClickHandler(this.props.timerTypeButton)
-                }
+                disabled={this.props.disableButton}
+                onClick={this.props.onClickHandler}
             >
                 {this.props.children}
             </button>
