@@ -15,7 +15,7 @@ type MyStates = {
   interval?: number;
 };
 
-export default class App extends React.Component<MyProps, MyStates>{
+export default class App extends React.PureComponent<MyProps, MyStates>{
   constructor(props: MyProps){
     super(props);
 
@@ -44,7 +44,6 @@ export default class App extends React.Component<MyProps, MyStates>{
         isTimerRunning: false,
       })
     }
-    console.log("i updated", this.state.timerType)
   }
 
   handleTimer = () => {
@@ -58,11 +57,17 @@ export default class App extends React.Component<MyProps, MyStates>{
       return;
     }
 
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        isTimerRunning: true,
+      }
+    })
+
     const interval = window.setInterval(() => this.setState((prevState) => {
       return {
         ...prevState,
         timer: prevState.timer - 1,
-        isTimerRunning: true,
       }
     }), 1000);
     console.log("this runs")
@@ -92,7 +97,7 @@ export default class App extends React.Component<MyProps, MyStates>{
       <>
       <Header/>
       <main>
-        <Card>
+        <div>
           <div>
             <Button 
               disableButton={isTimerRunning}
@@ -116,7 +121,7 @@ export default class App extends React.Component<MyProps, MyStates>{
           <p>This is a Pomodoro App, the initial count is: {`${minutes}:${seconds}`}</p>
           <button onClick={this.handleTimer}>{interval ? "Stop timer" : "Start timer"}</button>
         
-        </Card>
+        </div>
       </main>
       <footer></footer>
       </>
