@@ -46,34 +46,33 @@ export default class App extends React.PureComponent<MyProps, MyStates>{
     }
   }
 
-  handleTimer = () => {
-    if (this.state.interval) {
-      clearInterval(this.state.interval)
-      this.setState({
-        timer: this.state.start,
-        isTimerRunning: false,
-        interval: 0,
-      })
-      return;
-    }
-
-    this.setState(prevState => {
-      return {
-        ...prevState,
-        isTimerRunning: true,
-      }
-    })
-
+  handleStartTimer = () => {    
     const interval = window.setInterval(() => this.setState((prevState) => {
       return {
         ...prevState,
         timer: prevState.timer - 1,
       }
     }), 1000);
-    console.log("this runs")
-    this.setState({
-      interval,
-    });
+
+    this.setState(prevState => {
+       return {
+         ...prevState,
+         interval,
+         isTimerRunning: true,
+       }
+     })
+  }
+
+  handleStopTimer = () => {
+    if (this.state.interval) {
+      this.setState((prevState) => {
+        return {
+          ...prevState,
+          isTimerRunning: false,
+        }
+      })
+      clearInterval(this.state.interval)
+    }
   }
 
   handleTimerType = (timerType: string) => {    
@@ -87,44 +86,65 @@ export default class App extends React.PureComponent<MyProps, MyStates>{
     console.log("rendered")
     const {
       timer,
-      interval,
       isTimerRunning,
     } = this.state;
 
     const minutes = parseInt((timer / 60).toString());
     const seconds = (timer % 60).toString().length === 1 ? `0${timer % 60}` : timer % 60;
-    return(
-      <>
-      <Header/>
-      <main>
-        <div>
-          <div>
-            <Button 
-              disableButton={isTimerRunning}
-              onClickHandler={() => this.handleTimerType("pomodoro")}
-            >
-              Pomodoro
-            </Button>
-            <Button 
-              disableButton={isTimerRunning}
-              onClickHandler={() => this.handleTimerType("shortbreak")}
-            >
-              Short Break
-            </Button>
-            <Button 
-              disableButton={isTimerRunning}
-              onClickHandler={() => this.handleTimerType("longbreak")}
-            >
-              Long Break
-            </Button>
-          </div>
-          <p>This is a Pomodoro App, the initial count is: {`${minutes}:${seconds}`}</p>
-          <button onClick={this.handleTimer}>{interval ? "Stop timer" : "Start timer"}</button>
-        
-        </div>
-      </main>
-      <footer></footer>
-      </>
+    return (
+        <>
+            <Header />
+            <main>
+                <div>
+                    <div>
+                        <Button
+                            disableButton={isTimerRunning}
+                            onClickHandler={() =>
+                                this.handleTimerType("pomodoro")
+                            }
+                        >
+                            Pomodoro
+                        </Button>
+                        <Button
+                            disableButton={isTimerRunning}
+                            onClickHandler={() =>
+                                this.handleTimerType("shortbreak")
+                            }
+                        >
+                            Short Break
+                        </Button>
+                        <Button
+                            disableButton={isTimerRunning}
+                            onClickHandler={() =>
+                                this.handleTimerType("longbreak")
+                            }
+                        >
+                            Long Break
+                        </Button>
+                    </div>
+                    <p>
+                        This is a Pomodoro App, the initial count is:{" "}
+                        {`${minutes}:${seconds}`}
+                    </p>
+                    <Button
+                        disableButton={false}
+                        onClickHandler={isTimerRunning ? this.handleStopTimer : this.handleStartTimer }
+                    >
+                        {isTimerRunning ? "Stop timer" : "Start timer"}
+                    </Button>
+                   {/*  <Button
+                        disableButton={isTimerRunning}
+                        onClickHandler={() => this.handleTimerType("longbreak")}
+                    >
+                        Reset
+                    </Button>
+                    <button onClick={this.handleTimer}>
+                        {interval ? "Stop timer" : "Start timer"}
+                    </button> */}
+                </div>
+            </main>
+            <footer></footer>
+        </>
     );
   }
 }
