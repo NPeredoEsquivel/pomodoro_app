@@ -7,7 +7,7 @@ type ButtonProps = {
 };
 
 export default class Button extends React.Component<ButtonProps, {}> {
-    constructor(props: ButtonProps, children: React.ReactNode) {
+    constructor(props: ButtonProps) {
         super(props);
     }
     render() {

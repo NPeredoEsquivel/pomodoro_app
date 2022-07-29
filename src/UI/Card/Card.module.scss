@@ -1,3 +1,12 @@
-.classlala{
+.container{
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px 0px 30px;
+    margin-bottom: 20px;
+    width: 480px;
+    height: 262px;
 }

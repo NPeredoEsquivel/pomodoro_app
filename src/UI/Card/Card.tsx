@@ -6,13 +6,15 @@ type CardProps = {
 };
 
 export default class Card extends React.Component<CardProps, {}> {
-  constructor(props: any) {
+  constructor(props: CardProps) {
     super(props);
   }
 
   render() {
     return (
-      <div className={classes.classlala}>Card</div>
+      <div className={classes.container}>
+        {this.props.children}
+      </div>
     )
   }
 }

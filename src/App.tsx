@@ -95,7 +95,7 @@ export default class App extends React.PureComponent<MyProps, MyStates>{
         <>
             <Header />
             <main>
-                <div>
+                <Card>
                     <div>
                         <Button
                             disableButton={isTimerRunning}
@@ -132,16 +132,7 @@ export default class App extends React.PureComponent<MyProps, MyStates>{
                     >
                         {isTimerRunning ? "Stop timer" : "Start timer"}
                     </Button>
-                   {/*  <Button
-                        disableButton={isTimerRunning}
-                        onClickHandler={() => this.handleTimerType("longbreak")}
-                    >
-                        Reset
-                    </Button>
-                    <button onClick={this.handleTimer}>
-                        {interval ? "Stop timer" : "Start timer"}
-                    </button> */}
-                </div>
+                </Card>
             </main>
             <footer></footer>
         </>
