@@ -1,5 +1,9 @@
 import React from "react";
-import classes from "./Header.module.scss";
+import classes from   "./Header.module.scss";
+import Configuration from "../../assets/img/config-white.png";
+import Graph from "../../assets/img/graph-white.png";
+import AppIcon from "../../assets/img/icon-white.png";
+import User from "../../assets/img/user-white.png";
 
 export default class Header extends React.Component {
   constructor(props: any) {
@@ -11,7 +15,7 @@ export default class Header extends React.Component {
       <header className={classes.container}>
         <div className={classes.app}>
           <div className={classes['app-icon']}>
-
+            <img src={AppIcon} alt="app-icon"/>
           </div>
           <span className={classes['app-name']}>
             Pomonico
@@ -19,25 +23,19 @@ export default class Header extends React.Component {
         </div>
         <div className={classes.actions}>
           <div className={classes.report}>
-            <div>
-
-            </div>
+            <img src={Graph} alt="graph-icon"/>
             <span>
               Report
             </span>
           </div>
-          <div className={classes.setting}>
-            <div>
-
-            </div>
+          <div className={classes.setting}>            
+            <img src={Configuration} alt="configuration-icon"/>
             <span>
-              Settings
+              Setting
             </span>
           </div>
           <div className={classes.login}>
-            <div>
-
-            </div>
+          <img src={User} alt="user-icon"/>
             <span>
               Login
             </span>
