@@ -1,8 +1,11 @@
 import React from 'react';
 import Card from '../../UI/Card/Card';
 import Button from '../../UI/Button/Button';
+import classes from './Main.module.scss';
 
-type MyStates = {
+type MyProps = {};
+
+type MyState = {
   timerType: string;
   resetTimer: boolean;
   isTimerRunning: boolean;
@@ -11,8 +14,8 @@ type MyStates = {
   interval?: number;
 };
 
-export default class Main extends React.Component<{}, MyStates> {
-  constructor(){
+export default class Main extends React.Component<MyProps, MyState> {
+  constructor(props: MyProps){
     super(props)
 
     this.state = {
@@ -87,44 +90,46 @@ export default class Main extends React.Component<{}, MyStates> {
     const seconds = (timer % 60).toString().length === 1 ? `0${timer % 60}` : timer % 60;
     return (
         <main>
-                <Card>
-                    <div>
-                        <Button
-                            disableButton={isTimerRunning}
-                            onClickHandler={() =>
-                                this.handleTimerType("pomodoro")
-                            }
-                        >
-                            Pomodoro
-                        </Button>
-                        <Button
-                            disableButton={isTimerRunning}
-                            onClickHandler={() =>
-                                this.handleTimerType("shortbreak")
-                            }
-                        >
-                            Short Break
-                        </Button>
-                        <Button
-                            disableButton={isTimerRunning}
-                            onClickHandler={() =>
-                                this.handleTimerType("longbreak")
-                            }
-                        >
-                            Long Break
-                        </Button>
-                    </div>
-                    <p>                        
-                        {`${minutes}:${seconds}`}
-                    </p>
-                    <Button
-                        disableButton={false}
-                        onClickHandler={isTimerRunning ? this.handleStopTimer : this.handleStartTimer }
-                    >
-                        {isTimerRunning ? "Stop timer" : "Start timer"}
-                    </Button>
-                </Card>
-            </main>
+        <div className={classes.division}>
+        </div>
+          <Card>
+              <div>
+                  <Button
+                      disableButton={isTimerRunning}
+                      onClickHandler={() =>
+                          this.handleTimerType("pomodoro")
+                      }
+                  >
+                      Pomodoro
+                  </Button>
+                  <Button
+                      disableButton={isTimerRunning}
+                      onClickHandler={() =>
+                          this.handleTimerType("shortbreak")
+                      }
+                  >
+                      Short Break
+                  </Button>
+                  <Button
+                      disableButton={isTimerRunning}
+                      onClickHandler={() =>
+                          this.handleTimerType("longbreak")
+                      }
+                  >
+                      Long Break
+                  </Button>
+              </div>
+              <p>                        
+                  {`${minutes}:${seconds}`}
+              </p>
+              <Button
+                  disableButton={false}
+                  onClickHandler={isTimerRunning ? this.handleStopTimer : this.handleStartTimer }
+              >
+                  {isTimerRunning ? "Stop timer" : "Start timer"}
+              </Button>
+          </Card>
+        </main>
     )
   }
 }
