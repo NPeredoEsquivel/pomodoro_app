@@ -93,7 +93,7 @@ export default class Main extends React.Component<MyProps, MyState> {
         <div className={classes.division}>
         </div>
           <Card>
-              <div>
+              <div className={classes['buttons-container']}>
                   <Button
                       disableButton={isTimerRunning}
                       onClickHandler={() =>
@@ -119,9 +119,9 @@ export default class Main extends React.Component<MyProps, MyState> {
                       Long Break
                   </Button>
               </div>
-              <p>                        
-                  {`${minutes}:${seconds}`}
-              </p>
+              <div className={classes['time-container']}>
+                    {`${minutes}:${seconds}`}
+              </div>
               <Button
                   disableButton={false}
                   onClickHandler={isTimerRunning ? this.handleStopTimer : this.handleStartTimer }
