@@ -10,6 +10,29 @@ main{
     width: 620px;
   }
 
+  .buttons-container{
+    display: inline-flex;
+
+    button{
+      border: none;
+      margin: 0px;
+      border-radius: 4px;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 2px 12px;
+      height: 20px;
+      cursor: pointer;
+      background: none;
+      box-shadow: none;
+      color: white;
+      opacity: 1;
+      font-weight: bold;
+      
+      &.active{
+        background: none rgba(0,0,0,0.15);
+      }
+    }
+  }
+
   .time-container{
     font-size: 120px;
     font-weight: bold;
@@ -18,4 +41,5 @@ main{
     color: white;
     font-family: Arial, Helvetica, sans-serif;
   }
+
 }

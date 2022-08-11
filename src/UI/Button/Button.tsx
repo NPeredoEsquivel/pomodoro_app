@@ -4,6 +4,7 @@ type ButtonProps = {
     children: React.ReactNode;
     onClickHandler: () => void;
     disableButton: boolean;
+    classProps?: string;
 };
 
 export default class Button extends React.Component<ButtonProps, {}> {
@@ -13,6 +14,7 @@ export default class Button extends React.Component<ButtonProps, {}> {
     render() {
         return (
             <button
+                className={this.props.classProps}
                 disabled={this.props.disableButton}
                 onClick={this.props.onClickHandler}
             >

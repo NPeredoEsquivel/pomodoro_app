@@ -95,6 +95,7 @@ export default class Main extends React.Component<MyProps, MyState> {
           <Card>
               <div className={classes['buttons-container']}>
                   <Button
+                      classProps={classes.active}
                       disableButton={isTimerRunning}
                       onClickHandler={() =>
                           this.handleTimerType("pomodoro")
