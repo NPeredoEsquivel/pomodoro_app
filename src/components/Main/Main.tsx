@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from '../../UI/Card/Card';
 import Button from '../../UI/Button/Button';
+import TaskList from './TaskList/TaskList';
 import classes from './Main.module.scss';
 
 type MyProps = {};
@@ -90,8 +91,7 @@ export default class Main extends React.Component<MyProps, MyState> {
     const seconds = (timer % 60).toString().length === 1 ? `0${timer % 60}` : timer % 60;
     return (
         <main>
-        <div className={classes.division}>
-        </div>
+          <div className={classes.division}/>
           <Card>
               <div className={classes['buttons-container']}>
                   <Button
@@ -123,13 +123,17 @@ export default class Main extends React.Component<MyProps, MyState> {
               <div className={classes['time-container']}>
                     {`${minutes}:${seconds}`}
               </div>
-              <Button
-                  disableButton={false}
-                  onClickHandler={isTimerRunning ? this.handleStopTimer : this.handleStartTimer }
-              >
-                  {isTimerRunning ? "Stop timer" : "Start timer"}
-              </Button>
+              <div className={classes['action-container']}>
+                <Button
+                    classProps={classes['action-btn']}
+                    disableButton={false}
+                    onClickHandler={isTimerRunning ? this.handleStopTimer : this.handleStartTimer }
+                >
+                    {isTimerRunning ? "STOP" : "START"}
+                </Button>
+              </div>
           </Card>
+          <TaskList/>
         </main>
     )
   }

@@ -1,0 +1,26 @@
+.task-list-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .task-list{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .task-list-header{
+        display: flex;
+        justify-content: space-between;
+        width: 480px;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+        padding-bottom: 14px;
+    }
+
+    .task-list-body{
+        padding-top: 14px;
+    }
+}
+
