@@ -16,6 +16,7 @@
         font-size: 18px;
         font-weight: 300;
         overflow-wrap: break-word;
+        margin: 0px;
     }
 
     .task-list{
@@ -40,7 +41,7 @@
         .actions{
             position: relative;
             
-            button{
+            .task-list-header-button{
                 display: flex;
                 justify-content: center;
                 text-align: center;
@@ -58,7 +59,7 @@
                 width: 16px;
                 height: 16px;
 
-                img{
+                .header-buton-img{
                     width: 16px;
                 }
             }

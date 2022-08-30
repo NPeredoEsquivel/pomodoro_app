@@ -89,13 +89,14 @@ export default class Main extends React.Component<MyProps, MyState> {
 
     const minutes = parseInt((timer / 60).toString());
     const seconds = (timer % 60).toString().length === 1 ? `0${timer % 60}` : timer % 60;
+    
     return (
         <main>
           <div className={classes.division}/>
           <Card>
               <div className={classes['buttons-container']}>
                   <Button
-                      classProps={classes.active}
+                      classProps={`${classes.active} ${classes['action-button']}`}
                       disableButton={isTimerRunning}
                       onClickHandler={() =>
                           this.handleTimerType("pomodoro")
@@ -104,6 +105,7 @@ export default class Main extends React.Component<MyProps, MyState> {
                       Pomodoro
                   </Button>
                   <Button
+                      classProps={`${classes['action-button']}`}
                       disableButton={isTimerRunning}
                       onClickHandler={() =>
                           this.handleTimerType("shortbreak")
@@ -112,6 +114,7 @@ export default class Main extends React.Component<MyProps, MyState> {
                       Short Break
                   </Button>
                   <Button
+                      classProps={`${classes['action-button']}`}
                       disableButton={isTimerRunning}
                       onClickHandler={() =>
                           this.handleTimerType("longbreak")

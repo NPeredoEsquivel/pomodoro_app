@@ -39,8 +39,8 @@ export default class TaskList extends React.Component<MyProps, {}> {
           <div className={classes['task-list-header']}>
             <div className={classes.title}>Tasks</div>
             <div className={classes.actions}>
-              <button>
-                <img src={ThreeDots} alt="three-dots"/>
+              <button className={classes['task-list-header-button']}>
+                <img className={classes['header-buton-img']} src={ThreeDots} alt="three-dots"/>
               </button>
             </div>
           </div>
