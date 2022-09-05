@@ -1,5 +1,6 @@
 import React from 'react'
 import Task from './Task/Task'
+import TaskForm from './TaskForm/TaskForm';
 import ThreeDots from '../../../assets/img/threedots-white.png';
 import classes from './TaskList.module.scss';
 
@@ -44,10 +45,14 @@ export default class TaskList extends React.Component<MyProps, {}> {
               </button>
             </div>
           </div>
-          <div className={classes['task-list-body']}></div>
-          {tasks.map((currentTask) => {
-            return <Task name={currentTask.name}/>
-          })}
+          <div className={classes['task-list-body']}>
+            {tasks.map((currentTask) => {
+              return <Task name={currentTask.name}/>
+            })}
+          </div>
+          <div className={classes['task-form-container']}>
+            <TaskForm />
+          </div>
         </div>
       </div>
     );
