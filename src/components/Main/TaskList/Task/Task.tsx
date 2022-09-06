@@ -3,17 +3,23 @@ import classes from './Task.module.scss'
 import ThreeDotsTask from '../../../../assets/img/vertical-ellipsis.png';
 
 type MyProps = {
-    name: string
+  taskIndex: number
+  name: string
+  handleActivateTask: (params: number) => void
+  activeTask: number | null
 }
-type MyState = {}
+
+type MyState = {
+}
 
 export default class Task extends React.Component<MyProps, MyState> {
   constructor(props: MyProps){
     super(props)
   }
+
   render() {
     return (
-      <div className={`${classes.task} ${classes['is-active']}`}>
+      <div className={`${classes.task} ${this.props.activeTask === this.props.taskIndex ? classes['is-active'] : '' }`} onClick={() => this.props.handleActivateTask(this.props.taskIndex)}>
         <div className={classes['task-information']}>
           <div className={classes['complete-task']}></div>
           <span>{this.props.name}</span>

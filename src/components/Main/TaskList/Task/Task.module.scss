@@ -16,6 +16,9 @@
 
     &.is-active{
         border-left: 6px solid rgb(34, 34, 34);
+        &:hover{
+            border-left: 6px solid rgb(34, 34, 34);
+        }
     }
     &:hover{
         border-left: 6px solid rgb(204, 204, 204);

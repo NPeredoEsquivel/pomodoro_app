@@ -8,6 +8,10 @@ type MyProps = {
   
 }
 
+type MyState = {
+  activeIndex: number | null
+}
+
 const tasks = [
   {
     name: 'task-1',
@@ -26,9 +30,20 @@ const tasks = [
   }
 ]
 
-export default class TaskList extends React.Component<MyProps, {}> {
+export default class TaskList extends React.Component<MyProps, MyState> {
   constructor(props: MyProps) {
     super(props)
+
+    this.state = {
+      activeIndex: null,
+    }
+  }
+
+  handleActivateTask(taskIndex: number){
+    console.log("triggered")
+    this.setState({
+      activeIndex: taskIndex,
+    })
   }
 
   render() {
@@ -46,8 +61,14 @@ export default class TaskList extends React.Component<MyProps, {}> {
             </div>
           </div>
           <div className={classes['task-list-body']}>
-            {tasks.map((currentTask) => {
-              return <Task name={currentTask.name}/>
+            {tasks.map((currentTask, index) => {
+              return <Task
+                key={index}
+                name={currentTask.name}
+                taskIndex={index}
+                handleActivateTask={this.handleActivateTask.bind(this)}
+                activeTask={this.state.activeIndex}
+              />
             })}
           </div>
           <div className={classes['task-form-container']}>
