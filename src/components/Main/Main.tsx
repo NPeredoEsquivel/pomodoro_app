@@ -15,7 +15,7 @@ type MyState = {
   interval?: number;
 };
 
-export default class Main extends React.Component<MyProps, MyState> {
+export default class Main extends React.PureComponent<MyProps, MyState> {
   constructor(props: MyProps){
     super(props)
 

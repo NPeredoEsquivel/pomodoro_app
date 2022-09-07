@@ -12,7 +12,7 @@ type MyProps = {
 type MyState = {
 }
 
-export default class Task extends React.Component<MyProps, MyState> {
+export default class Task extends React.PureComponent<MyProps, MyState> {
   constructor(props: MyProps){
     super(props)
   }

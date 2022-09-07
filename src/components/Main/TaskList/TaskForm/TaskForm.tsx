@@ -4,15 +4,43 @@ import AddTask from '../../../../assets/img/plus-circle-white.png'
 import CaretUp from '../../../../assets/img/caret-up.png'
 import CaretDown from '../../../../assets/img/caret-down.png'
 
-export default class TaskForm extends React.Component {
+type MyProps = {
+
+}
+
+type MyStates = {
+  openModal: boolean
+}
+export default class TaskForm extends React.PureComponent<MyProps, MyStates> {
+  constructor(props: MyProps){
+    super(props)
+
+    this.state = {
+      openModal: false,
+    }
+  }
+
+  handleOpenModal(){
+    this.setState((prevState) => ({
+      openModal: !prevState.openModal,
+    }));
+  }
+
+  handleCancelAction(){
+    this.setState((prevState) => ({
+      openModal: !prevState.openModal,
+    }));
+  }
+
   render() {
+    console.log(this.state.openModal)
     return (
       <div>
-        <div className={classes['task-form-action']}>
+        <div className={`${classes['task-form-action']} ${!this.state.openModal ? '' : classes['display-none']}`} onClick={() => this.handleOpenModal()}>
           <img src={AddTask} alt="add-task" />
           <div className={classes['action']}>Add Task</div>
         </div>
-        <div className={classes['task-form']}>
+        <div className={`${classes['task-form']} ${this.state.openModal ? '' : classes['display-none']}`}>
           <div className={classes['task-form-body']}>
             <div className={classes['task-title-input']}>
               <input className={classes['task-title']} type="text" placeholder="Whare are you working on?" />
@@ -35,7 +63,7 @@ export default class TaskForm extends React.Component {
               <button className={classes['delete-button']}>Delete</button>
             </div>
             <div>
-              <button className={classes['cancel-button']}>Cancel</button>
+              <button className={classes['cancel-button']} onClick={() => this.handleCancelAction()}>Cancel</button>
               <button className={classes['save-button']}>Save</button>
             </div>
           </div>

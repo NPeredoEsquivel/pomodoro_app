@@ -30,7 +30,7 @@ const tasks = [
   }
 ]
 
-export default class TaskList extends React.Component<MyProps, MyState> {
+export default class TaskList extends React.PureComponent<MyProps, MyState> {
   constructor(props: MyProps) {
     super(props)
 
@@ -40,7 +40,6 @@ export default class TaskList extends React.Component<MyProps, MyState> {
   }
 
   handleActivateTask(taskIndex: number){
-    console.log("triggered")
     this.setState({
       activeIndex: taskIndex,
     })
