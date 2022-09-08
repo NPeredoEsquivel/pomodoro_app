@@ -5,19 +5,21 @@ import CaretUp from '../../../../assets/img/caret-up.png'
 import CaretDown from '../../../../assets/img/caret-down.png'
 
 type MyProps = {
-
 }
 
 type MyStates = {
   openModal: boolean
 }
 export default class TaskForm extends React.PureComponent<MyProps, MyStates> {
+  private modalRef: React.RefObject<HTMLInputElement>;
   constructor(props: MyProps){
     super(props)
 
     this.state = {
       openModal: false,
     }
+
+    this.modalRef = React.createRef();
   }
 
   handleOpenModal(){
@@ -32,6 +34,14 @@ export default class TaskForm extends React.PureComponent<MyProps, MyStates> {
     }));
   }
 
+  componentDidUpdate(prevPops: MyProps, prevState: MyStates) {
+    if (this.state.openModal) {
+      if (prevState.openModal !== this.state.openModal) {
+        this.modalRef.current?.scrollIntoView({behavior: 'smooth'})
+      }  
+    }
+  }
+
   render() {
     console.log(this.state.openModal)
     return (
@@ -40,7 +50,7 @@ export default class TaskForm extends React.PureComponent<MyProps, MyStates> {
           <img src={AddTask} alt="add-task" />
           <div className={classes['action']}>Add Task</div>
         </div>
-        <div className={`${classes['task-form']} ${this.state.openModal ? '' : classes['display-none']}`}>
+        <div className={`${classes['task-form']} ${this.state.openModal ? '' : classes['display-none']}`} ref={this.modalRef}>
           <div className={classes['task-form-body']}>
             <div className={classes['task-title-input']}>
               <input className={classes['task-title']} type="text" placeholder="Whare are you working on?" />
