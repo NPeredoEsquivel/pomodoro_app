@@ -3,6 +3,7 @@ import Card from '../../UI/Card/Card';
 import Button from '../../UI/Button/Button';
 import TaskList from './TaskList/TaskList';
 import classes from './Main.module.scss';
+import tasks from '../../assets/data/tasks.js';
 
 type MyProps = {};
 
@@ -15,6 +16,7 @@ type MyState = {
   interval?: number;
 };
 
+const TaskContext = React.createContext(tasks);
 export default class Main extends React.PureComponent<MyProps, MyState> {
   constructor(props: MyProps){
     super(props)
