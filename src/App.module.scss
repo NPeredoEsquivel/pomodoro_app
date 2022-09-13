@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.container{
+  &.pomodoro{
+    background-color: rgb(217, 85, 80);
+  }
+  &.shortbreak{
+    background-color: rgb(76, 145, 149);
+  }
+  &.longbreak{
+    background-color: rgb(69, 124, 163);
+  }
+
+}

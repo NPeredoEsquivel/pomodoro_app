@@ -1,19 +1,48 @@
-import './App.css';
 import React from 'react';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
+import classes from './App.module.scss';
 type MyProps = {};
 
-type MyStates = {};
-export default class App extends React.PureComponent<MyProps, MyStates>{
+type MyStates = {
+  backgroundColorClass: string,
+};
 
+type BackgroundConst = {
+  [key: string]: { color: string; };
+};
+
+
+const BACKGROUND_COLORS: BackgroundConst = {
+  pomodoro: {
+    color: "rgb(217, 85, 80)"
+  },
+  shortbreak: {
+     color: "rgb(76, 145, 149)"
+  },
+  longbreak: {
+   color :"rgb(69, 124, 163)"
+  },
+}
+export default class App extends React.PureComponent<MyProps, MyStates>{
+  constructor(props: MyProps){
+    super(props)
+    this.state = {
+      backgroundColorClass: 'pomodoro',
+    }
+  }
+  handleContainerBgClass = (backgroundColorToSet: string) => {
+    this.setState({
+      backgroundColorClass: backgroundColorToSet
+    })
+  }
   render(){  
     return (
-        <>
+        <div className={`${classes.container} ${classes[this.state.backgroundColorClass]}`}>
             <Header />
-            <Main />
+            <Main handleBackgroundColor = {this.handleContainerBgClass}/>
             <footer></footer>
-        </>
+        </div>
     );
   }
 }

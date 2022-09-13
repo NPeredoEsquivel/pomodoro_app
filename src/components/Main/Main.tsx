@@ -5,7 +5,9 @@ import TaskList from './TaskList/TaskList';
 import classes from './Main.module.scss';
 import tasks from '../../assets/data/tasks.js';
 
-type MyProps = {};
+type MyProps = {
+  handleBackgroundColor: (backgroundColorToSet: string) => void
+};
 
 type MyState = {
   timerType: string;
@@ -16,13 +18,15 @@ type MyState = {
   interval?: number;
 };
 
+
+
 const TaskContext = React.createContext(tasks);
 export default class Main extends React.PureComponent<MyProps, MyState> {
   constructor(props: MyProps){
     super(props)
 
     this.state = {
-      timerType: "Pomodoro",
+      timerType: "pomodoro",
       resetTimer: false,
       isTimerRunning: false,
       start: 2700,
@@ -31,7 +35,7 @@ export default class Main extends React.PureComponent<MyProps, MyState> {
   }
 
   componentDidMount() {
-    console.log("I Mounted")
+    //document.body.style.backgroundColor = "rgb(217, 85, 80)";
   }
 
   componentWillUnmount(){
@@ -45,6 +49,11 @@ export default class Main extends React.PureComponent<MyProps, MyState> {
         isTimerRunning: false,
       })
     }
+    
+    let timerType = this.state.timerType
+    document.body.classList.add("lol")
+    //BACKGROUND_COLORS[timerType].color;
+
   }
 
   handleStartTimer = () => {    
@@ -76,11 +85,11 @@ export default class Main extends React.PureComponent<MyProps, MyState> {
     }
   }
 
-  handleTimerType = (timerType: string) => {    
+  handleTimerType = (timerType: string) => {
     this.setState({
       timerType,
     })
-   
+    this.props.handleBackgroundColor(timerType)
   }
 
   render() {

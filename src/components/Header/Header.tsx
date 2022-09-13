@@ -18,7 +18,7 @@ export default class Header extends React.Component {
             <img src={AppIcon} alt="app-icon"/>
           </div>
           <span className={classes['app-name']}>
-            Pomonico
+            Pomofocus
           </span>
         </div>
         <div className={classes.actions}>
