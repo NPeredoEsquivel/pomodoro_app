@@ -38,6 +38,8 @@
 }
 
 .container{
+  height: 100vh;
+  
   &.pomodoro{
     background-color: rgb(217, 85, 80);
   }

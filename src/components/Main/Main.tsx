@@ -96,18 +96,19 @@ export default class Main extends React.PureComponent<MyProps, MyState> {
     const {
       timer,
       isTimerRunning,
+      timerType,
     } = this.state;
 
     const minutes = parseInt((timer / 60).toString());
     const seconds = (timer % 60).toString().length === 1 ? `0${timer % 60}` : timer % 60;
-    
+    console.log("timertype", timerType)
     return (
         <main>
           <div className={classes.division}/>
           <Card>
               <div className={classes['buttons-container']}>
                   <Button
-                      classProps={`${classes.active} ${classes['action-button']}`}
+                      classProps={`${timerType === 'pomodoro' ? classes.active : ''} ${classes['action-button']}`}
                       disableButton={isTimerRunning}
                       onClickHandler={() =>
                           this.handleTimerType("pomodoro")
@@ -116,7 +117,7 @@ export default class Main extends React.PureComponent<MyProps, MyState> {
                       Pomodoro
                   </Button>
                   <Button
-                      classProps={`${classes['action-button']}`}
+                      classProps={`${timerType === 'shortbreak' ? classes.active : ''} ${classes['action-button']}`}
                       disableButton={isTimerRunning}
                       onClickHandler={() =>
                           this.handleTimerType("shortbreak")
@@ -125,7 +126,7 @@ export default class Main extends React.PureComponent<MyProps, MyState> {
                       Short Break
                   </Button>
                   <Button
-                      classProps={`${classes['action-button']}`}
+                      classProps={`${timerType === 'longbreak' ? classes.active : ''} ${classes['action-button']}`}
                       disableButton={isTimerRunning}
                       onClickHandler={() =>
                           this.handleTimerType("longbreak")
@@ -139,7 +140,7 @@ export default class Main extends React.PureComponent<MyProps, MyState> {
               </div>
               <div className={classes['action-container']}>
                 <Button
-                    classProps={classes['action-btn']}
+                    classProps={`${classes['action-btn']} ${classes[timerType]}`}
                     disableButton={false}
                     onClickHandler={isTimerRunning ? this.handleStopTimer : this.handleStartTimer }
                 >
