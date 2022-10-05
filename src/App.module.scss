@@ -42,12 +42,15 @@
   
   &.pomodoro{
     background-color: rgb(217, 85, 80);
+    transition: background-color 500ms ease-in-out;
   }
   &.shortbreak{
     background-color: rgb(76, 145, 149);
+    transition: background-color 500ms ease-in-out;
   }
   &.longbreak{
     background-color: rgb(69, 124, 163);
+    transition: background-color 500ms ease-in-out;
   }
 
 }

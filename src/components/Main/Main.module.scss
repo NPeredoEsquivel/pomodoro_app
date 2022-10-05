@@ -29,6 +29,7 @@ main{
       
       &.active{
         background: none rgba(0,0,0,0.15);
+        transition: background 20ms ease-in-out;
       }
     }
   }
