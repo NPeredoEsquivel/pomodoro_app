@@ -8,10 +8,10 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^28.1.6",
     "@types/node": "^18.0.6",
-    "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.4",
     "react-scripts": "5.0.1",
     "sass": "^1.53.0",
     "typescript": "^4.7.4",
@@ -42,7 +42,11 @@
     ]
   },
   "devDependencies": {
+    "@types/react": "^18.0.21",
+    "@types/react-redux": "^7.1.24",
+    "@types/redux-thunk": "^2.1.0",
     "css-loader": "^6.7.1",
+    "redux-thunk": "^2.4.1",
     "sass-loader": "^13.0.2",
     "style-loader": "^3.3.1",
     "typescript-plugin-css-modules": "^3.4.0"

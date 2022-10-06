@@ -3,34 +3,36 @@ import Card from '../../UI/Card/Card';
 import Button from '../../UI/Button/Button';
 import TaskList from './TaskList/TaskList';
 import classes from './Main.module.scss';
-import tasks from '../../assets/data/tasks.js';
+//import tasks from '../../assets/data/tasks.js';
+import { connect } from 'react-redux';
+import { TimerState } from '../../state/reducers/types/reducerTypes';
+import { Dispatch } from 'redux';
+import { updateTimer } from '../../state/action-creators';
+import { Action } from '../../state/actions';
 
-type MyProps = {
-  handleBackgroundColor: (backgroundColorToSet: string) => void
-};
+interface MyProps {
+  handleBackgroundColor: (backgroundColorToSet: string) => void;
+}
+interface ConnectedProps {
+  timer: TimerState
+}  
+interface DispatchProps {  
+  updateTimer: (timer: TimerState) => (dispatch: Dispatch<Action>) => void
+}
 
 type MyState = {
-  timerType: string;
-  resetTimer: boolean;
-  isTimerRunning: boolean;
-  start: number;
-  timer: number;
-  interval?: number;
+  timerSeconds: number;
 };
 
+type Props = MyProps & ConnectedProps & DispatchProps;
 
-
-const TaskContext = React.createContext(tasks);
-export default class Main extends React.PureComponent<MyProps, MyState> {
-  constructor(props: MyProps){
+class Main extends React.PureComponent<Props, MyState> {
+  constructor(props: Props){
     super(props)
 
+    console.log("props", this.props)
     this.state = {
-      timerType: "pomodoro",
-      resetTimer: false,
-      isTimerRunning: false,
-      start: 2700,
-      timer: 2700,
+      timerSeconds: this.props.timer.timerSeconds,
     }
   }
 
@@ -39,68 +41,98 @@ export default class Main extends React.PureComponent<MyProps, MyState> {
   }
 
   componentWillUnmount(){
-    clearInterval(this.state.interval)
+    clearInterval(this.props.timer.interval)
   }
 
   componentDidUpdate() {
-    if(this.state.timer === 0) {
-      clearInterval(this.state.interval)
-      this.setState({
+    if(this.state.timerSeconds === 0) {
+      clearInterval(this.props.timer.interval)
+      this.props.updateTimer(
+        {
+          ...this.props.timer,
+          isTimerRunning: false,
+        }
+      )
+      /* this.setState({
         isTimerRunning: false,
-      })
+      }) */
     }
-    
-    let timerType = this.state.timerType
-    document.body.classList.add("lol")
-    //BACKGROUND_COLORS[timerType].color;
-
   }
 
   handleStartTimer = () => {    
     const interval = window.setInterval(() => this.setState((prevState) => {
       return {
         ...prevState,
-        timer: prevState.timer - 1,
+        timerSeconds: prevState.timerSeconds - 1,
       }
     }), 1000);
 
-    this.setState(prevState => {
+    this.props.updateTimer(
+      {
+        ...this.props.timer,
+        interval,
+        isTimerRunning: false,
+      }
+    )
+
+    /* this.setState(prevState => {
        return {
          ...prevState,
          interval,
          isTimerRunning: true,
        }
-     })
+     }) */
   }
 
   handleStopTimer = () => {
-    if (this.state.interval) {
-      this.setState((prevState) => {
+    if (this.props.timer.interval) {
+
+    this.props.updateTimer(
+      {
+        ...this.props.timer,
+        isTimerRunning: false,
+      }
+    )
+      /* this.setState((prevState) => {
         return {
           ...prevState,
           isTimerRunning: false,
         }
-      })
-      clearInterval(this.state.interval)
+      }) */
+      clearInterval(this.props.timer.interval)
     }
   }
 
   handleTimerType = (timerType: string) => {
-    this.setState({
+    /* this.setState({
       timerType,
-    })
+    }) */
+
+    this.props.updateTimer(
+      {
+        ...this.props.timer,
+        timerType,
+      }
+    )
+    /* this.props.dispatch({
+      type: 'CHANGE_TIMER_TYPE',
+      payload: {
+        timerType,
+      }
+    }) */
     this.props.handleBackgroundColor(timerType)
   }
 
   render() {
     const {
-      timer,
       isTimerRunning,
       timerType,
-    } = this.state;
+    } = this.props.timer;
 
-    const minutes = parseInt((timer / 60).toString());
-    const seconds = (timer % 60).toString().length === 1 ? `0${timer % 60}` : timer % 60;
+    const {timerSeconds} = this.state;
+
+    const minutes = parseInt((timerSeconds / 60).toString());
+    const seconds = (timerSeconds % 60).toString().length === 1 ? `0${timerSeconds % 60}` : timerSeconds % 60;
     console.log("timertype", timerType)
     return (
         <main>
@@ -153,3 +185,16 @@ export default class Main extends React.PureComponent<MyProps, MyState> {
     )
   }
 }
+
+
+const mapStateToProps = (state: ConnectedProps) => {
+  console.log("state", state)
+  return state;
+}
+
+const mapDispatchToProps = {
+  updateTimer,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
+

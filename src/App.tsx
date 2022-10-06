@@ -2,6 +2,9 @@ import React from 'react';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
 import classes from './App.module.scss';
+import { TimerState } from './state/reducers/types/reducerTypes';
+import { connect } from 'react-redux';
+
 type MyProps = {};
 
 type MyStates = {
@@ -24,7 +27,7 @@ const BACKGROUND_COLORS: BackgroundConst = {
    color :"rgb(69, 124, 163)"
   },
 }
-export default class App extends React.PureComponent<MyProps, MyStates>{
+class App extends React.PureComponent<MyProps, MyStates>{
   constructor(props: MyProps){
     super(props)
     this.state = {
@@ -46,3 +49,9 @@ export default class App extends React.PureComponent<MyProps, MyStates>{
     );
   }
 }
+
+const mapStateToProps = (state: TimerState) => {
+  return state;
+}
+
+export default connect(mapStateToProps)(App)
