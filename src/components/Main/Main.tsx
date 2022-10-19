@@ -4,30 +4,50 @@ import Button from '../../UI/Button/Button';
 import TaskList from './TaskList/TaskList';
 import classes from './Main.module.scss';
 //import tasks from '../../assets/data/tasks.js';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { TimerState } from '../../state/reducers/types/reducerTypes';
 import { Dispatch } from 'redux';
 import { updateTimer } from '../../state/action-creators';
 import { Action } from '../../state/actions';
 
+const mapStateToProps = (state: TimerState) => {
+  console.log("state", state)
+  return state;
+}
+
+const mapDispatchToProps = {
+  updateTimer,
+}
+
+const connector =  connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+/* 
 interface MyProps {
   handleBackgroundColor: (backgroundColorToSet: string) => void;
 }
-interface ConnectedProps {
+interface StoreProps {
   timer: TimerState
 }  
 interface DispatchProps {  
   updateTimer: (timer: TimerState) => (dispatch: Dispatch<Action>) => void
-}
+} */
 
-type MyState = {
+//type MyState = {
+//  timerSeconds: number;
+//};
+
+//type Props = MyProps & StoreProps & DispatchProps;
+
+
+interface MainComponentProps extends PropsFromRedux{
+  handleBackgroundColor: (backgroundColorToSet: string) => void;
+  timer: TimerState;
+  updateTimer: (timer: TimerState) => (dispatch: Dispatch<Action>) => void;
   timerSeconds: number;
-};
-
-type Props = MyProps & ConnectedProps & DispatchProps;
-
-class Main extends React.PureComponent<Props, MyState> {
-  constructor(props: Props){
+} 
+class Main extends React.Component<MainComponentProps> {
+  constructor(props: MainComponentProps){
     super(props)
 
     console.log("props", this.props)
@@ -151,9 +171,9 @@ class Main extends React.PureComponent<Props, MyState> {
                   <Button
                       classProps={`${timerType === 'shortbreak' ? classes.active : ''} ${classes['action-button']}`}
                       disableButton={isTimerRunning}
-                      onClickHandler={() =>
+                                            onClickHandler={() =>
                           this.handleTimerType("shortbreak")
-                      }
+                      }        
                   >
                       Short Break
                   </Button>
@@ -162,7 +182,7 @@ class Main extends React.PureComponent<Props, MyState> {
                       disableButton={isTimerRunning}
                       onClickHandler={() =>
                           this.handleTimerType("longbreak")
-                      }
+                      }          
                   >
                       Long Break
                   </Button>
@@ -174,27 +194,16 @@ class Main extends React.PureComponent<Props, MyState> {
                 <Button
                     classProps={`${classes['action-btn']} ${classes[timerType]}`}
                     disableButton={false}
-                    onClickHandler={isTimerRunning ? this.handleStopTimer : this.handleStartTimer }
+                    onClickHandler={isTimerRunning ? this.handleStopTimer : this.handleStartTimer }          
                 >
                     {isTimerRunning ? "STOP" : "START"}
                 </Button>
               </div>
           </Card>
           <TaskList/>
-        </main>
+        </main>      
     )
-  }
-}
+  }  
+}  
 
-
-const mapStateToProps = (state: ConnectedProps) => {
-  console.log("state", state)
-  return state;
-}
-
-const mapDispatchToProps = {
-  updateTimer,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
-
+export default connector(Main)
