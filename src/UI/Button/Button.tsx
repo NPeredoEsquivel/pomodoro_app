@@ -1,24 +1,36 @@
 import React from "react";
+import styles from './Button.module.scss';
 
 type ButtonProps = {
     children: React.ReactNode;
-    onClickHandler: () => void;
-    disableButton: boolean;
-    classProps?: string;
+    onClick: () => void;
+    disabled: boolean;
+    variant: string;
+    isActive?: boolean;
+    className?: string;
 };
 
 export default class Button extends React.Component<ButtonProps, {}> {
-    constructor(props: ButtonProps) {
-        super(props);
+    state = {
+        className: {
+            action: "action-button",
+            default: "default",
+        }
     }
+    
     render() {
+        const { className } = this.state;
+        const { variant, isActive, disabled, onClick, children } = this.props;
+        const activeClassName = isActive ? styles["button-active"] : "";
+        
+        console.log(this.props.isActive);
         return (
             <button
-                className={this.props.classProps}
-                disabled={this.props.disableButton}
-                onClick={this.props.onClickHandler}
+                className={`${styles[className[variant]]} ${activeClassName} ${this.props.className}`}
+                disabled={disabled}
+                onClick={onClick}
             >
-                {this.props.children}
+                {children}
             </button>
         );
     }

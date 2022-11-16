@@ -2,56 +2,34 @@ import React from 'react';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
 import classes from './App.module.scss';
-import { TimerState } from './state/reducers/types/reducerTypes';
-import { connect } from 'react-redux';
 
-type MyProps = {};
-
-type MyStates = {
+interface IAppProps {}
+interface IAppState {
   backgroundColorClass: string,
 };
 
-type BackgroundConst = {
-  [key: string]: { color: string; };
-};
+export default class App extends React.PureComponent<IAppProps, IAppState>{
+  state = {
+    backgroundColorClass: 'pomodoro',
+  }
 
-
-const BACKGROUND_COLORS: BackgroundConst = {
-  pomodoro: {
-    color: "rgb(217, 85, 80)"
-  },
-  shortbreak: {
-     color: "rgb(76, 145, 149)"
-  },
-  longbreak: {
-   color :"rgb(69, 124, 163)"
-  },
-}
-class App extends React.PureComponent<MyProps, MyStates>{
-  constructor(props: MyProps){
+  constructor(props: IAppProps){
     super(props)
-    this.state = {
-      backgroundColorClass: 'pomodoro',
-    }
+    this.handleBackgroundColor = this.handleBackgroundColor.bind(this);
   }
-  handleContainerBgClass = (backgroundColorToSet: string) => {
-    this.setState({
-      backgroundColorClass: backgroundColorToSet
-    })
+
+  handleBackgroundColor(backgroundColorClass){
+    this.setState({ backgroundColorClass })
   }
+
+
   render(){  
     return (
         <div className={`${classes.container} ${classes[this.state.backgroundColorClass]}`}>
             <Header />
-            <Main handleBackgroundColor = {this.handleContainerBgClass}/>
+            <Main handleBackgroundColor={this.handleBackgroundColor} />
             <footer></footer>
         </div>
     );
   }
 }
-
-const mapStateToProps = (state: TimerState) => {
-  return state;
-}
-
-export default connect(mapStateToProps)(App)
