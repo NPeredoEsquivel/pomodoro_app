@@ -1,74 +1,72 @@
-main{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-  .division{
-    height: 1px;
-    margin-bottom: 40px;
-    background-color: rgba(0, 0, 0, 0.1);
-    width: 620px;
-  }
-
-  .buttons-container{
-    display: inline-flex;
-
-    .action-button{
-      border: none;
-      margin: 0px;
-      border-radius: 4px;
-      font-family: Arial, Helvetica, sans-serif;
-      padding: 2px 12px;
-      height: 20px;
-      cursor: pointer;
-      background: none;
-      box-shadow: none;
-      color: white;
-      opacity: 1;
-      font-weight: bold;
-      
-      &.active{
-        background: none rgba(0,0,0,0.15);
-        transition: background 20ms ease-in-out;
-      }
+    .division {
+        height: 1px;
+        margin-bottom: 40px;
+        background-color: rgba(0, 0, 0, 0.1);
+        width: 620px;
     }
-  }
-  .action-container{
-    .action-btn {
-      background-color: white;
-      box-shadow: rgb(235 235 235) 0px 6px 0px;
-      border: none;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 22px;
-      font-weight: bold;
-      border-radius: 4px;
-      margin: 20px 0px 0px;
-      padding: 0px 12px;
-      cursor: pointer;
-      width: 200px;
-      height: 55px;
-      transition: color 0.5s ease-in-out 0s;
 
-      &.pomodoro{
-        color: rgb(217,85,80);
-      }
-      &.shortbreak{
-        color: rgb(76, 145, 149);
-      }
-      &.longbreak{
-        color: rgb(69, 124, 163);
-      }
+    .buttons-container {
+        display: inline-flex;
 
+        .action-button {
+            border: none;
+            margin: 0px;
+            border-radius: 4px;
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 2px 12px;
+            height: 20px;
+            cursor: pointer;
+            background: none;
+            box-shadow: none;
+            color: white;
+            opacity: 1;
+            font-weight: bold;
+
+            &.active {
+                background: none rgba(0, 0, 0, 0.15);
+                transition: background 20ms ease-in-out;
+            }
+        }
     }
-  }
+    .action-container {
+        .action-btn {
+            background-color: white;
+            box-shadow: rgb(235 235 235) 0px 6px 0px;
+            border: none;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 22px;
+            font-weight: bold;
+            border-radius: 4px;
+            margin: 20px 0px 0px;
+            padding: 0px 12px;
+            cursor: pointer;
+            width: 200px;
+            height: 55px;
+            transition: color 0.5s ease-in-out 0s;
 
-  .time-container{
-    font-size: 120px;
-    font-weight: bold;
-    margin-top: 20px;
-    margin-bottom: 0px;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-  }
+            &.pomodoro {
+                color: rgb(217, 85, 80);
+            }
+            &.shortbreak {
+                color: rgb(76, 145, 149);
+            }
+            &.longbreak {
+                color: rgb(69, 124, 163);
+            }
+        }
+    }
 
+    .time-container {
+        font-size: 120px;
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 0px;
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+    }
 }

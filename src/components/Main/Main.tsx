@@ -1,209 +1,202 @@
-import React from 'react';
-import Card from '../../UI/Card/Card';
-import Button from '../../UI/Button/Button';
-import TaskList from './TaskList/TaskList';
-import classes from './Main.module.scss';
+import React from "react";
+import Card from "../../UI/Card/Card";
+import Button from "../../UI/Button/Button";
+import TaskList from "./TaskList/TaskList";
+import classes from "./Main.module.scss";
 //import tasks from '../../assets/data/tasks.js';
-import { connect, ConnectedProps } from 'react-redux';
-import { TimerState } from '../../state/reducers/types/reducerTypes';
-import { Dispatch } from 'redux';
-import { updateTimer } from '../../state/action-creators';
-import { Action } from '../../state/actions';
 
-const mapStateToProps = (state: TimerState) => {
-  console.log("state", state)
-  return state;
+interface IMainProps {
+    handleBackgroundColor: (backgroundColorToSet: string) => void;
 }
 
-const mapDispatchToProps = {
-  updateTimer,
+interface IMainState {
+    timerType: string;
+    resetTimer: boolean;
+    isTimerRunning: boolean;
+    timerSeconds: number;
+    timerIntervalId: number;
 }
 
-const connector =  connect(mapStateToProps, mapDispatchToProps);
+class Main extends React.Component<IMainProps, IMainState> {
+    constructor(props: IMainProps) {
+        super(props);
 
-type PropsFromRedux = ConnectedProps<typeof connector>
-/* 
-interface MyProps {
-  handleBackgroundColor: (backgroundColorToSet: string) => void;
-}
-interface StoreProps {
-  timer: TimerState
-}  
-interface DispatchProps {  
-  updateTimer: (timer: TimerState) => (dispatch: Dispatch<Action>) => void
-} */
+        this.state = {
+            timerType: "pomodoro",
+            resetTimer: false,
+            isTimerRunning: false,
+            timerSeconds: 3600,
+            timerIntervalId: 0,
+        };
 
-//type MyState = {
-//  timerSeconds: number;
-//};
-
-//type Props = MyProps & StoreProps & DispatchProps;
-
-
-interface MainComponentProps extends PropsFromRedux{
-  handleBackgroundColor: (backgroundColorToSet: string) => void;
-  timer: TimerState;
-  updateTimer: (timer: TimerState) => (dispatch: Dispatch<Action>) => void;
-  timerSeconds: number;
-} 
-class Main extends React.Component<MainComponentProps> {
-  constructor(props: MainComponentProps){
-    super(props)
-
-    console.log("props", this.props)
-    this.state = {
-      timerSeconds: this.props.timer.timerSeconds,
+        this.handleStartTimer = this.handleStartTimer.bind(this);
+        this.handlePauseTimer = this.handlePauseTimer.bind(this);
     }
-  }
 
-  componentDidMount() {
-    //document.body.style.backgroundColor = "rgb(217, 85, 80)";
-  }
+    componentDidMount() {
+        //document.body.style.backgroundColor = "rgb(217, 85, 80)";
+    }
 
-  componentWillUnmount(){
-    clearInterval(this.props.timer.interval)
-  }
+    componentWillUnmount() {
+        clearInterval(this.state.timerIntervalId);
+    }
 
-  componentDidUpdate() {
-    if(this.state.timerSeconds === 0) {
-      clearInterval(this.props.timer.interval)
-      this.props.updateTimer(
-        {
-          ...this.props.timer,
-          isTimerRunning: false,
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.timerSeconds === 0) {
+            clearInterval(this.state.timerIntervalId);
+            this.updateState({
+                isTimerRunning: false,
+            });
         }
-      )
-      /* this.setState({
-        isTimerRunning: false,
-      }) */
-    }
-  }
 
-  handleStartTimer = () => {    
-    const interval = window.setInterval(() => this.setState((prevState) => {
-      return {
-        ...prevState,
-        timerSeconds: prevState.timerSeconds - 1,
-      }
-    }), 1000);
+        if (prevState.timerType !== this.state.timerType) {
+            switch (this.state.timerType) {
+                case "pomodoro":
+                    this.setState((prevState) => {
+                        return {
+                            ...prevState,
+                            resetTimer: true,
+                            isTimerRunning: false,
+                            timerSeconds: 3600,
+                        };
+                    });
+                    break;
+                case "shortbreak":
+                    this.setState((prevState) => {
+                        return {
+                            ...prevState,
+                            resetTimer: true,
+                            isTimerRunning: false,
+                            timerSeconds: 300,
+                        };
+                    });
+                    break;
+                case "longbreak":
+                    this.updateState({
+                        resetTimer: true,
+                        isTimerRunning: false,
+                        timerSeconds: 900,
+                    });
 
-    this.props.updateTimer(
-      {
-        ...this.props.timer,
-        interval,
-        isTimerRunning: false,
-      }
-    )
-
-    /* this.setState(prevState => {
-       return {
-         ...prevState,
-         interval,
-         isTimerRunning: true,
-       }
-     }) */
-  }
-
-  handleStopTimer = () => {
-    if (this.props.timer.interval) {
-
-    this.props.updateTimer(
-      {
-        ...this.props.timer,
-        isTimerRunning: false,
-      }
-    )
-      /* this.setState((prevState) => {
-        return {
-          ...prevState,
-          isTimerRunning: false,
+                    break;
+                default:
+                    break;
+            }
         }
-      }) */
-      clearInterval(this.props.timer.interval)
     }
-  }
 
-  handleTimerType = (timerType: string) => {
-    /* this.setState({
-      timerType,
-    }) */
+    updateState(newState) {
+        this.setState({ ...this.state, ...newState });
+    }
 
-    this.props.updateTimer(
-      {
-        ...this.props.timer,
-        timerType,
-      }
-    )
-    /* this.props.dispatch({
-      type: 'CHANGE_TIMER_TYPE',
-      payload: {
-        timerType,
-      }
-    }) */
-    this.props.handleBackgroundColor(timerType)
-  }
+    handleStartTimer() {
+        const interval = window.setInterval(
+            () =>
+                this.setState((prevState) => {
+                    return {
+                        ...prevState,
+                        timerSeconds: prevState.timerSeconds - 1,
+                    };
+                }),
+            1000
+        );
 
-  render() {
-    const {
-      isTimerRunning,
-      timerType,
-    } = this.props.timer;
+        this.updateState({
+            timerIntervalId: interval,
+            isTimerRunning: true,
+        });
+    }
 
-    const {timerSeconds} = this.state;
+    handlePauseTimer() {
+        console.log("this.state.interval", this.state.timerIntervalId);
+        if (this.state.timerIntervalId) {
+            this.updateState({
+                isTimerRunning: false,
+            });
+            clearInterval(this.state.timerIntervalId);
+        }
+    }
 
-    const minutes = parseInt((timerSeconds / 60).toString());
-    const seconds = (timerSeconds % 60).toString().length === 1 ? `0${timerSeconds % 60}` : timerSeconds % 60;
-    console.log("timertype", timerType)
-    return (
-        <main>
-          <div className={classes.division}/>
-          <Card>
-              <div className={classes['buttons-container']}>
-                  <Button
-                      classProps={`${timerType === 'pomodoro' ? classes.active : ''} ${classes['action-button']}`}
-                      disableButton={isTimerRunning}
-                      onClickHandler={() =>
-                          this.handleTimerType("pomodoro")
-                      }
-                  >
-                      Pomodoro
-                  </Button>
-                  <Button
-                      classProps={`${timerType === 'shortbreak' ? classes.active : ''} ${classes['action-button']}`}
-                      disableButton={isTimerRunning}
-                                            onClickHandler={() =>
-                          this.handleTimerType("shortbreak")
-                      }        
-                  >
-                      Short Break
-                  </Button>
-                  <Button
-                      classProps={`${timerType === 'longbreak' ? classes.active : ''} ${classes['action-button']}`}
-                      disableButton={isTimerRunning}
-                      onClickHandler={() =>
-                          this.handleTimerType("longbreak")
-                      }          
-                  >
-                      Long Break
-                  </Button>
-              </div>
-              <div className={classes['time-container']}>
-                    {`${minutes}:${seconds}`}
-              </div>
-              <div className={classes['action-container']}>
-                <Button
-                    classProps={`${classes['action-btn']} ${classes[timerType]}`}
-                    disableButton={false}
-                    onClickHandler={isTimerRunning ? this.handleStopTimer : this.handleStartTimer }          
-                >
-                    {isTimerRunning ? "STOP" : "START"}
-                </Button>
-              </div>
-          </Card>
-          <TaskList/>
-        </main>      
-    )
-  }  
-}  
+    handleTimerType(timerType: string) {
+        this.updateState({ timerType });
+        this.props.handleBackgroundColor(timerType);
+        console.log("this.state.timerIntervalId", this.state.timerIntervalId);
+        if (this.state.timerIntervalId) {
+            clearInterval(this.state.timerIntervalId);
+        }
+    }
 
-export default connector(Main)
+    render() {
+        const { isTimerRunning, timerType } = this.state;
+
+        const { timerSeconds } = this.state;
+
+        const minutes = parseInt((timerSeconds / 60).toString());
+        const seconds =
+            (timerSeconds % 60).toString().length === 1
+                ? `0${timerSeconds % 60}`
+                : timerSeconds % 60;
+        console.log("timertype", timerType);
+        return (
+            <main className={`${classes[timerType]}`}>
+                <div className={classes.division} />
+                <Card>
+                    <div className={classes["buttons-container"]}>
+                        <Button
+                            classProps={`${
+                                timerType === "pomodoro" ? classes.active : ""
+                            } ${classes["action-button"]}`}
+                            disableButton={isTimerRunning}
+                            onClickHandler={() =>
+                                this.handleTimerType("pomodoro")
+                            }
+                        >
+                            Pomodoro
+                        </Button>
+                        <Button
+                            classProps={`${
+                                timerType === "shortbreak" ? classes.active : ""
+                            } ${classes["action-button"]}`}
+                            disableButton={isTimerRunning}
+                            onClickHandler={() =>
+                                this.handleTimerType("shortbreak")
+                            }
+                        >
+                            Short Break
+                        </Button>
+                        <Button
+                            classProps={`${
+                                timerType === "longbreak" ? classes.active : ""
+                            } ${classes["action-button"]}`}
+                            disableButton={isTimerRunning}
+                            onClickHandler={() =>
+                                this.handleTimerType("longbreak")
+                            }
+                        >
+                            Long Break
+                        </Button>
+                    </div>
+                    <div className={classes["time-container"]}>
+                        {`${minutes}:${seconds}`}
+                    </div>
+                    <div className={classes["action-container"]}>
+                        <Button
+                            classProps={`${classes["action-btn"]} ${classes[timerType]}`}
+                            disableButton={false}
+                            onClickHandler={
+                                isTimerRunning
+                                    ? this.handlePauseTimer
+                                    : this.handleStartTimer
+                            }
+                        >
+                            {isTimerRunning ? "PAUSE" : "START"}
+                        </Button>
+                    </div>
+                </Card>
+                <TaskList />
+            </main>
+        );
+    }
+}
+
+export default Main;
