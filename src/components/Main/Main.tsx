@@ -25,7 +25,7 @@ class Main extends React.Component<IMainProps, IMainState> {
             timerType: "pomodoro",
             resetTimer: false,
             isTimerRunning: false,
-            timerSeconds: 3600,
+            timerSeconds: 5,
             timerIntervalId: 0,
         };
 
@@ -41,8 +41,12 @@ class Main extends React.Component<IMainProps, IMainState> {
         clearInterval(this.state.timerIntervalId);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.timerSeconds === 0) {
+    componentDidUpdate(prevProps: any, prevState: any) {
+        if (
+            prevProps.timerSeconds !== 0 &&
+            this.state.timerSeconds === 0 &&
+            this.state.isTimerRunning
+        ) {
             clearInterval(this.state.timerIntervalId);
             this.updateState({
                 isTimerRunning: false,
@@ -52,23 +56,17 @@ class Main extends React.Component<IMainProps, IMainState> {
         if (prevState.timerType !== this.state.timerType) {
             switch (this.state.timerType) {
                 case "pomodoro":
-                    this.setState((prevState) => {
-                        return {
-                            ...prevState,
-                            resetTimer: true,
-                            isTimerRunning: false,
-                            timerSeconds: 3600,
-                        };
+                    this.updateState({
+                        resetTimer: true,
+                        isTimerRunning: false,
+                        timerSeconds: 3600,
                     });
                     break;
                 case "shortbreak":
-                    this.setState((prevState) => {
-                        return {
-                            ...prevState,
-                            resetTimer: true,
-                            isTimerRunning: false,
-                            timerSeconds: 300,
-                        };
+                    this.updateState({
+                        resetTimer: true,
+                        isTimerRunning: false,
+                        timerSeconds: 300,
                     });
                     break;
                 case "longbreak":
@@ -108,7 +106,6 @@ class Main extends React.Component<IMainProps, IMainState> {
     }
 
     handlePauseTimer() {
-        console.log("this.state.interval", this.state.timerIntervalId);
         if (this.state.timerIntervalId) {
             this.updateState({
                 isTimerRunning: false,
@@ -120,7 +117,6 @@ class Main extends React.Component<IMainProps, IMainState> {
     handleTimerType(timerType: string) {
         this.updateState({ timerType });
         this.props.handleBackgroundColor(timerType);
-        console.log("this.state.timerIntervalId", this.state.timerIntervalId);
         if (this.state.timerIntervalId) {
             clearInterval(this.state.timerIntervalId);
         }
@@ -136,7 +132,6 @@ class Main extends React.Component<IMainProps, IMainState> {
             (timerSeconds % 60).toString().length === 1
                 ? `0${timerSeconds % 60}`
                 : timerSeconds % 60;
-        console.log("timertype", timerType);
         return (
             <main className={`${classes[timerType]}`}>
                 <div className={classes.division} />
