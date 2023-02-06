@@ -3,6 +3,7 @@ import Card from "../../UI/Card/Card";
 import Button from "../../UI/Button/Button";
 import TaskList from "./TaskList/TaskList";
 import classes from "./Main.module.scss";
+import Modal from "src/UI/Modal/Modal";
 //import tasks from '../../assets/data/tasks.js';
 
 interface IMainProps {
@@ -15,6 +16,7 @@ interface IMainState {
     isTimerRunning: boolean;
     timerSeconds: number;
     timerIntervalId: number;
+    showModal: boolean;
 }
 
 class Main extends React.Component<IMainProps, IMainState> {
@@ -25,12 +27,15 @@ class Main extends React.Component<IMainProps, IMainState> {
             timerType: "pomodoro",
             resetTimer: false,
             isTimerRunning: false,
-            timerSeconds: 5,
+            timerSeconds: 2700,
             timerIntervalId: 0,
+            showModal: false,
         };
 
         this.handleStartTimer = this.handleStartTimer.bind(this);
         this.handlePauseTimer = this.handlePauseTimer.bind(this);
+        this.onConfirm = this.onConfirm.bind(this);
+        this.onCancel = this.onCancel.bind(this);
     }
 
     componentDidMount() {
@@ -75,7 +80,6 @@ class Main extends React.Component<IMainProps, IMainState> {
                         isTimerRunning: false,
                         timerSeconds: 900,
                     });
-
                     break;
                 default:
                     break;
@@ -115,15 +119,32 @@ class Main extends React.Component<IMainProps, IMainState> {
     }
 
     handleTimerType(timerType: string) {
-        this.updateState({ timerType });
+        console.log("show modal");
+        if (this.state.isTimerRunning) {
+            this.updateState({ showModal: true });
+        } else {
+            this.updateState({ timerType });
+        }
         this.props.handleBackgroundColor(timerType);
         if (this.state.timerIntervalId) {
             clearInterval(this.state.timerIntervalId);
         }
     }
 
+    onConfirm() {
+        this.updateState({
+            showModal: false,
+        });
+    }
+
+    onCancel() {
+        this.updateState({
+            showModal: false,
+        });
+    }
+
     render() {
-        const { isTimerRunning, timerType } = this.state;
+        const { isTimerRunning, timerType, showModal } = this.state;
 
         const { timerSeconds } = this.state;
 
@@ -134,14 +155,22 @@ class Main extends React.Component<IMainProps, IMainState> {
                 : timerSeconds % 60;
         return (
             <main className={`${classes[timerType]}`}>
+                {showModal ? (
+                    <Modal
+                        title="Title modal"
+                        body="simple body"
+                        onConfirm={() => this.onConfirm()}
+                        onCancel={() => this.onCancel()}
+                    ></Modal>
+                ) : null}
                 <div className={classes.division} />
-                <Card>
+                <Card className="">
                     <div className={classes["buttons-container"]}>
                         <Button
                             classProps={`${
                                 timerType === "pomodoro" ? classes.active : ""
                             } ${classes["action-button"]}`}
-                            disableButton={isTimerRunning}
+                            disableButton={false}
                             onClickHandler={() =>
                                 this.handleTimerType("pomodoro")
                             }
@@ -152,7 +181,7 @@ class Main extends React.Component<IMainProps, IMainState> {
                             classProps={`${
                                 timerType === "shortbreak" ? classes.active : ""
                             } ${classes["action-button"]}`}
-                            disableButton={isTimerRunning}
+                            disableButton={false}
                             onClickHandler={() =>
                                 this.handleTimerType("shortbreak")
                             }
@@ -163,7 +192,7 @@ class Main extends React.Component<IMainProps, IMainState> {
                             classProps={`${
                                 timerType === "longbreak" ? classes.active : ""
                             } ${classes["action-button"]}`}
-                            disableButton={isTimerRunning}
+                            disableButton={false}
                             onClickHandler={() =>
                                 this.handleTimerType("longbreak")
                             }
