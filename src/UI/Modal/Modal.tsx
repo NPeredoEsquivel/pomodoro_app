@@ -12,7 +12,7 @@ type ModalProps = {
 };
 
 const Backdrop = (props) => {
-    return <div className="backdrop"></div>;
+    return <div onClick={props.onCancel} className={classes.backdrop}></div>;
 };
 
 const ModalOverlay = (props: ModalProps) => {
@@ -49,7 +49,7 @@ export default function Modal(props: ModalProps) {
     const el2: HTMLElement = modalOverlay as HTMLElement;
     return (
         <>
-            {ReactDom.createPortal(<Backdrop />, el1)}
+            {ReactDom.createPortal(<Backdrop onCancel={props.onCancel} />, el1)}
             {ReactDom.createPortal(
                 <ModalOverlay
                     title={props.title}
