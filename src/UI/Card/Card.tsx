@@ -12,7 +12,7 @@ export default class Card extends React.Component<CardProps, {}> {
     }
     render() {
         return (
-            <div className={`${classes.container} ${this.props.className}}`}>
+            <div className={`${classes.container} ${this.props.className}`}>
                 {this.props.children}
             </div>
         );
