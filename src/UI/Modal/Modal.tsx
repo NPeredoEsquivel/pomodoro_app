@@ -25,14 +25,14 @@ const ModalOverlay = (props: ModalProps) => {
                 <Button
                     classProps="test"
                     disableButton={false}
-                    onClickHandler={props.onCancel}
+                    onClickHandler={props.onConfirm}
                 >
                     Ok
                 </Button>
                 <Button
                     classProps="test"
                     disableButton={false}
-                    onClickHandler={props.onConfirm}
+                    onClickHandler={props.onCancel}
                 >
                     Cancel
                 </Button>

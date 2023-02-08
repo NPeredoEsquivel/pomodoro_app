@@ -17,6 +17,7 @@ interface IMainState {
     timerSeconds: number;
     timerIntervalId: number;
     showModal: boolean;
+    transitionTimerType: string;
 }
 
 class Main extends React.Component<IMainProps, IMainState> {
@@ -30,6 +31,7 @@ class Main extends React.Component<IMainProps, IMainState> {
             timerSeconds: 2700,
             timerIntervalId: 0,
             showModal: false,
+            transitionTimerType: "pomodoro",
         };
 
         this.handleStartTimer = this.handleStartTimer.bind(this);
@@ -91,7 +93,7 @@ class Main extends React.Component<IMainProps, IMainState> {
         this.setState({ ...this.state, ...newState });
     }
 
-    handleStartTimer() {
+    handleStartTimer(isInModal = false) {
         const interval = window.setInterval(
             () =>
                 this.setState((prevState) => {
@@ -119,22 +121,32 @@ class Main extends React.Component<IMainProps, IMainState> {
     }
 
     handleTimerType(timerType: string) {
-        console.log("show modal");
         if (this.state.isTimerRunning) {
-            this.updateState({ showModal: true });
+            this.updateState({
+                showModal: true,
+                transitionTimerType: timerType,
+                isTimerRunning: false,
+            });
+
+            if (this.state.timerIntervalId) {
+                clearInterval(this.state.timerIntervalId);
+            }
         } else {
             this.updateState({ timerType });
-        }
-        this.props.handleBackgroundColor(timerType);
-        if (this.state.timerIntervalId) {
-            clearInterval(this.state.timerIntervalId);
+            this.props.handleBackgroundColor(timerType);
+            if (this.state.timerIntervalId) {
+                clearInterval(this.state.timerIntervalId);
+            }
         }
     }
 
     onConfirm() {
         this.updateState({
             showModal: false,
+            timerType: this.state.transitionTimerType,
         });
+
+        this.props.handleBackgroundColor(this.state.transitionTimerType);
     }
 
     onCancel() {
@@ -153,8 +165,10 @@ class Main extends React.Component<IMainProps, IMainState> {
             (timerSeconds % 60).toString().length === 1
                 ? `0${timerSeconds % 60}`
                 : timerSeconds % 60;
+
+        console.log(`${minutes}:${seconds}`);
         return (
-            <main className={`${classes[timerType]}`}>
+            <main>
                 {showModal ? (
                     <Modal
                         title="Title modal"
