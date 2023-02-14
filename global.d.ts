@@ -1,4 +1,4 @@
-declare module '*.scss' {
+declare module "*.scss" {
     const classes: { [key: string]: string };
     export default classes;
 }
@@ -6,9 +6,14 @@ declare module '*.scss' {
 declare module "*.png" {
     const value: any;
     export default value;
-  }
-  
+}
+
 declare module "*.js" {
     const value: any;
     export default value;
-  }
+}
+
+declare module "*.wav" {
+    const value: any;
+    export default value;
+}

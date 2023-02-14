@@ -4,6 +4,7 @@ import Button from "../../UI/Button/Button";
 import TaskList from "./TaskList/TaskList";
 import classes from "./Main.module.scss";
 import Modal from "src/UI/Modal/Modal";
+import audioClick from "../../assets/audio/click_audio.wav";
 //import tasks from '../../assets/data/tasks.js';
 
 interface IMainProps {
@@ -21,9 +22,10 @@ interface IMainState {
 }
 
 class Main extends React.Component<IMainProps, IMainState> {
+    audio: HTMLAudioElement;
     constructor(props: IMainProps) {
         super(props);
-
+        this.audio = new Audio(audioClick);
         this.state = {
             timerType: "pomodoro",
             resetTimer: false,
@@ -93,18 +95,21 @@ class Main extends React.Component<IMainProps, IMainState> {
         this.setState({ ...this.state, ...newState });
     }
 
-    handleStartTimer(isInModal = false) {
-        const interval = window.setInterval(
-            () =>
-                this.setState((prevState) => {
-                    return {
-                        ...prevState,
-                        timerSeconds: prevState.timerSeconds - 1,
-                    };
-                }),
-            1000
-        );
+    obtainInterval() {
+        const interval = window.setInterval(() => {
+            this.setState((prevState) => {
+                return {
+                    ...prevState,
+                    timerSeconds: prevState.timerSeconds - 1,
+                };
+            });
+        }, 1000);
+        return interval;
+    }
 
+    handleStartTimer() {
+        this.audio.play();
+        const interval = this.obtainInterval();
         this.updateState({
             timerIntervalId: interval,
             isTimerRunning: true,
@@ -112,6 +117,7 @@ class Main extends React.Component<IMainProps, IMainState> {
     }
 
     handlePauseTimer() {
+        this.audio.play();
         if (this.state.timerIntervalId) {
             this.updateState({
                 isTimerRunning: false,
@@ -122,15 +128,15 @@ class Main extends React.Component<IMainProps, IMainState> {
 
     handleTimerType(timerType: string) {
         if (this.state.isTimerRunning) {
+            if (this.state.timerIntervalId) {
+                clearInterval(this.state.timerIntervalId);
+            }
+
             this.updateState({
                 showModal: true,
                 transitionTimerType: timerType,
                 isTimerRunning: false,
             });
-
-            if (this.state.timerIntervalId) {
-                clearInterval(this.state.timerIntervalId);
-            }
         } else {
             this.updateState({ timerType });
             this.props.handleBackgroundColor(timerType);
@@ -150,8 +156,16 @@ class Main extends React.Component<IMainProps, IMainState> {
     }
 
     onCancel() {
+        if (this.state.timerIntervalId) {
+            clearInterval(this.state.timerIntervalId);
+        }
+
+        const interval = this.obtainInterval();
+
         this.updateState({
             showModal: false,
+            timerIntervalId: interval,
+            isTimerRunning: true,
         });
     }
 
