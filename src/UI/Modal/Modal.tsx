@@ -21,9 +21,13 @@ const ModalOverlay = (props: ModalProps) => {
     return (
         <>
             {props.timerType ? (
-                <Card className={`${classes.modal} ${classes.modalTimerClass}`}>
-                    <header className={classes.text}>{props.title}</header>
-                    <div>{props.body}</div>
+                <Card
+                    className={`${classes.modal} ${classes[props.timerType]}`}
+                >
+                    <header className={classes.modal__title}>
+                        {props.title}
+                    </header>
+                    <div className={classes.modal__body}>{props.body}</div>
                     <footer className={classes.modal__footer}>
                         <Button
                             classProps={classes.modal__footer__button}

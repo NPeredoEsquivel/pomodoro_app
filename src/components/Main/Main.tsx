@@ -182,7 +182,6 @@ class Main extends React.Component<IMainProps, IMainState> {
         const changeTimerTypeModalTitle = "Change timer type";
         const changeTimerTypeModalBody =
             "Are you sure of changing the timer type?";
-        console.log(timerType);
         return (
             <main>
                 {showModal ? (
