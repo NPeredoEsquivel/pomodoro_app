@@ -194,12 +194,18 @@ class Main extends React.Component<IMainProps, IMainState> {
                     ></Modal>
                 ) : null}
                 <div className={classes.division} />
-                <Card className="">
-                    <div className={classes["buttons-container"]}>
+                <Card className={classes[`${"timer-container"}`]}>
+                    <div
+                        className={
+                            classes["timer-container__change-timertype-buttons"]
+                        }
+                    >
                         <Button
                             classProps={`${
-                                timerType === "pomodoro" ? classes.active : ""
-                            } ${classes["action-button"]}`}
+                                timerType === "pomodoro"
+                                    ? classes["btn--active"]
+                                    : classes["btn"]
+                            }`}
                             disableButton={false}
                             onClickHandler={() =>
                                 this.handleTimerType("pomodoro")
@@ -210,7 +216,7 @@ class Main extends React.Component<IMainProps, IMainState> {
                         <Button
                             classProps={`${
                                 timerType === "shortbreak" ? classes.active : ""
-                            } ${classes["action-button"]}`}
+                            } ${classes["btn"]}`}
                             disableButton={false}
                             onClickHandler={() =>
                                 this.handleTimerType("shortbreak")
@@ -221,7 +227,7 @@ class Main extends React.Component<IMainProps, IMainState> {
                         <Button
                             classProps={`${
                                 timerType === "longbreak" ? classes.active : ""
-                            } ${classes["action-button"]}`}
+                            } ${classes["btn"]}`}
                             disableButton={false}
                             onClickHandler={() =>
                                 this.handleTimerType("longbreak")
@@ -230,12 +236,16 @@ class Main extends React.Component<IMainProps, IMainState> {
                             Long Break
                         </Button>
                     </div>
-                    <div className={classes["time-container"]}>
+                    <div className={classes["timer-container__running-time"]}>
                         {`${minutes}:${seconds}`}
                     </div>
-                    <div className={classes["action-container"]}>
+                    <div
+                        className={
+                            classes["timer-container__update-timer-button"]
+                        }
+                    >
                         <Button
-                            classProps={`${classes["action-btn"]} ${classes[timerType]}`}
+                            classProps={classes[`btn--${timerType}`]}
                             disableButton={false}
                             onClickHandler={
                                 isTimerRunning
