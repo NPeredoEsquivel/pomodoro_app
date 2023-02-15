@@ -179,16 +179,19 @@ class Main extends React.Component<IMainProps, IMainState> {
             (timerSeconds % 60).toString().length === 1
                 ? `0${timerSeconds % 60}`
                 : timerSeconds % 60;
-
-        console.log(`${minutes}:${seconds}`);
+        const changeTimerTypeModalTitle = "Change timer type";
+        const changeTimerTypeModalBody =
+            "Are you sure of changing the timer type?";
+        console.log(timerType);
         return (
             <main>
                 {showModal ? (
                     <Modal
-                        title="Title modal"
-                        body="simple body"
+                        title={changeTimerTypeModalTitle}
+                        body={changeTimerTypeModalBody}
                         onConfirm={() => this.onConfirm()}
                         onCancel={() => this.onCancel()}
+                        timerType={timerType}
                     ></Modal>
                 ) : null}
                 <div className={classes.division} />

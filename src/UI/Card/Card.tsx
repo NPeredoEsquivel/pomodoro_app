@@ -9,6 +9,7 @@ type CardProps = {
 export default class Card extends React.Component<CardProps, {}> {
     constructor(props: CardProps) {
         super(props);
+        console.log(this.props.className);
     }
     render() {
         return (
