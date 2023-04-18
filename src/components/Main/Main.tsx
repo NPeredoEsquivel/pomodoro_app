@@ -16,6 +16,7 @@ interface IMainState {
     resetTimer: boolean;
     isTimerRunning: boolean;
     timerSeconds: number;
+    timeElapsed: number;
     timerIntervalId: number;
     showModal: boolean;
     transitionTimerType: string;
@@ -31,6 +32,7 @@ class Main extends React.Component<IMainProps, IMainState> {
             resetTimer: false,
             isTimerRunning: false,
             timerSeconds: 2700,
+            timeElapsed: 0,
             timerIntervalId: 0,
             showModal: false,
             transitionTimerType: "pomodoro",
@@ -100,6 +102,7 @@ class Main extends React.Component<IMainProps, IMainState> {
             this.setState((prevState) => {
                 return {
                     ...prevState,
+                    timeElapsed: prevState.timeElapsed + 1,
                     timerSeconds: prevState.timerSeconds - 1,
                 };
             });
@@ -172,7 +175,7 @@ class Main extends React.Component<IMainProps, IMainState> {
     render() {
         const { isTimerRunning, timerType, showModal } = this.state;
 
-        const { timerSeconds } = this.state;
+        const { timerSeconds, timeElapsed } = this.state;
 
         const minutes = parseInt((timerSeconds / 60).toString());
         const seconds =
@@ -182,6 +185,9 @@ class Main extends React.Component<IMainProps, IMainState> {
         const changeTimerTypeModalTitle = "Change timer type";
         const changeTimerTypeModalBody =
             "Are you sure of changing the timer type?";
+        const width = isTimerRunning
+            ? ((100 * timeElapsed) / (timerSeconds + timeElapsed)).toFixed(2)
+            : 0;
         return (
             <main>
                 {showModal ? (
@@ -193,7 +199,16 @@ class Main extends React.Component<IMainProps, IMainState> {
                         timerType={timerType}
                     ></Modal>
                 ) : null}
-                <div className={classes.division} />
+
+                <div className={classes.division}>
+                    <div className={`${classes["normal-division"]} `} />
+                    <div
+                        className={`${classes["timed-division"]}`}
+                        style={{
+                            width: `${width + "%"}`,
+                        }}
+                    ></div>
+                </div>
                 <Card className={classes[`${"timer-container"}`]}>
                     <div
                         className={
