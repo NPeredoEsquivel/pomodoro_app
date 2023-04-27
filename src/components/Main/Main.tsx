@@ -3,6 +3,8 @@ import Card from "../../UI/Card/Card";
 import Button from "../../UI/Button/Button";
 import TaskList from "./TaskList/TaskList";
 import classes from "./Main.module.scss";
+import Modal from "src/UI/Modal/Modal";
+import audioClick from "../../assets/audio/click_audio.wav";
 //import tasks from '../../assets/data/tasks.js';
 
 interface IMainProps {
@@ -15,22 +17,29 @@ interface IMainState {
     isTimerRunning: boolean;
     timerSeconds: number;
     timerIntervalId: number;
+    showModal: boolean;
+    transitionTimerType: string;
 }
 
 class Main extends React.Component<IMainProps, IMainState> {
+    audio: HTMLAudioElement;
     constructor(props: IMainProps) {
         super(props);
-
+        this.audio = new Audio(audioClick);
         this.state = {
             timerType: "pomodoro",
             resetTimer: false,
             isTimerRunning: false,
-            timerSeconds: 3600,
+            timerSeconds: 2700,
             timerIntervalId: 0,
+            showModal: false,
+            transitionTimerType: "pomodoro",
         };
 
         this.handleStartTimer = this.handleStartTimer.bind(this);
         this.handlePauseTimer = this.handlePauseTimer.bind(this);
+        this.onConfirm = this.onConfirm.bind(this);
+        this.onCancel = this.onCancel.bind(this);
     }
 
     componentDidMount() {
@@ -41,8 +50,12 @@ class Main extends React.Component<IMainProps, IMainState> {
         clearInterval(this.state.timerIntervalId);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.timerSeconds === 0) {
+    componentDidUpdate(prevProps: any, prevState: any) {
+        if (
+            prevProps.timerSeconds !== 0 &&
+            this.state.timerSeconds === 0 &&
+            this.state.isTimerRunning
+        ) {
             clearInterval(this.state.timerIntervalId);
             this.updateState({
                 isTimerRunning: false,
@@ -52,23 +65,17 @@ class Main extends React.Component<IMainProps, IMainState> {
         if (prevState.timerType !== this.state.timerType) {
             switch (this.state.timerType) {
                 case "pomodoro":
-                    this.setState((prevState) => {
-                        return {
-                            ...prevState,
-                            resetTimer: true,
-                            isTimerRunning: false,
-                            timerSeconds: 3600,
-                        };
+                    this.updateState({
+                        resetTimer: true,
+                        isTimerRunning: false,
+                        timerSeconds: 3600,
                     });
                     break;
                 case "shortbreak":
-                    this.setState((prevState) => {
-                        return {
-                            ...prevState,
-                            resetTimer: true,
-                            isTimerRunning: false,
-                            timerSeconds: 300,
-                        };
+                    this.updateState({
+                        resetTimer: true,
+                        isTimerRunning: false,
+                        timerSeconds: 300,
                     });
                     break;
                 case "longbreak":
@@ -77,7 +84,6 @@ class Main extends React.Component<IMainProps, IMainState> {
                         isTimerRunning: false,
                         timerSeconds: 900,
                     });
-
                     break;
                 default:
                     break;
@@ -89,18 +95,21 @@ class Main extends React.Component<IMainProps, IMainState> {
         this.setState({ ...this.state, ...newState });
     }
 
-    handleStartTimer() {
-        const interval = window.setInterval(
-            () =>
-                this.setState((prevState) => {
-                    return {
-                        ...prevState,
-                        timerSeconds: prevState.timerSeconds - 1,
-                    };
-                }),
-            1000
-        );
+    obtainInterval() {
+        const interval = window.setInterval(() => {
+            this.setState((prevState) => {
+                return {
+                    ...prevState,
+                    timerSeconds: prevState.timerSeconds - 1,
+                };
+            });
+        }, 1000);
+        return interval;
+    }
 
+    handleStartTimer() {
+        this.audio.play();
+        const interval = this.obtainInterval();
         this.updateState({
             timerIntervalId: interval,
             isTimerRunning: true,
@@ -108,7 +117,7 @@ class Main extends React.Component<IMainProps, IMainState> {
     }
 
     handlePauseTimer() {
-        console.log("this.state.interval", this.state.timerIntervalId);
+        this.audio.play();
         if (this.state.timerIntervalId) {
             this.updateState({
                 isTimerRunning: false,
@@ -118,16 +127,50 @@ class Main extends React.Component<IMainProps, IMainState> {
     }
 
     handleTimerType(timerType: string) {
-        this.updateState({ timerType });
-        this.props.handleBackgroundColor(timerType);
-        console.log("this.state.timerIntervalId", this.state.timerIntervalId);
-        if (this.state.timerIntervalId) {
-            clearInterval(this.state.timerIntervalId);
+        if (this.state.isTimerRunning) {
+            if (this.state.timerIntervalId) {
+                clearInterval(this.state.timerIntervalId);
+            }
+
+            this.updateState({
+                showModal: true,
+                transitionTimerType: timerType,
+                isTimerRunning: false,
+            });
+        } else {
+            this.updateState({ timerType });
+            this.props.handleBackgroundColor(timerType);
+            if (this.state.timerIntervalId) {
+                clearInterval(this.state.timerIntervalId);
+            }
         }
     }
 
+    onConfirm() {
+        this.updateState({
+            showModal: false,
+            timerType: this.state.transitionTimerType,
+        });
+
+        this.props.handleBackgroundColor(this.state.transitionTimerType);
+    }
+
+    onCancel() {
+        if (this.state.timerIntervalId) {
+            clearInterval(this.state.timerIntervalId);
+        }
+
+        const interval = this.obtainInterval();
+
+        this.updateState({
+            showModal: false,
+            timerIntervalId: interval,
+            isTimerRunning: true,
+        });
+    }
+
     render() {
-        const { isTimerRunning, timerType } = this.state;
+        const { isTimerRunning, timerType, showModal } = this.state;
 
         const { timerSeconds } = this.state;
 
@@ -136,17 +179,28 @@ class Main extends React.Component<IMainProps, IMainState> {
             (timerSeconds % 60).toString().length === 1
                 ? `0${timerSeconds % 60}`
                 : timerSeconds % 60;
-        console.log("timertype", timerType);
+        const changeTimerTypeModalTitle = "Change timer type";
+        const changeTimerTypeModalBody =
+            "Are you sure of changing the timer type?";
         return (
-            <main className={`${classes[timerType]}`}>
+            <main>
+                {showModal ? (
+                    <Modal
+                        title={changeTimerTypeModalTitle}
+                        body={changeTimerTypeModalBody}
+                        onConfirm={() => this.onConfirm()}
+                        onCancel={() => this.onCancel()}
+                        timerType={timerType}
+                    ></Modal>
+                ) : null}
                 <div className={classes.division} />
-                <Card>
+                <Card className="">
                     <div className={classes["buttons-container"]}>
                         <Button
                             classProps={`${
                                 timerType === "pomodoro" ? classes.active : ""
                             } ${classes["action-button"]}`}
-                            disableButton={isTimerRunning}
+                            disableButton={false}
                             onClickHandler={() =>
                                 this.handleTimerType("pomodoro")
                             }
@@ -157,7 +211,7 @@ class Main extends React.Component<IMainProps, IMainState> {
                             classProps={`${
                                 timerType === "shortbreak" ? classes.active : ""
                             } ${classes["action-button"]}`}
-                            disableButton={isTimerRunning}
+                            disableButton={false}
                             onClickHandler={() =>
                                 this.handleTimerType("shortbreak")
                             }
@@ -168,7 +222,7 @@ class Main extends React.Component<IMainProps, IMainState> {
                             classProps={`${
                                 timerType === "longbreak" ? classes.active : ""
                             } ${classes["action-button"]}`}
-                            disableButton={isTimerRunning}
+                            disableButton={false}
                             onClickHandler={() =>
                                 this.handleTimerType("longbreak")
                             }
