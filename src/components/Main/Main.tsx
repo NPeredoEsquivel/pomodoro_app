@@ -5,6 +5,7 @@ import TaskList from "./TaskList/TaskList";
 import classes from "./Main.module.scss";
 import Modal from "src/UI/Modal/Modal";
 import audioClick from "../../assets/audio/click_audio.wav";
+import endTimerAlarm from "../../assets/audio/clock_alarm.wav";
 //import tasks from '../../assets/data/tasks.js';
 
 const TIMER_CONFIG = {};
@@ -12,7 +13,7 @@ const POMODORO = "pomodoro";
 const SHORT_BREAK = "shortbreak";
 const LONG_BREAK = "longbreak";
 
-TIMER_CONFIG[POMODORO] = 3600;
+TIMER_CONFIG[POMODORO] = 10;
 TIMER_CONFIG[SHORT_BREAK] = 300;
 TIMER_CONFIG[LONG_BREAK] = 900;
 
@@ -34,7 +35,8 @@ interface IMainState {
 
 const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   //const audio = HTMLAudioElement; /*I think this is for TypeScript
-  const audio = new Audio(audioClick);
+  const clickAudio = new Audio(audioClick);
+  const endTimerAudio = new Audio(endTimerAlarm);
   const [timerType, setTimerType] = useState<string>("pomodoro");
   const [resetTimer, setResetTimer] = useState<boolean>(false);
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
@@ -48,11 +50,12 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
 
   useEffect(() => {
     if (timerSeconds === 0 && isTimerRunning) {
+      endTimerAudio.play();
       clearInterval(timerIntervalId);
       setIsTimerRunning(false);
     }
 
-    return () => clearInterval(timerIntervalId);
+    // TODO: Clear interval timer.
   }, [timerSeconds]);
 
   useEffect(() => {
@@ -75,14 +78,14 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   };
 
   const handleStartTimer = () => {
-    audio.play();
+    clickAudio.play();
     const interval = obtainInterval();
     setTimerIntervalId(interval);
     setIsTimerRunning(true);
   };
 
   const handlePauseTimer = () => {
-    audio.play();
+    clickAudio.play();
     if (timerIntervalId) {
       setIsTimerRunning(false);
     }
