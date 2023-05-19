@@ -28,7 +28,8 @@ const Task: React.FC<MyProps> = ({
         <div className={classes["complete-task"]}></div>
         <span>{name}</span>
       </div>
-      <div className={classes["actions"]}>
+      {/* Future improvement when adding actions to tasks */}
+      {/* <div className={classes["actions"]}>
         <span>0/1</span>
         <div className={classes["task-button"]}>
           <img
@@ -37,7 +38,7 @@ const Task: React.FC<MyProps> = ({
             alt="three-dots"
           />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

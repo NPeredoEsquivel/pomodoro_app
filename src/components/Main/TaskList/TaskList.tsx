@@ -3,6 +3,8 @@ import Task from "./Task/Task";
 import TaskForm from "./TaskForm/TaskForm";
 import ThreeDots from "../../../assets/img/threedots-white.png";
 import classes from "./TaskList.module.scss";
+import { useAppSelector } from "src/store/hooks";
+import { selectTasks } from "src/store/slices/tasksSlice";
 
 type MyProps = {};
 
@@ -10,30 +12,29 @@ type MyState = {
   activeIndex: number | null;
 };
 
-const tasks = [
-  {
-    name: "task-1",
-  },
-  {
-    name: "task-2",
-  },
-  {
-    name: "task-3",
-  },
-  {
-    name: "task-4",
-  },
-  {
-    name: "task-5",
-  },
-];
-
 const TaskList: React.FC = () => {
+  const tasks = useAppSelector(selectTasks);
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
   const handleActiveTask = (taskIndex: number) => {
     setActiveIndex(taskIndex);
   };
+
+  const orderedTasks = tasks
+    .slice()
+    .sort((a, b) => b.date.localeCompare(a.date));
+
+  const taskList = orderedTasks.map((currentTask, index) => {
+    return (
+      <Task
+        key={index}
+        name={currentTask.name}
+        taskIndex={index}
+        handleActivateTask={handleActiveTask}
+        activeTask={activeIndex}
+      />
+    );
+  });
 
   return (
     <div className={classes["task-list-container"]}>
@@ -52,19 +53,7 @@ const TaskList: React.FC = () => {
             </button>
           </div>
         </div>
-        <div className={classes["task-list-body"]}>
-          {tasks.map((currentTask, index) => {
-            return (
-              <Task
-                key={index}
-                name={currentTask.name}
-                taskIndex={index}
-                handleActivateTask={handleActiveTask}
-                activeTask={activeIndex}
-              />
-            );
-          })}
-        </div>
+        <div className={classes["task-list-body"]}>{taskList}</div>
         <div className={classes["task-form-container"]}>
           <TaskForm />
         </div>
