@@ -28,7 +28,7 @@ const TaskList: React.FC = () => {
     return (
       <Task
         key={index}
-        name={currentTask.name}
+        task={currentTask}
         taskIndex={index}
         handleActivateTask={handleActiveTask}
         activeTask={activeIndex}
