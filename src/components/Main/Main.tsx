@@ -6,7 +6,6 @@ import classes from "./Main.module.scss";
 import Modal from "src/UI/Modal/Modal";
 import audioClick from "../../assets/audio/click_audio.wav";
 import endTimerAlarm from "../../assets/audio/clock_alarm.wav";
-//import tasks from '../../assets/data/tasks.js';
 
 const TIMER_CONFIG = {};
 const POMODORO = "pomodoro";
@@ -22,23 +21,10 @@ interface IMainProps {
   handleBackgroundColor: (backgroundColorToSet: string) => void;
 }
 
-interface IMainState {
-  timerType: string;
-  resetTimer: boolean;
-  isTimerRunning: boolean;
-  timerSeconds: number;
-  timeElapsed: number;
-  timerIntervalId: number;
-  showModal: boolean;
-  transitionTimerType: string;
-}
-
 const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
-  //const audio = HTMLAudioElement; /*I think this is for TypeScript
   const clickAudio = new Audio(audioClick);
   const endTimerAudio = new Audio(endTimerAlarm);
   const [timerType, setTimerType] = useState<string>("pomodoro");
-  const [resetTimer, setResetTimer] = useState<boolean>(false);
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
   const [timerSeconds, setTimerSeconds] = useState<number>(2700);
   const [timeElapsed, setTimeElapsed] =
@@ -64,7 +50,6 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   }, [timerType]);
 
   const updateTimerType = (timerType: string) => {
-    setResetTimer(true);
     setIsTimerRunning(false);
     setTimerSeconds(TIMER_CONFIG[timerType]);
   };
