@@ -4,12 +4,6 @@ import AddTask from "../../../../assets/img/plus-circle-white.png";
 import CaretUp from "../../../../assets/img/caret-up.png";
 import CaretDown from "../../../../assets/img/caret-down.png";
 
-type MyProps = {};
-
-type MyStates = {
-  openModal: boolean;
-};
-
 const TaskForm: React.FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const modalRef = useRef<null | HTMLDivElement>(null);
