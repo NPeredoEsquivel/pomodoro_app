@@ -5,6 +5,7 @@ import TaskList from "./TaskList/TaskList";
 import classes from "./Main.module.scss";
 import Modal from "src/UI/Modal/Modal";
 import audioClick from "../../assets/audio/click_audio.wav";
+import ChangeTimerModal from "src/UI/Modal/ChangeTimerModal/ChangeTimerModal";
 //import tasks from '../../assets/data/tasks.js';
 
 const TIMER_CONFIG = {};
@@ -51,8 +52,6 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
       clearInterval(timerIntervalId);
       setIsTimerRunning(false);
     }
-
-    return () => clearInterval(timerIntervalId);
   }, [timerSeconds]);
 
   useEffect(() => {
@@ -126,22 +125,19 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
     (timerSeconds % 60).toString().length === 1
       ? `0${timerSeconds % 60}`
       : timerSeconds % 60;
-  const changeTimerTypeModalTitle = "Change timer type";
-  const changeTimerTypeModalBody = "Are you sure of changing the timer type?";
   const width = isTimerRunning
     ? ((100 * timeElapsed) / (timerSeconds + timeElapsed)).toFixed(2)
     : 0;
-
   return (
     <main>
       {showModal ? (
-        <Modal
-          title={changeTimerTypeModalTitle}
-          body={changeTimerTypeModalBody}
-          onConfirm={() => onConfirm()}
-          onCancel={() => onCancel()}
-          timerType={timerType}
-        ></Modal>
+        <Modal renderContent={!!timerType} onCancel={onCancel}>
+          <ChangeTimerModal
+            onConfirm={onConfirm}
+            onCancel={onCancel}
+            className={timerType}
+          />
+        </Modal>
       ) : null}
 
       <div className={classes.division}>
