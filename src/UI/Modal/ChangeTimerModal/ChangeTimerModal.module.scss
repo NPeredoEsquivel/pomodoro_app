@@ -1,0 +1,84 @@
+@mixin timer-modal-properties {
+  width: 540px;
+  height: 336px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  justify-content: space-between;
+}
+
+.pomodoro {
+  @include timer-modal-properties;
+  background-color: rgb(217, 85, 80);
+}
+.shortbreak {
+  @include timer-modal-properties;
+  background-color: rgb(76, 145, 149);
+}
+.longbreak {
+  @include timer-modal-properties;
+  background-color: rgb(69, 124, 163);
+}
+.modal__title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Arial, Helvetica, sans-serif";
+  font-weight: bold;
+  color: rgba(255, 255, 255, 1);
+  font-size: x-large;
+  border-bottom: 0.2px solid rgb(151, 151, 151);
+  height: 20%;
+  width: 100%;
+}
+.modal__body {
+  font-family: "Arial, Helvetica, sans-serif";
+  font-weight: bold;
+  color: rgba(255, 255, 255, 1);
+  font-size: large;
+}
+
+.modal__footer {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  height: 20%;
+  &__button {
+    background-color: #ffffff;
+    border: 1px solid rgb(209, 213, 219);
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    color: rgba(102, 102, 102, 1);
+    font-family: "Inter var", ui-sans-serif, system-ui, -apple-system, system-ui,
+      "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+      "Noto Color Emoji";
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    text-decoration: none #d1d5db solid;
+    text-decoration-thickness: auto;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+
+  &__button:hover {
+    background-color: rgb(249, 250, 251);
+  }
+
+  &__button:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+
+  &__button:focus-visible {
+    box-shadow: none;
+  }
+}
