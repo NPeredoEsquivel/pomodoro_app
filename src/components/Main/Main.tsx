@@ -179,16 +179,16 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
       ) : null}
 
       <div className={classes.division}>
-        <div className={`${classes["normal-division"]} `} />
+        <div className={classes["normal_division"]} />
         <div
-          className={`${classes["timed-division"]}`}
+          className={classes["timed_division"]}
           style={{
             width: `${width + "%"}`,
           }}
         ></div>
       </div>
-      <Card className={classes[`${"timer-container"}`]}>
-        <div className={classes["timer-container__change-timertype-buttons"]}>
+      <Card className={classes["timer_container"]}>
+        <div className={classes["timer_container__change-timertype_buttons"]}>
           <Button
             classProps={`${
               timerType === POMODORO ? classes["btn--active"] : classes["btn"]
@@ -217,12 +217,12 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
             Long Break
           </Button>
         </div>
-        <div className={classes["timer-container__running-time"]}>
+        <div className={classes["timer_container__running_time"]}>
           {`${minutes}:${seconds}`}
         </div>
-        <div className={classes["timer-container__update-timer-button"]}>
+        <div className={classes["timer_container__update_timer_button"]}>
           <Button
-            classProps={classes[`btn--${timerType}`]}
+            classProps={classes[`btn__${timerType}`]}
             disableButton={false}
             onClickHandler={buttonHandler}
           >

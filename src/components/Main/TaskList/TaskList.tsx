@@ -37,26 +37,24 @@ const TaskList: React.FC = () => {
   });
 
   return (
-    <div className={classes["task-list-container"]}>
-      <div className={classes["current-task"]}>#1</div>
+    <div className={classes["task_list_container"]}>
+      <div className={classes["current_task"]}>#1</div>
       <p>Time to focus!</p>
-      <div className={classes["task-list"]}>
-        <div className={classes["task-list-header"]}>
+      <div className={classes["task_list"]}>
+        <div className={classes["task_list__header"]}>
           <div className={classes.title}>Tasks</div>
           <div className={classes.actions}>
-            <button className={classes["task-list-header-button"]}>
+            <button className={classes["task_list__header_button"]}>
               <img
-                className={classes["header-buton-img"]}
+                className={classes["header_button_img"]}
                 src={ThreeDots}
                 alt="three-dots"
               />
             </button>
           </div>
         </div>
-        <div className={classes["task-list-body"]}>{taskList}</div>
-        <div className={classes["task-form-container"]}>
-          <TaskForm />
-        </div>
+        <div className={classes["task_list__body"]}>{taskList}</div>
+        <TaskForm />
       </div>
     </div>
   );
