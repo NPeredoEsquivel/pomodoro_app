@@ -6,12 +6,6 @@ import CaretDown from "../../../../assets/img/caret-down.png";
 import { useAppDispatch } from "src/store/hooks";
 import { addTask } from "src/store/slices/tasksSlice";
 
-type MyProps = {};
-
-type MyStates = {
-  openModal: boolean;
-};
-
 const TaskForm: React.FC = () => {
   const [taskName, setTaskName] = useState("");
   const [openModal, setOpenModal] = useState<boolean>(false);
