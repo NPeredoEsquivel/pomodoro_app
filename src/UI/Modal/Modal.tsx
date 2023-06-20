@@ -53,7 +53,6 @@ const ModalOverlay: React.FC<ModalProps> = (props) => {
 };
 
 const Modal: React.FC<ModalProps> = (props) => {
-  console.log(props);
   const portalBackdrop = document.getElementById("backdrop-root");
   const modalOverlay = document.getElementById("overlay-root");
 
