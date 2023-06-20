@@ -45,7 +45,6 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   }, [timerSeconds]);
 
   useEffect(() => {
-    console.log("I try to update the timer", timerType);
     updateTimerType(timerType);
   }, [timerType]);
 
