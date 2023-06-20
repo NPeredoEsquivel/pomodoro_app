@@ -39,7 +39,7 @@ const TaskForm: React.FC = () => {
         className={`${classes["task-form-action"]} ${
           !openModal ? "" : classes["display-none"]
         }`}
-        onClick={() => handleOpenModal()}
+        onClick={handleOpenModal}
       >
         <img src={AddTask} alt="add-task" />
         <div className={classes["action"]}>Add Task</div>
@@ -87,7 +87,7 @@ const TaskForm: React.FC = () => {
           <div className={classes["action-buttons"]}>
             <button
               className={classes["cancel-button"]}
-              onClick={() => handleCancelAction()}
+              onClick={handleCancelAction}
             >
               Cancel
             </button>

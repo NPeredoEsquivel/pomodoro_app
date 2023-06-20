@@ -165,15 +165,14 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   const buttonHandler = getButtonProperty("buttonHandler");
   const buttonAction = getButtonProperty("action");
 
-  console.log(buttonHandler);
   return (
     <main>
       {showModal ? (
         <Modal
           title={changeTimerTypeModalTitle}
           body={changeTimerTypeModalBody}
-          onConfirm={() => onConfirm()}
-          onCancel={() => onCancel()}
+          onConfirm={onConfirm}
+          onCancel={onCancel}
           timerType={timerType}
         ></Modal>
       ) : null}
@@ -190,28 +189,28 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
       <Card className={classes["timer_container"]}>
         <div className={classes["timer_container__change-timertype_buttons"]}>
           <Button
-            classProps={`${
+            className={`${
               timerType === POMODORO ? classes["btn--active"] : classes["btn"]
             }`}
-            disableButton={false}
+            disabled={false}
             onClickHandler={() => handleTimerType(POMODORO)}
           >
             Pomodoro
           </Button>
           <Button
-            classProps={`${timerType === SHORT_BREAK ? classes.active : ""} ${
+            className={`${timerType === SHORT_BREAK ? classes.active : ""} ${
               classes["btn"]
             }`}
-            disableButton={false}
+            disabled={false}
             onClickHandler={() => handleTimerType(SHORT_BREAK)}
           >
             Short Break
           </Button>
           <Button
-            classProps={`${timerType === LONG_BREAK ? classes.active : ""} ${
+            className={`${timerType === LONG_BREAK ? classes.active : ""} ${
               classes["btn"]
             }`}
-            disableButton={false}
+            disabled={false}
             onClickHandler={() => handleTimerType(LONG_BREAK)}
           >
             Long Break
@@ -222,8 +221,8 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
         </div>
         <div className={classes["timer_container__update_timer_button"]}>
           <Button
-            classProps={classes[`btn__${timerType}`]}
-            disableButton={false}
+            className={classes[`btn__${timerType}`]}
+            disabled={false}
             onClickHandler={buttonHandler}
           >
             {buttonAction}
