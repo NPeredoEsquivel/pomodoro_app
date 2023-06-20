@@ -9,8 +9,6 @@ type MyProps = {
   activeTask: number | null;
 };
 
-type MyState = {};
-
 const Task: React.FC<MyProps> = ({
   taskIndex,
   name,

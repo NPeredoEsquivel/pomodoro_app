@@ -4,12 +4,6 @@ import TaskForm from "./TaskForm/TaskForm";
 import ThreeDots from "../../../assets/img/threedots-white.png";
 import classes from "./TaskList.module.scss";
 
-type MyProps = {};
-
-type MyState = {
-  activeIndex: number | null;
-};
-
 const tasks = [
   {
     name: "task-1",
