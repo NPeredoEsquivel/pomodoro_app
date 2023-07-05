@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./Task.module.scss";
 import ThreeDotsTask from "../../../../assets/img/vertical-ellipsis.png";
-import { Task as TaskElement } from "src/store/slices/tasksSlice";
+import { Task as TaskElement } from "src/store/taskInterface";
 
 type MyProps = {
   task: TaskElement;
@@ -25,7 +25,7 @@ const Task: React.FC<MyProps> = ({
         <div className={classes["complete-task"]}></div>
         <span>{task.name}</span>
       </div>
-      {/* Future improvement when adding actions to tasks */}
+      {/*TODO: Future improvement when adding actions to tasks */}
       {/* <div className={classes["actions"]}>
         <span>0/1</span>
         <div className={classes["task-button"]}>

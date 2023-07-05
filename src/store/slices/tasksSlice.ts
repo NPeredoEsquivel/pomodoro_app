@@ -1,25 +1,31 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import { nanoid } from "@reduxjs/toolkit";
+import { Task } from "../taskInterface";
 
-//Type for the slice state.
-export interface Task {
-  id: string;
-  name: string;
-  active: boolean;
-  date: string;
-}
-
-//Initial state.
 const initialState: Task[] = [];
 
 export const taskSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
+    //Get active task here or from the store in the components ?
+    updateTask(state: Task[], action: PayloadAction<Task>) {
+      const currentTask: Task | undefined = state.find(
+        (task) => task.id === action.payload.id
+      );
+
+      const currentTaskIndex: number = state.findIndex(
+        (task) => task.id === action.payload.id
+      );
+
+      if (currentTask !== undefined) {
+        currentTask.active = false;
+        state[currentTaskIndex] = currentTask;
+      }
+    },
     addTask: {
-      reducer(state, action: PayloadAction<Task>) {
-        state.forEach((obj) => (obj.active = false));
+      reducer(state: Task[], action: PayloadAction<Task>) {
         state.push(action.payload);
       },
       prepare(name: string) {
@@ -36,7 +42,7 @@ export const taskSlice = createSlice({
   },
 });
 
-export const { addTask } = taskSlice.actions;
+export const { addTask, updateTask } = taskSlice.actions;
 
 export const selectTasks = (state: RootState) => state.tasks;
 

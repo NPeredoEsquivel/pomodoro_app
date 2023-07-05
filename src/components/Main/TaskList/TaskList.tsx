@@ -6,12 +6,6 @@ import classes from "./TaskList.module.scss";
 import { useAppSelector } from "src/store/hooks";
 import { selectTasks } from "src/store/slices/tasksSlice";
 
-type MyProps = {};
-
-type MyState = {
-  activeIndex: number | null;
-};
-
 const TaskList: React.FC = () => {
   const tasks = useAppSelector(selectTasks);
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
@@ -20,21 +14,25 @@ const TaskList: React.FC = () => {
     setActiveIndex(taskIndex);
   };
 
-  const orderedTasks = tasks
-    .slice()
-    .sort((a, b) => b.date.localeCompare(a.date));
+  let taskList: null | JSX.Element[] = null;
+  const isTaskListEmpty = Object.keys(tasks).length === 0;
+  if (!isTaskListEmpty) {
+    const orderedTasks = tasks
+      .slice()
+      .sort((a, b) => b.date.localeCompare(a.date));
 
-  const taskList = orderedTasks.map((currentTask, index) => {
-    return (
-      <Task
-        key={index}
-        task={currentTask}
-        taskIndex={index}
-        handleActivateTask={handleActiveTask}
-        activeTask={activeIndex}
-      />
-    );
-  });
+    taskList = orderedTasks.map((currentTask, index) => {
+      return (
+        <Task
+          key={index}
+          task={currentTask}
+          taskIndex={index}
+          handleActivateTask={handleActiveTask}
+          activeTask={activeIndex}
+        />
+      );
+    });
+  }
 
   return (
     <div className={classes["task-list-container"]}>
@@ -53,7 +51,9 @@ const TaskList: React.FC = () => {
             </button>
           </div>
         </div>
-        <div className={classes["task-list-body"]}>{taskList}</div>
+        <div className={classes["task-list-body"]}>
+          {isTaskListEmpty ? <></> : taskList}
+        </div>
         <div className={classes["task-form-container"]}>
           <TaskForm />
         </div>

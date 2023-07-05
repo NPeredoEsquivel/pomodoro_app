@@ -1,16 +1,23 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, ChangeEvent } from "react";
 import classes from "./TaskForm.module.scss";
 import AddTask from "../../../../assets/img/plus-circle-white.png";
 import CaretUp from "../../../../assets/img/caret-up.png";
 import CaretDown from "../../../../assets/img/caret-down.png";
-import { useAppDispatch } from "src/store/hooks";
-import { addTask } from "src/store/slices/tasksSlice";
+import { useAppSelector, useAppDispatch } from "src/store/hooks";
+import { addTask, updateTask } from "src/store/slices/tasksSlice";
+import { selectTasks } from "src/store/slices/tasksSlice";
+import { Task } from "src/store/taskInterface";
 
 const TaskForm: React.FC = () => {
   const [taskName, setTaskName] = useState("");
   const [openModal, setOpenModal] = useState<boolean>(false);
   const modalRef = useRef<null | HTMLDivElement>(null);
+  const tasks = useAppSelector(selectTasks);
   const dispatch = useAppDispatch();
+
+  const getActiveTask = (): Task | undefined => {
+    return tasks.find((task) => task.active);
+  };
 
   const handleOpenModal = () => {
     setOpenModal((prevOpenModal) => !prevOpenModal);
@@ -20,9 +27,16 @@ const TaskForm: React.FC = () => {
     setOpenModal((prevOpenModal) => !prevOpenModal);
   };
 
-  const onTaskNameChange = (e) => setTaskName(e.target.value);
+  const onTaskNameChange = (event: ChangeEvent<HTMLInputElement>) =>
+    setTaskName(event.target.value);
 
   const handleSubmitTask = () => {
+    const activeTask = getActiveTask();
+
+    if (activeTask !== undefined) {
+      dispatch(updateTask(activeTask));
+    }
+
     dispatch(addTask(taskName));
     setTaskName("");
     setOpenModal(!openModal);
