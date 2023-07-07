@@ -16,6 +16,9 @@ const Task: React.FC<MyProps> = ({
   activeTask,
   taskIndex,
 }) => {
+  const removeTask = (id = null) => {
+    console.log("removing task");
+  };
   return (
     <div
       className={`${classes.task} ${task.active ? classes["is-active"] : ""}`}
@@ -23,8 +26,11 @@ const Task: React.FC<MyProps> = ({
     >
       <div className={classes["task-information"]}>
         <div className={classes["complete-task"]}></div>
-        <span>{task.name}</span>
+        <span className={classes["task-information__name"]}>{task.name}</span>
       </div>
+      <button className={classes["delete-button"]} onClick={() => removeTask()}>
+        Delete
+      </button>
       {/*TODO: Future improvement when adding actions to tasks */}
       {/* <div className={classes["actions"]}>
         <span>0/1</span>

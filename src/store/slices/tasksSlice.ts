@@ -39,6 +39,13 @@ export const taskSlice = createSlice({
         };
       },
     },
+    removeTask(state: Task[], action: PayloadAction<string>) {
+      const taskToRemoveIndex: number = state.findIndex(
+        (task) => task.id === action.payload
+      );
+
+      state.splice(taskToRemoveIndex, 1);
+    },
   },
 });
 

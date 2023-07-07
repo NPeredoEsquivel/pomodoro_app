@@ -94,10 +94,9 @@ const TaskForm: React.FC = () => {
           </div> */}
         </div>
         <div className={classes["task-form-footer"]}>
-          {/* The delete button is when you already have an existing task. */}
-          {/* <div>
+          <div>
             <button className={classes["delete-button"]}>Delete</button>
-          </div> */}
+          </div>
           <div className={classes["action-buttons"]}>
             <button
               className={classes["cancel-button"]}
