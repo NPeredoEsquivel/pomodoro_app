@@ -3,4 +3,5 @@ export interface Task {
   name: string;
   active: boolean;
   date: string;
+  completed: boolean;
 }

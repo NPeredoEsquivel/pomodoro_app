@@ -4,9 +4,8 @@ import AddTask from "../../../../assets/img/plus-circle-white.png";
 import CaretUp from "../../../../assets/img/caret-up.png";
 import CaretDown from "../../../../assets/img/caret-down.png";
 import { useAppSelector, useAppDispatch } from "src/store/hooks";
-import { addTask, updateTask } from "src/store/slices/tasksSlice";
-import { selectTasks } from "src/store/slices/tasksSlice";
-import { Task } from "src/store/taskInterface";
+import { selectTasks, addTask, updateTask } from "src/store/slices/tasksSlice";
+import { getActiveTask } from "src/lib/helpers/helpers";
 
 const TaskForm: React.FC = () => {
   const [taskName, setTaskName] = useState("");
@@ -14,10 +13,6 @@ const TaskForm: React.FC = () => {
   const modalRef = useRef<null | HTMLDivElement>(null);
   const tasks = useAppSelector(selectTasks);
   const dispatch = useAppDispatch();
-
-  const getActiveTask = (): Task | undefined => {
-    return tasks.find((task) => task.active);
-  };
 
   const handleOpenModal = () => {
     setOpenModal((prevOpenModal) => !prevOpenModal);
@@ -31,10 +26,16 @@ const TaskForm: React.FC = () => {
     setTaskName(event.target.value);
 
   const handleSubmitTask = () => {
-    const activeTask = getActiveTask();
+    const activeTask = getActiveTask(tasks);
 
     if (activeTask !== undefined) {
-      dispatch(updateTask(activeTask));
+      dispatch(
+        updateTask({
+          taskId: activeTask.id,
+          taskKey: "active",
+          taskValue: false,
+        })
+      );
     }
 
     dispatch(addTask(taskName));

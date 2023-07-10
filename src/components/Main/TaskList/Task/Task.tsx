@@ -2,33 +2,78 @@ import React from "react";
 import classes from "./Task.module.scss";
 import ThreeDotsTask from "../../../../assets/img/vertical-ellipsis.png";
 import { Task as TaskElement } from "src/store/taskInterface";
+import { useAppSelector, useAppDispatch } from "src/store/hooks";
+import {
+  selectTasks,
+  removeTask,
+  updateTask,
+} from "src/store/slices/tasksSlice";
+import { getActiveTask } from "src/lib/helpers/helpers";
 
 type MyProps = {
   task: TaskElement;
-  handleActivateTask: (params: number) => void;
   taskIndex: number;
-  activeTask: number | null;
 };
+interface MyEvent extends React.MouseEvent<HTMLDivElement> {
+  target: HTMLDivElement;
+}
 
-const Task: React.FC<MyProps> = ({
-  task,
-  handleActivateTask,
-  activeTask,
-  taskIndex,
-}) => {
-  const removeTask = (id = null) => {
-    console.log("removing task");
+const Task: React.FC<MyProps> = ({ task, taskIndex }) => {
+  const dispatch = useAppDispatch();
+  const tasks = useAppSelector(selectTasks);
+
+  const removeTaskHandler = (id: string) => {
+    dispatch(removeTask(id));
   };
+
+  const completeTask = (event: MyEvent, id: string, completed: boolean) => {
+    event.stopPropagation();
+    dispatch(
+      updateTask({ taskId: id, taskKey: "completed", taskValue: completed })
+    );
+  };
+
+  const activateTaskHandler = (id: string) => {
+    const activeTask = getActiveTask(tasks);
+
+    if (activeTask !== undefined) {
+      dispatch(
+        updateTask({
+          taskId: activeTask.id,
+          taskKey: "active",
+          taskValue: false,
+        })
+      );
+      dispatch(updateTask({ taskId: id, taskKey: "active", taskValue: true }));
+    }
+  };
+
   return (
     <div
       className={`${classes.task} ${task.active ? classes["is-active"] : ""}`}
-      onClick={() => handleActivateTask(taskIndex)}
+      onClick={() => activateTaskHandler(task.id)}
     >
       <div className={classes["task-information"]}>
-        <div className={classes["complete-task"]}></div>
-        <span className={classes["task-information__name"]}>{task.name}</span>
+        <div
+          className={`${classes["complete-task"]} ${
+            task.completed ? classes["completed"] : ""
+          }`}
+          onClick={(event: MyEvent) => {
+            completeTask(event, task.id, !task.completed);
+          }}
+        ></div>
+        <span
+          className={`${classes["task-information__name"]} ${
+            task.completed ? classes["completed"] : ""
+          }`}
+        >
+          {task.name}
+        </span>
       </div>
-      <button className={classes["delete-button"]} onClick={() => removeTask()}>
+      <button
+        className={classes["delete-button"]}
+        onClick={() => removeTaskHandler(task.id)}
+      >
         Delete
       </button>
       {/*TODO: Future improvement when adding actions to tasks */}

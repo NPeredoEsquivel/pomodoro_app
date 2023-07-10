@@ -167,7 +167,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
 
   console.log(buttonHandler);
   return (
-    <main>
+    <main className={classes[timerType]}>
       {showModal ? (
         <Modal
           title={changeTimerTypeModalTitle}

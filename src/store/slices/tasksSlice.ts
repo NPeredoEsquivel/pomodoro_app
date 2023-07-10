@@ -5,24 +5,35 @@ import { Task } from "../taskInterface";
 
 const initialState: Task[] = [];
 
+interface UpdateTaskDataPayload {
+  taskId: string;
+  taskKey: keyof Task;
+  taskValue: Task[keyof Task];
+}
+
 export const taskSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
     //Get active task here or from the store in the components ?
-    updateTask(state: Task[], action: PayloadAction<Task>) {
-      const currentTask: Task | undefined = state.find(
-        (task) => task.id === action.payload.id
-      );
+    updateTask(state: Task[], action: PayloadAction<UpdateTaskDataPayload>) {
+      const { taskId, taskKey, taskValue } = action.payload;
 
       const currentTaskIndex: number = state.findIndex(
-        (task) => task.id === action.payload.id
+        (task) => task.id === taskId
       );
 
-      if (currentTask !== undefined) {
-        currentTask.active = false;
-        state[currentTaskIndex] = currentTask;
-      }
+      const updatedTask = {
+        ...state[currentTaskIndex],
+        [taskKey]: taskValue,
+      };
+
+      const updatedStore = [
+        ...state.slice(0, currentTaskIndex),
+        updatedTask,
+        ...state.slice(currentTaskIndex + 1),
+      ];
+      return updatedStore;
     },
     addTask: {
       reducer(state: Task[], action: PayloadAction<Task>) {
@@ -35,6 +46,7 @@ export const taskSlice = createSlice({
             name: name,
             active: true,
             date: new Date().toISOString(),
+            completed: false,
           },
         };
       },
@@ -49,7 +61,7 @@ export const taskSlice = createSlice({
   },
 });
 
-export const { addTask, updateTask } = taskSlice.actions;
+export const { addTask, updateTask, removeTask } = taskSlice.actions;
 
 export const selectTasks = (state: RootState) => state.tasks;
 

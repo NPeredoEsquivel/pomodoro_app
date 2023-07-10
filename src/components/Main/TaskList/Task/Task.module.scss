@@ -12,6 +12,7 @@
   height: 62px;
   transform: translateY(2px);
   transition: unset;
+  cursor: pointer;
 
   &.is-active {
     border-left: 6px solid rgb(34, 34, 34);
@@ -43,6 +44,11 @@
       border-radius: 50%;
       cursor: pointer;
 
+      &.completed {
+        border: 2px solid rgb(186, 73, 73);
+        background-color: rgb(186, 73, 73);
+      }
+
       &:hover {
         opacity: 0.6;
       }
@@ -64,12 +70,16 @@
     &__name {
       color: rgb(85, 85, 85);
       font-weight: bold;
-      width: 85%;
       overflow: hidden;
       -webkit-box-align: center;
       align-items: center;
       line-height: 1.5em;
       cursor: default;
+
+      &.completed {
+        color: rgb(187, 187, 187);
+        text-decoration: line-through;
+      }
     }
   }
 

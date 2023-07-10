@@ -8,11 +8,6 @@ import { selectTasks } from "src/store/slices/tasksSlice";
 
 const TaskList: React.FC = () => {
   const tasks = useAppSelector(selectTasks);
-  const [activeIndex, setActiveIndex] = useState<number | null>(0);
-
-  const handleActiveTask = (taskIndex: number) => {
-    setActiveIndex(taskIndex);
-  };
 
   let taskList: null | JSX.Element[] = null;
   const isTaskListEmpty = Object.keys(tasks).length === 0;
@@ -22,15 +17,7 @@ const TaskList: React.FC = () => {
       .sort((a, b) => b.date.localeCompare(a.date));
 
     taskList = orderedTasks.map((currentTask, index) => {
-      return (
-        <Task
-          key={index}
-          task={currentTask}
-          taskIndex={index}
-          handleActivateTask={handleActiveTask}
-          activeTask={activeIndex}
-        />
-      );
+      return <Task key={index} task={currentTask} taskIndex={index} />;
     });
   }
 
