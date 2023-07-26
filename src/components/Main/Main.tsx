@@ -59,7 +59,6 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   }, [timerSeconds]);
 
   useEffect(() => {
-    console.log("I try to update the timer", timerType);
     updateTimerType(timerType);
   }, [timerType]);
 
@@ -159,16 +158,14 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
 
   const getButtonProperty = (property) => {
     const buttonProperties = getButtonAction();
-    console.log(buttonProperties[property]);
     return buttonProperties[property];
   };
 
   const buttonHandler = getButtonProperty("buttonHandler");
   const buttonAction = getButtonProperty("action");
 
-  console.log(buttonHandler);
   return (
-    <main>
+    <main className={classes[timerType]}>
       {showModal ? (
         <Modal
           title={changeTimerTypeModalTitle}
