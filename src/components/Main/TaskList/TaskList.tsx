@@ -29,6 +29,7 @@ const TaskList: React.FC = () => {
         <div className={classes["task_list__header"]}>
           <div className={classes.title}>Tasks</div>
           <div className={classes.actions}>
+            {/* TODO: Actions on the list. */}
             <button className={classes["task_list__header_button"]}>
               <img
                 className={classes["header_button_img"]}
