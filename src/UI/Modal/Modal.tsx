@@ -30,15 +30,15 @@ const ModalOverlay: React.FC<ModalProps> = (props) => {
           <div className={classes.modal__body}>{props.body}</div>
           <footer className={classes.modal__footer}>
             <Button
-              classProps={classes.modal__footer__button}
-              disableButton={false}
+              className={classes.modal__footer__button}
+              disabled={false}
               onClickHandler={props.onConfirm}
             >
               Ok
             </Button>
             <Button
-              classProps={classes.modal__footer__button}
-              disableButton={false}
+              className={classes.modal__footer__button}
+              disabled={false}
               onClickHandler={props.onCancel}
             >
               Cancel
