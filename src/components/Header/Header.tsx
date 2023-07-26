@@ -5,38 +5,31 @@ import Graph from "../../assets/img/graph-white.png";
 import AppIcon from "../../assets/img/icon-white.png";
 import User from "../../assets/img/user-white.png";
 
-
-const Header:React.FC = () => {
+const Header: React.FC = () => {
   return (
     <header className={classes.container}>
       <div className={classes.app}>
-          <div className={classes["app-icon"]}>
-              <img src={AppIcon} alt="app-icon" />
-          </div>
-          <span className={classes["app-name"]}>Pomofocus</span>
+        <div className={classes["app__icon"]}>
+          <img src={AppIcon} alt="app-icon" />
+        </div>
+        <span className={classes["app__name"]}>Pomofocus</span>
       </div>
       <div className={classes.actions}>
-          <div className={classes.report}>
-            <img src={Graph} alt="graph-icon"/>
-            <span>
-              Report
-            </span>
-          </div>
-          <div className={classes.setting}>            
-            <img src={Configuration} alt="configuration-icon"/>
-            <span>
-              Setting
-            </span>
-          </div>
-          <div className={classes.login}>
-          <img src={User} alt="user-icon"/>
-            <span>
-              Login
-            </span>
-          </div>
+        <div className={classes.report}>
+          <img src={Graph} alt="graph-icon" />
+          <span>Report</span>
         </div>
+        <div className={classes.setting}>
+          <img src={Configuration} alt="configuration-icon" />
+          <span>Setting</span>
+        </div>
+        <div className={classes.login}>
+          <img src={User} alt="user-icon" />
+          <span>Login</span>
+        </div>
+      </div>
     </header>
   );
-}
+};
 
 export default Header;

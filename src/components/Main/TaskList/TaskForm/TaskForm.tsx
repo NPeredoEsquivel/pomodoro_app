@@ -49,7 +49,7 @@ const TaskForm: React.FC = () => {
     }
   }, [openModal]);
   return (
-    <div>
+    <div className={classes.task_form}>
       <div
         className={`${classes["task-form-action"]} ${
           !openModal ? "" : classes["display-none"]
