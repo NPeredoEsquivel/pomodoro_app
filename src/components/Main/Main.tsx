@@ -20,12 +20,12 @@ Object.freeze(TIMER_CONFIG);
 interface IMainProps {
   handleBackgroundColor: (backgroundColorToSet: string) => void;
 }
-
 interface ButtonActions {
   buttonHandler: { (): void } | null;
   action: string;
 }
-type IMainState = {
+
+interface IMainState {
   timerType: string;
   isTimerRunning: boolean;
   timerSeconds: number;
@@ -33,20 +33,19 @@ type IMainState = {
   timerIntervalId: number;
   showModal: boolean;
   transitionTimerType: string;
-};
+}
 
 const defaultState = {
-  timerType: "pomodoro",
+  timerType: POMODORO,
   isTimerRunning: false,
   timerSeconds: 2700,
   timeElapsed: 0,
   timerIntervalId: 0,
   showModal: false,
-  transitionTimerType: "pomodoro",
+  transitionTimerType: POMODORO,
 };
 
 const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
-  //const audio = HTMLAudioElement; /*I think this is for TypeScript
   const clickAudio = new Audio(audioClick);
   const endTimerAudio = new Audio(endTimerAlarm);
   const [state, setState] = useState<IMainState>(defaultState);
@@ -90,7 +89,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   };
 
   const handlePauseTimer = () => {
-    audio.play();
+    clickAudio.play();
     const { timerIntervalId } = state;
     if (timerIntervalId) {
       setState({ ...state, isTimerRunning: false });
@@ -99,7 +98,8 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   };
 
   const handleResetTimer = () => {
-    setTimerSeconds(TIMER_CONFIG[timerType]);
+    const { timerType } = state;
+    setState({ ...state, timerSeconds: TIMER_CONFIG[timerType] });
   };
 
   const handleTimerType = (timerType: string) => {
@@ -162,6 +162,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
     : 0;
 
   const getButtonAction = () => {
+    const { isTimerRunning, timerSeconds } = state;
     const buttonAction: ButtonActions = { buttonHandler: null, action: "" };
     if (isTimerRunning) {
       buttonAction.buttonHandler = handlePauseTimer;
@@ -187,7 +188,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   const buttonAction = getButtonProperty("action");
 
   return (
-    <main>
+    <main className={classes[state.timerType]}>
       {state.showModal ? (
         <Modal
           title={changeTimerTypeModalTitle}
@@ -211,7 +212,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
         <div className={classes["timer-container__change-timertype-buttons"]}>
           <Button
             classProps={`${
-              state.timerType === "pomodoro"
+              state.timerType === POMODORO
                 ? classes["btn--active"]
                 : classes["btn"]
             }`}
@@ -222,7 +223,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
           </Button>
           <Button
             classProps={`${
-              state.timerType === "shortbreak" ? classes.active : ""
+              state.timerType === SHORT_BREAK ? classes.active : ""
             } ${classes["btn"]}`}
             disableButton={false}
             onClickHandler={() => handleTimerType(SHORT_BREAK)}
@@ -231,7 +232,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
           </Button>
           <Button
             classProps={`${
-              state.timerType === "longbreak" ? classes.active : ""
+              state.timerType === LONG_BREAK ? classes.active : ""
             } ${classes["btn"]}`}
             disableButton={false}
             onClickHandler={() => handleTimerType(LONG_BREAK)}
@@ -246,11 +247,9 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
           <Button
             classProps={classes[`btn--${state.timerType}`]}
             disableButton={false}
-            onClickHandler={
-              state.isTimerRunning ? handlePauseTimer : handleStartTimer
-            }
+            onClickHandler={buttonHandler}
           >
-            {state.isTimerRunning ? "PAUSE" : "START"}
+            {buttonAction}
           </Button>
         </div>
       </Card>
