@@ -6,6 +6,7 @@ import classes from "./Main.module.scss";
 import Modal from "src/UI/Modal/Modal";
 import audioClick from "../../assets/audio/click_audio.wav";
 import endTimerAlarm from "../../assets/audio/clock_alarm.wav";
+import classNames from "classnames";
 
 const TIMER_CONFIG = {};
 const POMODORO = "pomodoro";
@@ -211,29 +212,36 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
       <Card className={classes["timer_container"]}>
         <div className={classes["timer_container__change-timertype_buttons"]}>
           <Button
-            className={`${
-              state.timerType === POMODORO
-                ? classes["btn--active"]
-                : classes["btn"]
-            }`}
+            className={classNames({
+              [classes["btn--active"]]: state.timerType === POMODORO,
+              [classes["btn"]]: state.timerType !== POMODORO,
+            })}
             disabled={false}
             onClickHandler={() => handleTimerType(POMODORO)}
           >
             Pomodoro
           </Button>
           <Button
-            className={`${
-              state.timerType === SHORT_BREAK ? classes.active : ""
-            } ${classes["btn"]}`}
+            className={classNames(
+              {
+                [classes["btn--active"]]: state.timerType === SHORT_BREAK,
+                "": state.timerType !== SHORT_BREAK,
+              },
+              classes["btn"]
+            )}
             disabled={false}
             onClickHandler={() => handleTimerType(SHORT_BREAK)}
           >
             Short Break
           </Button>
           <Button
-            className={`${
-              state.timerType === LONG_BREAK ? classes.active : ""
-            } ${classes["btn"]}`}
+            className={classNames(
+              {
+                [classes["btn--active"]]: state.timerType === LONG_BREAK,
+                "": state.timerType !== LONG_BREAK,
+              },
+              classes["btn"]
+            )}
             disabled={false}
             onClickHandler={() => handleTimerType(LONG_BREAK)}
           >

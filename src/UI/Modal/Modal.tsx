@@ -4,6 +4,7 @@ import Card from "../Card/Card";
 import Button from "../Button/Button";
 import classes from "./Modal.module.scss";
 import Spinner from "../Spinner/Spinner";
+import classNames from "classnames";
 
 type BackdropProps = {
   onCancel: () => void;
@@ -25,7 +26,7 @@ const ModalOverlay: React.FC<ModalProps> = (props) => {
   return (
     <>
       {props.timerType ? (
-        <Card className={`${classes.modal} ${classes[props.timerType]}`}>
+        <Card className={classNames(classes.modal, classes[props.timerType])}>
           <header className={classes.modal__title}>{props.title}</header>
           <div className={classes.modal__body}>{props.body}</div>
           <footer className={classes.modal__footer}>
