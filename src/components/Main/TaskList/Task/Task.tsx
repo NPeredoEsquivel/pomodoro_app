@@ -14,19 +14,23 @@ type MyProps = {
   task: TaskElement;
   taskIndex: number;
 };
-interface MyEvent extends React.MouseEvent<HTMLDivElement> {
+interface MyDivEvent extends React.MouseEvent<HTMLDivElement> {
   target: HTMLDivElement;
+}
+interface MyButtonEvent extends React.MouseEvent<HTMLButtonElement> {
+  target: HTMLButtonElement;
 }
 
 const Task: React.FC<MyProps> = ({ task, taskIndex }) => {
   const dispatch = useAppDispatch();
   const tasks = useAppSelector(selectTasks);
 
-  const removeTaskHandler = (id: string) => {
+  const removeTaskHandler = (event: MyButtonEvent, id: string) => {
+    event.stopPropagation();
     dispatch(removeTask(id));
   };
 
-  const completeTask = (event: MyEvent, id: string, completed: boolean) => {
+  const completeTask = (event: MyDivEvent, id: string, completed: boolean) => {
     event.stopPropagation();
     dispatch(
       updateTask({ taskId: id, taskKey: "completed", taskValue: completed })
@@ -58,7 +62,7 @@ const Task: React.FC<MyProps> = ({ task, taskIndex }) => {
           className={`${classes["complete-task"]} ${
             task.completed ? classes["completed"] : ""
           }`}
-          onClick={(event: MyEvent) => {
+          onClick={(event: MyDivEvent) => {
             completeTask(event, task.id, !task.completed);
           }}
         ></div>
@@ -72,7 +76,7 @@ const Task: React.FC<MyProps> = ({ task, taskIndex }) => {
       </div>
       <button
         className={classes["delete-button"]}
-        onClick={() => removeTaskHandler(task.id)}
+        onClick={(event: MyButtonEvent) => removeTaskHandler(event, task.id)}
       >
         Delete
       </button>

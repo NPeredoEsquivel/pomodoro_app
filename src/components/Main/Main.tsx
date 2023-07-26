@@ -158,14 +158,12 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
 
   const getButtonProperty = (property) => {
     const buttonProperties = getButtonAction();
-    console.log(buttonProperties[property]);
     return buttonProperties[property];
   };
 
   const buttonHandler = getButtonProperty("buttonHandler");
   const buttonAction = getButtonProperty("action");
 
-  console.log(buttonHandler);
   return (
     <main className={classes[timerType]}>
       {showModal ? (

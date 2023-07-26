@@ -37,7 +37,7 @@ export const taskSlice = createSlice({
     },
     addTask: {
       reducer(state: Task[], action: PayloadAction<Task>) {
-        state.push(action.payload);
+        return [...state, action.payload];
       },
       prepare(name: string) {
         return {
@@ -55,8 +55,11 @@ export const taskSlice = createSlice({
       const taskToRemoveIndex: number = state.findIndex(
         (task) => task.id === action.payload
       );
-
-      state.splice(taskToRemoveIndex, 1);
+      const updatedStore = [
+        ...state.slice(0, taskToRemoveIndex),
+        ...state.slice(taskToRemoveIndex + 1),
+      ];
+      return updatedStore;
     },
   },
 });
