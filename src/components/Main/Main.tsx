@@ -5,20 +5,25 @@ import TaskList from "./TaskList/TaskList";
 import classes from "./Main.module.scss";
 import Modal from "src/UI/Modal/Modal";
 import audioClick from "../../assets/audio/click_audio.wav";
-//import tasks from '../../assets/data/tasks.js';
+import endTimerAlarm from "../../assets/audio/clock_alarm.wav";
 
 const TIMER_CONFIG = {};
 const POMODORO = "pomodoro";
 const SHORT_BREAK = "shortbreak";
 const LONG_BREAK = "longbreak";
 
-TIMER_CONFIG[POMODORO] = 3600;
+TIMER_CONFIG[POMODORO] = 2700;
 TIMER_CONFIG[SHORT_BREAK] = 300;
 TIMER_CONFIG[LONG_BREAK] = 900;
 
 Object.freeze(TIMER_CONFIG);
 interface IMainProps {
   handleBackgroundColor: (backgroundColorToSet: string) => void;
+}
+
+interface ButtonActions {
+  buttonHandler: { (): void } | null;
+  action: string;
 }
 type IMainState = {
   timerType: string;
@@ -42,12 +47,14 @@ const defaultState = {
 
 const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   //const audio = HTMLAudioElement; /*I think this is for TypeScript
-  const audio = new Audio(audioClick);
+  const clickAudio = new Audio(audioClick);
+  const endTimerAudio = new Audio(endTimerAlarm);
   const [state, setState] = useState<IMainState>(defaultState);
 
   useEffect(() => {
     const { timerSeconds, isTimerRunning, timerIntervalId } = state;
     if (timerSeconds === 0 && isTimerRunning) {
+      endTimerAudio.play();
       clearInterval(timerIntervalId);
       setState({ ...state, isTimerRunning: false });
     }
@@ -77,7 +84,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   };
 
   const handleStartTimer = () => {
-    audio.play();
+    clickAudio.play();
     const interval = obtainInterval();
     setState({ ...state, timerIntervalId: interval, isTimerRunning: true });
   };
@@ -89,6 +96,10 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
       setState({ ...state, isTimerRunning: false });
     }
     clearInterval(timerIntervalId);
+  };
+
+  const handleResetTimer = () => {
+    setTimerSeconds(TIMER_CONFIG[timerType]);
   };
 
   const handleTimerType = (timerType: string) => {
@@ -150,6 +161,31 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
       ).toFixed(2)
     : 0;
 
+  const getButtonAction = () => {
+    const buttonAction: ButtonActions = { buttonHandler: null, action: "" };
+    if (isTimerRunning) {
+      buttonAction.buttonHandler = handlePauseTimer;
+      buttonAction.action = "PAUSE";
+    } else {
+      if (timerSeconds === 0) {
+        buttonAction.buttonHandler = handleResetTimer;
+        buttonAction.action = "RESET";
+      } else {
+        buttonAction.buttonHandler = handleStartTimer;
+        buttonAction.action = "START";
+      }
+    }
+    return buttonAction;
+  };
+
+  const getButtonProperty = (property) => {
+    const buttonProperties = getButtonAction();
+    return buttonProperties[property];
+  };
+
+  const buttonHandler = getButtonProperty("buttonHandler");
+  const buttonAction = getButtonProperty("action");
+
   return (
     <main>
       {state.showModal ? (
@@ -180,7 +216,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
                 : classes["btn"]
             }`}
             disableButton={false}
-            onClickHandler={() => handleTimerType("pomodoro")}
+            onClickHandler={() => handleTimerType(POMODORO)}
           >
             Pomodoro
           </Button>
@@ -189,7 +225,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
               state.timerType === "shortbreak" ? classes.active : ""
             } ${classes["btn"]}`}
             disableButton={false}
-            onClickHandler={() => handleTimerType("shortbreak")}
+            onClickHandler={() => handleTimerType(SHORT_BREAK)}
           >
             Short Break
           </Button>
@@ -198,7 +234,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
               state.timerType === "longbreak" ? classes.active : ""
             } ${classes["btn"]}`}
             disableButton={false}
-            onClickHandler={() => handleTimerType("longbreak")}
+            onClickHandler={() => handleTimerType(LONG_BREAK)}
           >
             Long Break
           </Button>
