@@ -20,7 +20,6 @@ Object.freeze(TIMER_CONFIG);
 interface IMainProps {
   handleBackgroundColor: (backgroundColorToSet: string) => void;
 }
-
 interface ButtonActions {
   buttonHandler: { (): void } | null;
   action: string;
@@ -28,7 +27,6 @@ interface ButtonActions {
 
 interface IMainState {
   timerType: string;
-  resetTimer: boolean;
   isTimerRunning: boolean;
   timerSeconds: number;
   timeElapsed: number;
@@ -37,40 +35,49 @@ interface IMainState {
   transitionTimerType: string;
 }
 
+const defaultState = {
+  timerType: POMODORO,
+  isTimerRunning: false,
+  timerSeconds: 2700,
+  timeElapsed: 0,
+  timerIntervalId: 0,
+  showModal: false,
+  transitionTimerType: POMODORO,
+};
+
 const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   const clickAudio = new Audio(audioClick);
   const endTimerAudio = new Audio(endTimerAlarm);
-  const [timerType, setTimerType] = useState<string>(POMODORO);
-  const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
-  const [timerSeconds, setTimerSeconds] = useState<number>(2700);
-  const [timeElapsed, setTimeElapsed] =
-    useState<number>(0); /* Used to calculate reproduction bar */
-  const [timerIntervalId, setTimerIntervalId] = useState<number>(0);
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [transitionTimerType, setTransitionTimerType] =
-    useState<string>(POMODORO);
+  const [state, setState] = useState<IMainState>(defaultState);
 
   useEffect(() => {
+    const { timerSeconds, isTimerRunning, timerIntervalId } = state;
     if (timerSeconds === 0 && isTimerRunning) {
       endTimerAudio.play();
       clearInterval(timerIntervalId);
-      setIsTimerRunning(false);
+      setState({ ...state, isTimerRunning: false });
     }
-  }, [timerSeconds]);
+  }, [state.timerSeconds]);
 
   useEffect(() => {
-    updateTimerType(timerType);
-  }, [timerType]);
+    updateTimerType(state.timerType);
+  }, [state.timerType]);
 
   const updateTimerType = (timerType: string) => {
-    setIsTimerRunning(false);
-    setTimerSeconds(TIMER_CONFIG[timerType]);
+    setState({
+      ...state,
+      isTimerRunning: false,
+      timerSeconds: TIMER_CONFIG[timerType],
+    });
   };
 
   const obtainInterval = () => {
     const interval = window.setInterval(() => {
-      setTimeElapsed((prevTimeElapsed) => prevTimeElapsed + 1);
-      setTimerSeconds((prevTimeElapsed) => prevTimeElapsed - 1);
+      setState((prevState) => ({
+        ...prevState,
+        timeElapsed: prevState.timeElapsed + 1,
+        timerSeconds: prevState.timerSeconds - 1,
+      }));
     }, 1000);
     return interval;
   };
@@ -78,32 +85,37 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   const handleStartTimer = () => {
     clickAudio.play();
     const interval = obtainInterval();
-    setTimerIntervalId(interval);
-    setIsTimerRunning(true);
+    setState({ ...state, timerIntervalId: interval, isTimerRunning: true });
   };
 
   const handlePauseTimer = () => {
     clickAudio.play();
+    const { timerIntervalId } = state;
     if (timerIntervalId) {
-      setIsTimerRunning(false);
+      setState({ ...state, isTimerRunning: false });
     }
     clearInterval(timerIntervalId);
   };
 
   const handleResetTimer = () => {
-    setTimerSeconds(TIMER_CONFIG[timerType]);
+    const { timerType } = state;
+    setState({ ...state, timerSeconds: TIMER_CONFIG[timerType] });
   };
 
   const handleTimerType = (timerType: string) => {
+    const { isTimerRunning, timerIntervalId } = state;
     if (isTimerRunning) {
       if (timerIntervalId) {
         clearInterval(timerIntervalId);
       }
-      setShowModal(true);
-      setTransitionTimerType(timerType);
-      setIsTimerRunning(false);
+      setState({
+        ...state,
+        showModal: true,
+        transitionTimerType: timerType,
+        isTimerRunning: false,
+      });
     } else {
-      setTimerType(timerType);
+      setState({ ...state, timerType });
       handleBackgroundColor(timerType);
       if (timerIntervalId) {
         clearInterval(timerIntervalId);
@@ -112,34 +124,45 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   };
 
   const onConfirm = () => {
-    setShowModal(false);
-    setTimerType(transitionTimerType);
+    setState({
+      ...state,
+      showModal: false,
+      timerType: state.transitionTimerType,
+    });
 
-    handleBackgroundColor(transitionTimerType);
+    handleBackgroundColor(state.transitionTimerType);
   };
 
   const onCancel = () => {
+    const { timerIntervalId } = state;
     if (timerIntervalId) {
       clearInterval(timerIntervalId);
     }
     const interval = obtainInterval();
-    setShowModal(false);
-    setTimerIntervalId(interval);
-    setIsTimerRunning(true);
+    setState({
+      ...state,
+      showModal: false,
+      timerIntervalId: interval,
+      isTimerRunning: true,
+    });
   };
 
-  const minutes = parseInt((timerSeconds / 60).toString());
+  const minutes = parseInt((state.timerSeconds / 60).toString());
   const seconds =
-    (timerSeconds % 60).toString().length === 1
-      ? `0${timerSeconds % 60}`
-      : timerSeconds % 60;
+    (state.timerSeconds % 60).toString().length === 1
+      ? `0${state.timerSeconds % 60}`
+      : state.timerSeconds % 60;
   const changeTimerTypeModalTitle = "Change timer type";
   const changeTimerTypeModalBody = "Are you sure of changing the timer type?";
-  const width = isTimerRunning
-    ? ((100 * timeElapsed) / (timerSeconds + timeElapsed)).toFixed(2)
+  const width = state.isTimerRunning
+    ? (
+        (100 * state.timeElapsed) /
+        (state.timerSeconds + state.timeElapsed)
+      ).toFixed(2)
     : 0;
 
   const getButtonAction = () => {
+    const { isTimerRunning, timerSeconds } = state;
     const buttonAction: ButtonActions = { buttonHandler: null, action: "" };
     if (isTimerRunning) {
       buttonAction.buttonHandler = handlePauseTimer;
@@ -158,23 +181,21 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
 
   const getButtonProperty = (property) => {
     const buttonProperties = getButtonAction();
-    console.log(buttonProperties[property]);
     return buttonProperties[property];
   };
 
   const buttonHandler = getButtonProperty("buttonHandler");
   const buttonAction = getButtonProperty("action");
 
-  console.log(buttonHandler);
   return (
-    <main>
-      {showModal ? (
+    <main className={classes[state.timerType]}>
+      {state.showModal ? (
         <Modal
           title={changeTimerTypeModalTitle}
           body={changeTimerTypeModalBody}
           onConfirm={() => onConfirm()}
           onCancel={() => onCancel()}
-          timerType={timerType}
+          timerType={state.timerType}
         ></Modal>
       ) : null}
 
@@ -191,7 +212,9 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
         <div className={classes["timer_container__change-timertype_buttons"]}>
           <Button
             classProps={`${
-              timerType === POMODORO ? classes["btn--active"] : classes["btn"]
+              state.timerType === POMODORO
+                ? classes["btn--active"]
+                : classes["btn"]
             }`}
             disableButton={false}
             onClickHandler={() => handleTimerType(POMODORO)}
@@ -199,18 +222,18 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
             Pomodoro
           </Button>
           <Button
-            classProps={`${timerType === SHORT_BREAK ? classes.active : ""} ${
-              classes["btn"]
-            }`}
+            classProps={`${
+              state.timerType === SHORT_BREAK ? classes.active : ""
+            } ${classes["btn"]}`}
             disableButton={false}
             onClickHandler={() => handleTimerType(SHORT_BREAK)}
           >
             Short Break
           </Button>
           <Button
-            classProps={`${timerType === LONG_BREAK ? classes.active : ""} ${
-              classes["btn"]
-            }`}
+            classProps={`${
+              state.timerType === LONG_BREAK ? classes.active : ""
+            } ${classes["btn"]}`}
             disableButton={false}
             onClickHandler={() => handleTimerType(LONG_BREAK)}
           >
@@ -222,7 +245,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
         </div>
         <div className={classes["timer_container__update_timer_button"]}>
           <Button
-            classProps={classes[`btn__${timerType}`]}
+            classProps={classes[`btn__${state.timerType}`]}
             disableButton={false}
             onClickHandler={buttonHandler}
           >

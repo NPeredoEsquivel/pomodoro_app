@@ -1,15 +1,17 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, ChangeEvent } from "react";
 import classes from "./TaskForm.module.scss";
 import AddTask from "../../../../assets/img/plus-circle-white.png";
 import CaretUp from "../../../../assets/img/caret-up.png";
 import CaretDown from "../../../../assets/img/caret-down.png";
-import { useAppDispatch } from "src/store/hooks";
-import { addTask } from "src/store/slices/tasksSlice";
+import { useAppSelector, useAppDispatch } from "src/store/hooks";
+import { selectTasks, addTask, updateTask } from "src/store/slices/tasksSlice";
+import { getActiveTask } from "src/lib/helpers/helpers";
 
 const TaskForm: React.FC = () => {
   const [taskName, setTaskName] = useState("");
   const [openModal, setOpenModal] = useState<boolean>(false);
   const modalRef = useRef<null | HTMLDivElement>(null);
+  const tasks = useAppSelector(selectTasks);
   const dispatch = useAppDispatch();
 
   const handleOpenModal = () => {
@@ -20,9 +22,22 @@ const TaskForm: React.FC = () => {
     setOpenModal((prevOpenModal) => !prevOpenModal);
   };
 
-  const onTaskNameChange = (e) => setTaskName(e.target.value);
+  const onTaskNameChange = (event: ChangeEvent<HTMLInputElement>) =>
+    setTaskName(event.target.value);
 
   const handleSubmitTask = () => {
+    const activeTask = getActiveTask(tasks);
+
+    if (activeTask !== undefined) {
+      dispatch(
+        updateTask({
+          taskId: activeTask.id,
+          taskKey: "active",
+          taskValue: false,
+        })
+      );
+    }
+
     dispatch(addTask(taskName));
     setTaskName("");
     setOpenModal(!openModal);
@@ -80,10 +95,9 @@ const TaskForm: React.FC = () => {
           </div> */}
         </div>
         <div className={classes["task-form-footer"]}>
-          {/* The delete button is when you already have an existing task. */}
-          {/* <div>
+          <div>
             <button className={classes["delete-button"]}>Delete</button>
-          </div> */}
+          </div>
           <div className={classes["action-buttons"]}>
             <button
               className={classes["cancel-button"]}
