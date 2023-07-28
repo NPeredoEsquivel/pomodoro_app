@@ -5,6 +5,7 @@ import ThreeDots from "../../../assets/img/threedots-white.png";
 import classes from "./TaskList.module.scss";
 import { useAppSelector } from "src/store/hooks";
 import { selectTasks } from "src/store/slices/tasksSlice";
+import Card from "src/UI/Card/Card";
 
 const TaskList: React.FC = () => {
   const tasks = useAppSelector(selectTasks);
@@ -22,7 +23,7 @@ const TaskList: React.FC = () => {
   }
 
   return (
-    <div className={classes["task_list_container"]}>
+    <Card className={classes["task_list_container"]}>
       <div className={classes["current_task"]}>#1</div>
       <p>Time to focus!</p>
       <div className={classes["task_list"]}>
@@ -44,7 +45,7 @@ const TaskList: React.FC = () => {
         </div>
         <TaskForm />
       </div>
-    </div>
+    </Card>
   );
 };
 
