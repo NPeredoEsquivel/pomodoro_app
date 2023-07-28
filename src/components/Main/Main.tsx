@@ -6,6 +6,7 @@ import classes from "./Main.module.scss";
 import Modal from "src/UI/Modal/Modal";
 import audioClick from "../../assets/audio/click_audio.wav";
 import endTimerAlarm from "../../assets/audio/clock_alarm.wav";
+import Timer from "./Timer/Timer";
 
 const TIMER_CONFIG = {};
 const POMODORO = "pomodoro";
@@ -240,9 +241,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
             Long Break
           </Button>
         </div>
-        <div className={classes["timer_container__running_time"]}>
-          {`${minutes}:${seconds}`}
-        </div>
+        <Timer timer={`${minutes}:${seconds}`} />
         <div className={classes["timer_container__update_timer_button"]}>
           <Button
             className={classes[`btn__${state.timerType}`]}
