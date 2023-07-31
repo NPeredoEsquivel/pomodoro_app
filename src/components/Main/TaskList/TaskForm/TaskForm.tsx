@@ -6,6 +6,7 @@ import CaretDown from "../../../../assets/img/caret-down.png";
 import { useAppSelector, useAppDispatch } from "src/store/hooks";
 import { selectTasks, addTask, updateTask } from "src/store/slices/tasksSlice";
 import { getActiveTask } from "src/lib/helpers/helpers";
+import Button from "src/UI/Button/Button";
 
 const TaskForm: React.FC = () => {
   const [taskName, setTaskName] = useState("");
@@ -95,22 +96,21 @@ const TaskForm: React.FC = () => {
           </div> */}
         </div>
         <div className={classes["task-form-footer"]}>
-          <div>
-            <button className={classes["delete-button"]}>Delete</button>
-          </div>
           <div className={classes["action-buttons"]}>
-            <button
+            <Button
               className={classes["cancel-button"]}
-              onClick={handleCancelAction}
+              onClickHandler={handleCancelAction}
+              disabled={false}
             >
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               className={classes["save-button"]}
-              onClick={handleSubmitTask}
+              onClickHandler={handleSubmitTask}
+              disabled={false}
             >
               Save
-            </button>
+            </Button>
           </div>
         </div>
       </div>
