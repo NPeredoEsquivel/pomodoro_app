@@ -32,10 +32,10 @@ const Header: React.FC = () => {
       )}
       <header className={classes.container}>
         <div className={classes.app}>
-          <div className={classes["app-icon"]}>
+          <div className={classes["app__icon"]}>
             <img src={AppIcon} alt="app-icon" />
           </div>
-          <span className={classes["app-name"]}>Pomofocus</span>
+          <span className={classes["app__name"]}>Pomofocus</span>
         </div>
         <div className={classes.actions}>
           <div className={classes.report}>
