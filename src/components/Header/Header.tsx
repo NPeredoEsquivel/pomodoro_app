@@ -10,7 +10,7 @@ import ConfigurationModal from "src/UI/Modal/ConfigurationModal/ConfigurationMod
 const Header: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const modalBody = <div className={classes["modal-setting-container"]}></div>;
+  //const modalBody = <div className={classes["modal-setting-container"]}></div>;
   const onConfirm = () => {
     setShowModal(false);
   };

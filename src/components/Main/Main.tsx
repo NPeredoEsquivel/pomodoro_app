@@ -153,8 +153,6 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
     (state.timerSeconds % 60).toString().length === 1
       ? `0${state.timerSeconds % 60}`
       : state.timerSeconds % 60;
-  const changeTimerTypeModalTitle = "Change timer type";
-  const changeTimerTypeModalBody = "Are you sure of changing the timer type?";
   const width = state.isTimerRunning
     ? (
         (100 * state.timeElapsed) /
@@ -191,13 +189,13 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   return (
     <main className={classes[state.timerType]}>
       {state.showModal ? (
-        <Modal
-          title={changeTimerTypeModalTitle}
-          body={changeTimerTypeModalBody}
-          onConfirm={onConfirm}
-          onCancel={onCancel}
-          timerType={state.timerType}
-        ></Modal>
+        <Modal renderContent={!!state.timerType} onCancel={onCancel}>
+          <ChangeTimerModal
+            onConfirm={onConfirm}
+            onCancel={onCancel}
+            className={state.timerType}
+          />
+        </Modal>
       ) : null}
 
       <div className={classes.division}>
