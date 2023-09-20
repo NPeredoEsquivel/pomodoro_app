@@ -38,10 +38,10 @@ const Header: React.FC = () => {
           <span className={classes["app__name"]}>Pomofocus</span>
         </div>
         <div className={classes.actions}>
-          <div className={classes.report}>
+          {/* <div className={classes.report}>
             <img src={Graph} alt="graph-icon" />
             <span>Report</span>
-          </div>
+          </div> */}
           <div
             className={classes.setting}
             onClick={() => setShowModal(!showModal)}

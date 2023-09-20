@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import Card from "src/UI/Card/Card";
 import Button from "src/UI/Button/Button";
 import classes from "./ConfigurationModal.module.scss";
+import FormInput from "src/UI/FormInput/FormInput";
 
 interface ConfigurationModalProps {
   onConfirm: () => void;
@@ -10,58 +11,79 @@ interface ConfigurationModalProps {
 }
 
 const ConfigurationModal: React.FC<ConfigurationModalProps> = (props) => {
-  const [pomodoroTime, setPomodoroTime] = useState<number>(0);
-  const [shortBreakTime, setShortBreakTime] = useState<number>(0);
-  const [longBreakTime, setLongBreakTime] = useState<number>(0);
+  const pomodoroTimer = useRef<HTMLInputElement>(null);
+  const shortBreakTime = useRef<HTMLInputElement>(null);
+  const longBreakTime = useRef<HTMLInputElement>(null);
 
-  const onPomodoroTimeChange = (e) => {
-    setPomodoroTime(e.target.value);
-  };
-  const onShortBreakTimeChange = (e) => {
-    setShortBreakTime(e.target.value);
-  };
-  const onLongBreakTimeChange = (e) => {
-    setLongBreakTime(e.target.value);
+  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const pomodoroTimerValue = pomodoroTimer.current?.value;
+    const shortBreakTimerValue = shortBreakTime.current?.value;
+    const longBreakTimerValue = longBreakTime.current?.value;
+
+    const formattedPomodoroTimerValue =
+      pomodoroTimerValue && +pomodoroTimerValue;
+    const formattedShortBreakTimerValue =
+      shortBreakTimerValue && +shortBreakTimerValue;
+    const formattedLongBreakTimerValue =
+      longBreakTimerValue && +longBreakTimerValue;
+
+    props.onConfirm();
+    return;
   };
 
   return (
     <Card className={`${props.className ? classes[props.className] : ""}`}>
-      <header className={classes.modal__title}>Setting</header>
-      <div className={classes["sub-title"]}>Time (minutes)</div>
-      <div className={classes["timer-settings-container"]}>
-        <div className="pomodoro-setting">
-          <label htmlFor="pomodoroSetting"></label>
-          <input
-            type="number"
-            value={pomodoroTime}
-            onChange={onPomodoroTimeChange}
-            name="pomodoroTime"
-          />
+      <header className={classes.modal__title}>Timmer settings</header>
+      <form
+        onSubmit={onSubmitHandler}
+        className={classes["timer-settings-form"]}
+      >
+        <div className={classes["timer-settings-container"]}>
+          <div className="pomodoro-setting">
+            <FormInput
+              ref={pomodoroTimer}
+              htmlFor="pomodoroSetting"
+              label="Pomodoro timmer"
+              inputAttr={{
+                type: "number",
+                name: "pomodoroTimer",
+                defaultValue: 45,
+              }}
+            />
+          </div>
+          <div className="short-break-setting">
+            <FormInput
+              ref={shortBreakTime}
+              htmlFor="shortBreakSetting"
+              label="Short break timmer"
+              inputAttr={{
+                type: "number",
+                name: "shortBreakTime",
+                defaultValue: 5,
+              }}
+            />
+          </div>
+          <div className="long-break-setting">
+            <FormInput
+              ref={longBreakTime}
+              htmlFor="longBreakSetting"
+              label="Long break timmer"
+              inputAttr={{
+                type: "number",
+                name: "longBreakName",
+                defaultValue: 15,
+              }}
+            />
+          </div>
         </div>
-        <div className="short-break-setting">
-          <label htmlFor="shortBreakSetting"></label>
-          <input
-            type="number"
-            value={shortBreakTime}
-            onChange={onShortBreakTimeChange}
-            name="shortBreakTime"
-          />
-        </div>
-        <div className="long-break-setting">
-          <label htmlFor="longBreakSetting"></label>
-          <input
-            type="number"
-            value={longBreakTime}
-            onChange={onLongBreakTimeChange}
-            name="longBreakName"
-          />
-        </div>
-      </div>
-      <footer className={classes.modal__footer}>
+        {/* TODO: search how can i pass a default handler */}
         <Button
           className={classes.modal__footer__button}
           disabled={false}
-          onClickHandler={props.onConfirm}
+          onClickHandler={() => {}}
+          type="submit"
         >
           Accept
         </Button>
@@ -72,7 +94,7 @@ const ConfigurationModal: React.FC<ConfigurationModalProps> = (props) => {
         >
           Cancel
         </Button>
-      </footer>
+      </form>
     </Card>
   );
 };
