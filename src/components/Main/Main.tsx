@@ -212,9 +212,8 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
       <Card className={classes["timer_container"]}>
         <div className={classes["timer_container__change-timertype_buttons"]}>
           <Button
-            className={classNames({
+            className={classNames(classes["btn"], {
               [classes["btn--active"]]: state.timerType === POMODORO,
-              [classes["btn"]]: state.timerType !== POMODORO,
             })}
             disabled={false}
             onClickHandler={() => handleTimerType(POMODORO)}
@@ -225,7 +224,6 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
             className={classNames(
               {
                 [classes["btn--active"]]: state.timerType === SHORT_BREAK,
-                "": state.timerType !== SHORT_BREAK,
               },
               classes["btn"]
             )}
@@ -238,7 +236,6 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
             className={classNames(
               {
                 [classes["btn--active"]]: state.timerType === LONG_BREAK,
-                "": state.timerType !== LONG_BREAK,
               },
               classes["btn"]
             )}
