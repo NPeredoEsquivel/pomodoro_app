@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./Task.module.scss";
 import ThreeDotsTask from "../../../../assets/img/vertical-ellipsis.png";
-import { Task as TaskElement } from "src/store/taskInterface";
+import { Task as TaskElement } from "src/store/interfaces";
 import { useAppSelector, useAppDispatch } from "src/store/hooks";
 import {
   selectTasks,

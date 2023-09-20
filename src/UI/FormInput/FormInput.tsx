@@ -13,7 +13,6 @@ interface FormInputProps {
 
 const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
   (props, ref) => {
-    console.log(ref);
     return (
       <>
         <label htmlFor={props.htmlFor}>{props.label}</label>

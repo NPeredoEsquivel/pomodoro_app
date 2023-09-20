@@ -5,3 +5,9 @@ export interface Task {
   date: string;
   completed: boolean;
 }
+
+export interface TimerConfiguration {
+  pomodoro: number;
+  shortbreak: number;
+  longbreak: number;
+}

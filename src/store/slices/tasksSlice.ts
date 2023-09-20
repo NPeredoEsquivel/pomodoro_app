@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import { nanoid } from "@reduxjs/toolkit";
-import { Task } from "../taskInterface";
+import { Task } from "../interfaces";
 
 const initialState: Task[] = [];
 

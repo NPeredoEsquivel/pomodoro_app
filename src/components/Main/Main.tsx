@@ -7,6 +7,8 @@ import Modal from "src/UI/Modal/Modal";
 import audioClick from "../../assets/audio/click_audio.wav";
 import ChangeTimerModal from "src/UI/Modal/ChangeTimerModal/ChangeTimerModal";
 import endTimerAlarm from "../../assets/audio/clock_alarm.wav";
+import { useAppSelector } from "src/store/hooks";
+import { selectTimerConfiguration } from "src/store/slices/timerConfigSlice";
 
 const TIMER_CONFIG = {};
 const POMODORO = "pomodoro";
@@ -39,7 +41,6 @@ interface IMainState {
 const defaultState = {
   timerType: POMODORO,
   isTimerRunning: false,
-  timerSeconds: 2700,
   timeElapsed: 0,
   timerIntervalId: 0,
   showModal: false,
@@ -47,9 +48,13 @@ const defaultState = {
 };
 
 const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
+  const timerConfiguration = useAppSelector(selectTimerConfiguration);
   const clickAudio = new Audio(audioClick);
   const endTimerAudio = new Audio(endTimerAlarm);
-  const [state, setState] = useState<IMainState>(defaultState);
+  const [state, setState] = useState<IMainState>({
+    ...defaultState,
+    timerSeconds: timerConfiguration[defaultState.timerType],
+  });
 
   useEffect(() => {
     const { timerSeconds, isTimerRunning, timerIntervalId } = state;
@@ -62,13 +67,13 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
 
   useEffect(() => {
     updateTimerType(state.timerType);
-  }, [state.timerType]);
+  }, [state.timerType, timerConfiguration]);
 
   const updateTimerType = (timerType: string) => {
     setState({
       ...state,
       isTimerRunning: false,
-      timerSeconds: TIMER_CONFIG[timerType],
+      timerSeconds: timerConfiguration[timerType],
     });
   };
 
