@@ -3,7 +3,7 @@ import Card from "../../UI/Card/Card";
 import Button from "../../UI/Button/Button";
 import TaskList from "./TaskList/TaskList";
 import classes from "./Main.module.scss";
-import Modal from "src/UI/Modal/Modal";
+import Modal from "../../UI/Modal/Modal";
 import audioClick from "../../assets/audio/click_audio.wav";
 import endTimerAlarm from "../../assets/audio/clock_alarm.wav";
 
