@@ -1,14 +1,14 @@
 import React from "react";
 import classes from "./Task.module.scss";
 import ThreeDotsTask from "../../../../assets/img/vertical-ellipsis.png";
-import { Task as TaskElement } from "src/store/interfaces";
-import { useAppSelector, useAppDispatch } from "src/store/hooks";
+import { Task as TaskElement } from "../../../../store/taskInterface";
+import { useAppSelector, useAppDispatch } from "../../../../store/hooks";
 import {
   selectTasks,
   removeTask,
   updateTask,
-} from "src/store/slices/tasksSlice";
-import { getActiveTask } from "src/lib/helpers/helpers";
+} from "../../../../store/slices/tasksSlice";
+import { getActiveTask } from "../../../../lib/helpers/helpers";
 
 type MyProps = {
   task: TaskElement;
