@@ -5,10 +5,10 @@ import TaskList from "./TaskList/TaskList";
 import classes from "./Main.module.scss";
 import Modal from "../../UI/Modal/Modal";
 import audioClick from "../../assets/audio/click_audio.wav";
-import ChangeTimerModal from "src/UI/Modal/ChangeTimerModal/ChangeTimerModal";
+import ChangeTimerModal from "../../UI/Modal/ChangeTimerModal/ChangeTimerModal";
 import endTimerAlarm from "../../assets/audio/clock_alarm.wav";
-import { useAppSelector } from "src/store/hooks";
-import { selectTimerConfiguration } from "src/store/slices/timerConfigSlice";
+import { useAppSelector } from "../../store/hooks";
+import { selectTimerConfiguration } from "../../store/slices/timerConfigSlice";
 
 const TIMER_CONFIG = {};
 const POMODORO = "pomodoro";

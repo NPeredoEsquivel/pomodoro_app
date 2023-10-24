@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
-import Card from "src/UI/Card/Card";
-import Button from "src/UI/Button/Button";
+import Card from "../../..//UI/Card/Card";
+import Button from "../../../UI/Button/Button";
 import classes from "./ConfigurationModal.module.scss";
-import FormInput from "src/UI/FormInput/FormInput";
+import FormInput from "../../../UI/FormInput/FormInput";
 import { useAppSelector, useAppDispatch } from "../../../store/hooks";
 import {
   selectTimerConfiguration,
@@ -51,17 +51,17 @@ const ConfigurationModal: React.FC<ConfigurationModalProps> = (props) => {
 
   return (
     <Card className={`${props.className ? classes[props.className] : ""}`}>
-      <header className={classes.modal__title}>Timmer settings</header>
+      <header className={classes["header"]}>Timer settings</header>
       <form
         onSubmit={onSubmitHandler}
         className={classes["timer-settings-form"]}
       >
         <div className={classes["timer-settings-container"]}>
-          <div className="pomodoro-setting">
+          <div className={classes["timer-setting"]}>
             <FormInput
               ref={pomodoroTimer}
               htmlFor="pomodoroSetting"
-              label="Pomodoro timmer"
+              label="Pomodoro"
               inputAttr={{
                 type: "number",
                 name: "pomodoroTimer",
@@ -69,11 +69,11 @@ const ConfigurationModal: React.FC<ConfigurationModalProps> = (props) => {
               }}
             />
           </div>
-          <div className="short-break-setting">
+          <div className={classes["timer-setting"]}>
             <FormInput
               ref={shortBreakTime}
               htmlFor="shortBreakSetting"
-              label="Short break timmer"
+              label="Short Break"
               inputAttr={{
                 type: "number",
                 name: "shortBreakTime",
@@ -81,11 +81,11 @@ const ConfigurationModal: React.FC<ConfigurationModalProps> = (props) => {
               }}
             />
           </div>
-          <div className="long-break-setting">
+          <div className={classes["timer-setting"]}>
             <FormInput
               ref={longBreakTime}
               htmlFor="longBreakSetting"
-              label="Long break timmer"
+              label="Long Break"
               inputAttr={{
                 type: "number",
                 name: "longBreakName",
@@ -95,21 +95,23 @@ const ConfigurationModal: React.FC<ConfigurationModalProps> = (props) => {
           </div>
         </div>
         {/* TODO: search how can i pass a default handler */}
-        <Button
-          className={classes.modal__footer__button}
-          disabled={false}
-          onClickHandler={() => {}}
-          type="submit"
-        >
-          Accept
-        </Button>
-        <Button
-          className={classes.modal__footer__button}
-          disabled={false}
-          onClickHandler={props.onCancel}
-        >
-          Cancel
-        </Button>
+        <div className={classes["action-buttons"]}>
+          <Button
+            className={classes.modal__footer__button}
+            disabled={false}
+            onClickHandler={() => {}}
+            type="submit"
+          >
+            Accept
+          </Button>
+          <Button
+            className={classes.modal__footer__button}
+            disabled={false}
+            onClickHandler={props.onCancel}
+          >
+            Cancel
+          </Button>
+        </div>
       </form>
     </Card>
   );

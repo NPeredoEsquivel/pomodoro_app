@@ -1,6 +1,6 @@
 import React from "react";
-import Card from "src/UI/Card/Card";
-import Button from "src/UI/Button/Button";
+import Card from "../../../UI/Card/Card";
+import Button from "../../../UI/Button/Button";
 import classes from "./ChangeTimerModal.module.scss";
 
 interface ChangeTimerModalProps {

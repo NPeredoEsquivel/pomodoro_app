@@ -4,8 +4,8 @@ import Configuration from "../../assets/img/config-white.png";
 import Graph from "../../assets/img/graph-white.png";
 import AppIcon from "../../assets/img/icon-white.png";
 import User from "../../assets/img/user-white.png";
-import Modal from "src/UI/Modal/Modal";
-import ConfigurationModal from "src/UI/Modal/ConfigurationModal/ConfigurationModal";
+import Modal from "../../UI/Modal/Modal";
+import ConfigurationModal from "../../UI/Modal/ConfigurationModal/ConfigurationModal";
 
 const Header: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);

@@ -33,6 +33,8 @@ const ModalOverlay: React.FC<ModalOverlayProps> = ({
 const Modal: React.FC<ModalProps> = ({ onCancel, renderContent, children }) => {
   const portalBackdrop = document.getElementById("backdrop-root");
   const modalOverlay = document.getElementById("overlay-root");
+  console.log('portalBackdrop', portalBackdrop)
+  console.log('modalOverlay', modalOverlay)
 
   const portalBackdropElement: HTMLElement = portalBackdrop as HTMLElement;
   const modalOverlayElement: HTMLElement = modalOverlay as HTMLElement;
