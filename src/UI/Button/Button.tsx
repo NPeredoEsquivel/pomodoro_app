@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  onClickHandler: () => void;
+  onClickHandler?: () => void ;
   disabled: boolean;
   className?: string;
 }

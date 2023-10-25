@@ -51,7 +51,7 @@ const ConfigurationModal: React.FC<ConfigurationModalProps> = (props) => {
 
   return (
     <Card className={`${props.className ? classes[props.className] : ""}`}>
-      <header className={classes["header"]}>Timer settings</header>
+      <div className={classes["header"]}>Setting</div>
       <form
         onSubmit={onSubmitHandler}
         className={classes["timer-settings-form"]}
@@ -97,19 +97,18 @@ const ConfigurationModal: React.FC<ConfigurationModalProps> = (props) => {
         {/* TODO: search how can i pass a default handler */}
         <div className={classes["action-buttons"]}>
           <Button
-            className={classes.modal__footer__button}
-            disabled={false}
-            onClickHandler={() => {}}
-            type="submit"
-          >
-            Accept
-          </Button>
-          <Button
-            className={classes.modal__footer__button}
+            className={classes["action-buttons__cancel"]}
             disabled={false}
             onClickHandler={props.onCancel}
           >
             Cancel
+          </Button>
+          <Button
+            className={classes["action-buttons__submit"]}
+            disabled={false}
+            type="submit"
+            >
+            OK
           </Button>
         </div>
       </form>
