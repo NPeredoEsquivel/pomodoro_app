@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./Card.module.scss";
+import classNames from "classnames";
 
 type CardProps = {
   className: string;
@@ -7,7 +8,9 @@ type CardProps = {
 };
 
 const Card: React.FC<CardProps> = ({ className, children }) => {
-  return <div className={`${classes.container} ${className}`}>{children}</div>;
+  return (
+    <div className={classNames(classes.container, className)}>{children}</div>
+  );
 };
 
 export default Card;

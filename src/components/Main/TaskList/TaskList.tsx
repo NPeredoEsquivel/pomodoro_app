@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import Task from "./Task/Task";
 import TaskForm from "./TaskForm/TaskForm";
 import ThreeDots from "../../../assets/img/threedots-white.png";
 import classes from "./TaskList.module.scss";
-import { useAppSelector } from "src/store/hooks";
-import { selectTasks } from "src/store/slices/tasksSlice";
+import { useAppSelector } from "../../../store/hooks";
+import { selectTasks } from "../../../store/slices/tasksSlice";
 
 const TaskList: React.FC = () => {
   const tasks = useAppSelector(selectTasks);

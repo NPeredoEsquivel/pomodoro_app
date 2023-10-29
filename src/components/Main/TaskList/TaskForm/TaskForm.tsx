@@ -3,9 +3,13 @@ import classes from "./TaskForm.module.scss";
 import AddTask from "../../../../assets/img/plus-circle-white.png";
 import CaretUp from "../../../../assets/img/caret-up.png";
 import CaretDown from "../../../../assets/img/caret-down.png";
-import { useAppSelector, useAppDispatch } from "src/store/hooks";
-import { selectTasks, addTask, updateTask } from "src/store/slices/tasksSlice";
-import { getActiveTask } from "src/lib/helpers/helpers";
+import { useAppSelector, useAppDispatch } from "../../../../store/hooks";
+import {
+  selectTasks,
+  addTask,
+  updateTask,
+} from "../../../../store/slices/tasksSlice";
+import { getActiveTask } from "../../../../lib/helpers/helpers";
 
 const TaskForm: React.FC = () => {
   const [taskName, setTaskName] = useState("");
