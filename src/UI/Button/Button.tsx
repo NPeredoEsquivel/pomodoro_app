@@ -9,6 +9,7 @@ interface ButtonProps {
   onClickHandler: (event: MyButtonEvent) => void;
   disabled: boolean;
   className?: string;
+  type: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -16,9 +17,10 @@ const Button: React.FC<ButtonProps> = ({
   onClickHandler,
   disabled,
   className,
+  type = "button",
 }) => {
   return (
-    <button className={className} disabled={disabled} onClick={onClickHandler}>
+    <button className={className} disabled={disabled} onClick={onClickHandler} >
       {children}
     </button>
   );
