@@ -125,6 +125,30 @@
         justify-content: center;
         margin-top: 20px;
       }
+
+      &__register {
+        margin-top: 24px;
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.4);
+        text-align: center;
+        display: flex;
+        -webkit-box-pack: center;
+        justify-content: center;
+        flex-direction: column;
+
+        .register-question {
+          margin-bottom: 8px;
+          font-weight: 600;
+        }
+
+        .create-account {
+          text-decoration: underline;
+          font-weight: bold;
+          cursor: pointer;
+          opacity: 0.9;
+          font-size: 14px;
+        }
+      }
     }
   }
 }

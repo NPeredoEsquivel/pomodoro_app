@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Card from '../../Card/Card';
 import FormInput from '../../../UI/FormInput/FormInput';
 import Button from '../../../UI/Button/Button';
@@ -16,6 +16,8 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
   const dispatch = useAppDispatch()
   const usernameRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
+
+  const [toggleRegistration, setToggleRegistration] = useState(false)
 
   const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,7 +54,7 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
   return (
     <Card className={`${props.className ? classes[props.className] : ""}`} >
       <div className={classes["login-container__title"]}>
-        Login
+        {toggleRegistration ? 'Register' : 'Login'}
       </div>
       <form
         action="submit"
@@ -93,7 +95,8 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
             disabled={false}
             type="submit"
           >
-            Login
+
+            {toggleRegistration ? 'Register' : 'Login'}
           </Button>
           <Button
             className={classes["login-form__action-buttons__cancel"]}
@@ -102,6 +105,12 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
           >
             Cancel
           </Button>
+          <div className={classes["login-form__action-buttons__register"]}>
+            <span className={classes['register-question']}>
+              {toggleRegistration ? 'Already have an account?' : 'Don\'t have an account ?'}
+            </span>
+            <span className={classes['create-account']} onClick={() => setToggleRegistration(!toggleRegistration)}>{toggleRegistration ? 'Login' : 'Create account'}</span>
+          </div>
         </div>
       </form>
     </Card>
