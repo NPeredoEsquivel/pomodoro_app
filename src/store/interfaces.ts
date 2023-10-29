@@ -11,3 +11,8 @@ export interface TimerConfiguration {
   shortbreak: number;
   longbreak: number;
 }
+
+export interface User {
+  username: string;
+  password: string;
+}

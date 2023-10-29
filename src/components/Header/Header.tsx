@@ -1,30 +1,44 @@
 import React, { useState } from "react";
 import classes from "./Header.module.scss";
 import Configuration from "../../assets/img/config-white.png";
-import Graph from "../../assets/img/graph-white.png";
+//import Graph from "../../assets/img/graph-white.png";
 import AppIcon from "../../assets/img/icon-white.png";
 import User from "../../assets/img/user-white.png";
-import Modal from "../../UI/Modal/Modal";
 import ConfigurationModal from "../../UI/Modal/ConfigurationModal/ConfigurationModal";
+import LoginModal from "../../UI/Modal/LoginModal/LoginModal";
+import Modal from "../../UI/Modal/Modal";
 
 const Header: React.FC = () => {
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showConfigurationModal, setShowConfigurationModal] = useState<boolean>(false);
+  const [showUserLoginModal, setUserLoginModal] = useState<boolean>(false);
 
-  //const modalBody = <div className={classes["modal-setting-container"]}></div>;
-  const onConfirm = () => {
-    setShowModal(false);
-  };
-  const onCancel = () => {
-    setShowModal(false);
-  };
+  const toggleConfigurationModal = () => {
+    setShowConfigurationModal(!showConfigurationModal);
+  }
+  
+  const toggleUserModal = () => {
+    setUserLoginModal(!showUserLoginModal);
+  }
+
   return (
     <>
-      {showModal ? (
-        <Modal renderContent={true} onCancel={onCancel}>
+      {showConfigurationModal ? (
+        <Modal renderContent={true} onCancel={toggleConfigurationModal}>
           <ConfigurationModal
-            onConfirm={onConfirm}
-            onCancel={onCancel}
+            onConfirm={toggleConfigurationModal}
+            onCancel={toggleConfigurationModal}
             className="configuration-container"
+          />
+        </Modal>
+      ) : (
+        <></>
+      )}
+      {showUserLoginModal ? (
+        <Modal renderContent={true} onCancel={toggleUserModal}>
+          <LoginModal
+            onConfirm={toggleUserModal}
+            onCancel={toggleUserModal}
+            className="login-container"
           />
         </Modal>
       ) : (
@@ -44,12 +58,15 @@ const Header: React.FC = () => {
           </div> */}
           <div
             className={classes.setting}
-            onClick={() => setShowModal(!showModal)}
+            onClick={toggleConfigurationModal}
           >
             <img src={Configuration} alt="configuration-icon" />
             <span>Setting</span>
           </div>
-          <div className={classes.login}>
+          <div 
+            className={classes.login}
+            onClick={toggleUserModal}          
+          >
             <img src={User} alt="user-icon" />
             <span>Login</span>
           </div>
