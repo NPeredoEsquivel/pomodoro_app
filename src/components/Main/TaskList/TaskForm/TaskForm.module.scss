@@ -40,17 +40,6 @@
   }
 }
 
-@keyframes expand {
-  0% {
-    transform: scale(1, 0.8);
-    opacity: 0.1;
-  }
-  100% {
-    transform: scale(1, 1);
-    opacity: 1;
-  }
-}
-
 .task-form {
   width: 480px;
   height: 250px;
@@ -59,9 +48,20 @@
   text-align: left;
   margin-top: 12px;
   box-shadow: rgb(0 0 0 / 15%) 0px 10px 20px, rgb(0 0 0 / 10%) 0px 3px 6px;
-  animation: 0.1s ease-in-out 0s 1 normal none running expand;
-  transition: background-color 0.5s ease-in-out 0s;
+  //animation: height 0.3s ease-out;
+  transition: height 0.3s ease-out;
   position: relative;
+
+  @keyframes expand {
+    0% {
+      transform: scale(1, 0.8);
+      opacity: 0.1;
+    }
+    100% {
+      transform: scale(1, 1);
+      opacity: 1;
+    }
+  }
 
   .task-form-body {
     padding: 18px 20px 18px 20px;

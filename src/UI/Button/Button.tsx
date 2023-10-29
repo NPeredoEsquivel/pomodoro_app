@@ -1,20 +1,26 @@
 import React from "react";
 
-type ButtonProps = {
+interface MyButtonEvent extends React.MouseEvent<HTMLButtonElement> {
+  target: HTMLButtonElement;
+}
+
+interface ButtonProps {
   children: React.ReactNode;
-  onClickHandler: () => void;
+  onClickHandler: (event: MyButtonEvent) => void;
   disabled: boolean;
   className?: string;
-};
+  type: string;
+}
 
 const Button: React.FC<ButtonProps> = ({
   children,
   onClickHandler,
   disabled,
   className,
+  type = "button",
 }) => {
   return (
-    <button className={className} disabled={disabled} onClick={onClickHandler}>
+    <button className={className} disabled={disabled} onClick={onClickHandler} >
       {children}
     </button>
   );

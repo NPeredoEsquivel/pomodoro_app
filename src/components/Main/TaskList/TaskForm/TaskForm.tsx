@@ -10,6 +10,7 @@ import {
   updateTask,
 } from "../../../../store/slices/tasksSlice";
 import { getActiveTask } from "../../../../lib/helpers/helpers";
+import Button from "../../../../UI/Button/Button";
 
 const TaskForm: React.FC = () => {
   const [taskName, setTaskName] = useState("");
@@ -55,18 +56,16 @@ const TaskForm: React.FC = () => {
   return (
     <div className={classes.task_form}>
       <div
-        className={`${classes["task-form-action"]} ${
-          !openModal ? "" : classes["display-none"]
-        }`}
+        className={`${classes["task-form-action"]} ${!openModal ? "" : classes["display-none"]
+          }`}
         onClick={handleOpenModal}
       >
         <img src={AddTask} alt="add-task" />
         <div className={classes["action"]}>Add Task</div>
       </div>
       <div
-        className={`${classes["task-form"]} ${
-          openModal ? "" : classes["display-none"]
-        }`}
+        className={`${classes["task-form"]} ${openModal ? "" : classes["display-none"]
+          }`}
         ref={modalRef}
       >
         <div className={classes["task-form-body"]}>
@@ -99,22 +98,21 @@ const TaskForm: React.FC = () => {
           </div> */}
         </div>
         <div className={classes["task-form-footer"]}>
-          <div>
-            <button className={classes["delete-button"]}>Delete</button>
-          </div>
           <div className={classes["action-buttons"]}>
-            <button
+            <Button
               className={classes["cancel-button"]}
-              onClick={handleCancelAction}
+              onClickHandler={handleCancelAction}
+              disabled={false}
             >
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               className={classes["save-button"]}
-              onClick={handleSubmitTask}
+              onClickHandler={handleSubmitTask}
+              disabled={false}
             >
               Save
-            </button>
+            </Button>
           </div>
         </div>
       </div>
