@@ -1,16 +1,16 @@
 import React from "react";
 import classes from "./Task.module.scss";
 import ThreeDotsTask from "../../../../assets/img/vertical-ellipsis.png";
-import { Task as TaskElement } from "src/store/taskInterface";
-import { useAppSelector, useAppDispatch } from "src/store/hooks";
+import { Task as TaskElement } from "../../../../store/taskInterface";
+import { useAppSelector, useAppDispatch } from "../../../../store/hooks";
 import {
   selectTasks,
   removeTask,
   updateTask,
-} from "src/store/slices/tasksSlice";
-import { getActiveTask } from "src/lib/helpers/helpers";
-import { Task as TaskInterface } from "src/store/taskInterface";
-import Button from "src/UI/Button/Button";
+} from "../../../../store/slices/tasksSlice";
+import { getActiveTask } from "../../../../lib/helpers/helpers";
+import { Task as TaskInterface } from "../../../../store/taskInterface";
+import Button from "../../../../UI/Button/Button";
 type MyProps = {
   task: TaskElement;
   taskIndex: number;
@@ -60,17 +60,15 @@ const Task: React.FC<MyProps> = ({ task }) => {
     >
       <div className={classes["task-information"]}>
         <div
-          className={`${classes["complete-task"]} ${
-            task.completed ? classes["completed"] : ""
-          }`}
+          className={`${classes["complete-task"]} ${task.completed ? classes["completed"] : ""
+            }`}
           onClick={(event: MyDivEvent) => {
             completeTask(event, task.id, !task.completed);
           }}
         ></div>
         <span
-          className={`${classes["task-information__name"]} ${
-            task.completed ? classes["completed"] : ""
-          }`}
+          className={`${classes["task-information__name"]} ${task.completed ? classes["completed"] : ""
+            }`}
         >
           {task.name}
         </span>

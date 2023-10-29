@@ -3,10 +3,14 @@ import classes from "./TaskForm.module.scss";
 import AddTask from "../../../../assets/img/plus-circle-white.png";
 import CaretUp from "../../../../assets/img/caret-up.png";
 import CaretDown from "../../../../assets/img/caret-down.png";
-import { useAppSelector, useAppDispatch } from "src/store/hooks";
-import { selectTasks, addTask, updateTask } from "src/store/slices/tasksSlice";
-import { getActiveTask } from "src/lib/helpers/helpers";
-import Button from "src/UI/Button/Button";
+import { useAppSelector, useAppDispatch } from "../../../../store/hooks";
+import {
+  selectTasks,
+  addTask,
+  updateTask,
+} from "../../../../store/slices/tasksSlice";
+import { getActiveTask } from "../../../../lib/helpers/helpers";
+import Button from "../../../../UI/Button/Button";
 
 const TaskForm: React.FC = () => {
   const [taskName, setTaskName] = useState("");
@@ -52,18 +56,16 @@ const TaskForm: React.FC = () => {
   return (
     <div className={classes.task_form}>
       <div
-        className={`${classes["task-form-action"]} ${
-          !openModal ? "" : classes["display-none"]
-        }`}
+        className={`${classes["task-form-action"]} ${!openModal ? "" : classes["display-none"]
+          }`}
         onClick={handleOpenModal}
       >
         <img src={AddTask} alt="add-task" />
         <div className={classes["action"]}>Add Task</div>
       </div>
       <div
-        className={`${classes["task-form"]} ${
-          openModal ? "" : classes["display-none"]
-        }`}
+        className={`${classes["task-form"]} ${openModal ? "" : classes["display-none"]
+          }`}
         ref={modalRef}
       >
         <div className={classes["task-form-body"]}>
