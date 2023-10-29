@@ -6,6 +6,7 @@ import classes from "./Main.module.scss";
 import Modal from "../../UI/Modal/Modal";
 import audioClick from "../../assets/audio/click_audio.wav";
 import endTimerAlarm from "../../assets/audio/clock_alarm.wav";
+import Timer from "./Timer/Timer";
 import classNames from "classnames";
 
 const TIMER_CONFIG = {};
@@ -157,9 +158,9 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   const changeTimerTypeModalBody = "Are you sure of changing the timer type?";
   const width = state.isTimerRunning
     ? (
-        (100 * state.timeElapsed) /
-        (state.timerSeconds + state.timeElapsed)
-      ).toFixed(2)
+      (100 * state.timeElapsed) /
+      (state.timerSeconds + state.timeElapsed)
+    ).toFixed(2)
     : 0;
 
   const getButtonAction = () => {
@@ -245,9 +246,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
             Long Break
           </Button>
         </div>
-        <div className={classes["timer_container__running_time"]}>
-          {`${minutes}:${seconds}`}
-        </div>
+        <Timer timer={`${minutes}:${seconds}`} />
         <div className={classes["timer_container__update_timer_button"]}>
           <Button
             className={classes[`btn__${state.timerType}`]}
