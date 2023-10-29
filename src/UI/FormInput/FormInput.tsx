@@ -8,6 +8,7 @@ interface FormInputProps {
     type: string;
     name: string;
     defaultValue: number | string;
+    placeholder?: string;
   };
 }
 

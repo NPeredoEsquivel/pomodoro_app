@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import Card from '../../Card/Card';
 import FormInput from '../../../UI/FormInput/FormInput';
 import Button from '../../../UI/Button/Button';
@@ -12,7 +12,7 @@ interface LoginModalProps {
   className: string;
 }
 
-const LoginModal: React.FC <LoginModalProps> = (props) => {
+const LoginModal: React.FC<LoginModalProps> = (props) => {
   const dispatch = useAppDispatch()
   const usernameRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
@@ -28,7 +28,7 @@ const LoginModal: React.FC <LoginModalProps> = (props) => {
       console.log("invalid email")
       return;
     }
-    if(passwordInput?.trim().length === 0) {
+    if (passwordInput?.trim().length === 0) {
       return
     }
 
@@ -51,52 +51,57 @@ const LoginModal: React.FC <LoginModalProps> = (props) => {
 
   return (
     <Card className={`${props.className ? classes[props.className] : ""}`} >
-      <form 
+      <div className={classes["login-container__title"]}>
+        Login
+      </div>
+      <form
         action="submit"
-        className="login-form"
+        className={classes['login-form']}
         onSubmit={onSubmitHandler}
       >
-        <div className="login-form-container">
-          <div className="login-form-container__username">
-            <FormInput
-              ref={usernameRef}
-              htmlFor='email'
-              label='Email'
-              inputAttr={{
-                type: 'text',
-                name: 'email',
-                defaultValue: '',
-              }}
-            />            
+        <div className={classes["login-form__username"]}>
+          <FormInput
+            ref={usernameRef}
+            htmlFor='email'
+            label='Email'
+            inputAttr={{
+              type: 'text',
+              name: 'email',
+              defaultValue: '',
+              placeholder: 'example@mail.com'
+            }}
+          />
+        </div>
+        <div className={classes["login-form__password"]}>
+          <FormInput
+            ref={passwordRef}
+            htmlFor='password'
+            label='Password'
+            inputAttr={{
+              type: 'password',
+              name: 'password',
+              defaultValue: '',
+            }}
+          />
+        </div>
+        <div className={classes["login-form__action-buttons"]}>
+          <div className={classes["login-form__action-buttons__forgot-password"]}>
+            <span>Forgot Password</span>
           </div>
-          <div className="login-form-container__password">
-            <FormInput
-              ref={passwordRef}
-              htmlFor='password'
-              label='Password'
-              inputAttr={{
-                type: 'password',
-                name: 'password',
-                defaultValue: '',
-              }}            
-            />
-          </div>
-          <div className="login-form-container__action-buttons">
-            <Button
-              className={classes["action-buttons__cancel"]}
-              disabled={false}
-              onClickHandler={props.onCancel}
-            >
-            Cancel
-          </Button>
           <Button
-            className={classes["action-buttons__submit"]}
+            className={classes["login-form__action-buttons__submit"]}
             disabled={false}
             type="submit"
-            >
-            OK
+          >
+            Login
           </Button>
-          </div>
+          <Button
+            className={classes["login-form__action-buttons__cancel"]}
+            disabled={false}
+            onClickHandler={props.onCancel}
+          >
+            Cancel
+          </Button>
         </div>
       </form>
     </Card>
