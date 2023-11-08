@@ -119,9 +119,13 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
         showModal: true,
         transitionTimerType: timerType,
         isTimerRunning: false,
+        timeElapsed: 0,
       });
     } else {
-      setState({ ...state, timerType });
+      setState({
+        ...state, timerType,
+        timeElapsed: 0,
+      });
       handleBackgroundColor(timerType);
       if (timerIntervalId) {
         clearInterval(timerIntervalId);
@@ -134,6 +138,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
       ...state,
       showModal: false,
       timerType: state.transitionTimerType,
+      timeElapsed: 0,
     });
 
     handleBackgroundColor(state.transitionTimerType);
@@ -158,11 +163,12 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
     (state.timerSeconds % 60).toString().length === 1
       ? `0${state.timerSeconds % 60}`
       : state.timerSeconds % 60;
-  const width = state.isTimerRunning
+  console.log(state.timeElapsed)
+  const width = state.timeElapsed > 0
     ? (
-        (100 * state.timeElapsed) /
-        (state.timerSeconds + state.timeElapsed)
-      ).toFixed(2)
+      (100 * state.timeElapsed) /
+      (state.timerSeconds + state.timeElapsed)
+    ).toFixed(2)
     : 0;
 
   const getButtonAction = () => {
@@ -215,29 +221,26 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
       <Card className={classes["timer_container"]}>
         <div className={classes["timer_container__change-timertype_buttons"]}>
           <Button
-            className={`${
-              state.timerType === POMODORO
-                ? classes["btn--active"]
-                : classes["btn"]
-            }`}
+            className={`${state.timerType === POMODORO
+              ? classes["btn--active"]
+              : classes["btn"]
+              }`}
             disabled={false}
             onClickHandler={() => handleTimerType(POMODORO)}
           >
             Pomodoro
           </Button>
           <Button
-            className={`${
-              state.timerType === SHORT_BREAK ? classes.active : ""
-            } ${classes["btn"]}`}
+            className={`${state.timerType === SHORT_BREAK ? classes.active : ""
+              } ${classes["btn"]}`}
             disabled={false}
             onClickHandler={() => handleTimerType(SHORT_BREAK)}
           >
             Short Break
           </Button>
           <Button
-            className={`${
-              state.timerType === LONG_BREAK ? classes.active : ""
-            } ${classes["btn"]}`}
+            className={`${state.timerType === LONG_BREAK ? classes.active : ""
+              } ${classes["btn"]}`}
             disabled={false}
             onClickHandler={() => handleTimerType(LONG_BREAK)}
           >
