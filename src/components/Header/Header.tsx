@@ -4,7 +4,7 @@ import Configuration from "../../assets/img/config-white.png";
 //import Graph from "../../assets/img/graph-white.png";
 import AppIcon from "../../assets/img/icon-white.png";
 import User from "../../assets/img/user-white.png";
-import ConfigurationModal from "../../UI/Modal/ConfigurationModal/ConfigurationModal";
+import ConfigurationModal from "../ConfigurationModal/ConfigurationModal";
 import LoginModal from "../../UI/Modal/LoginModal/LoginModal";
 import Modal from "../../UI/Modal/Modal";
 

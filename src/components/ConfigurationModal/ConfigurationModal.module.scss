@@ -1,8 +1,6 @@
 .configuration-container {
   max-width: 400px;
-  //height: 250px;
   border-radius: 8px;
-  //padding: 0 10px;
 
   .header {
     font-weight: bold;
@@ -74,6 +72,7 @@
         min-width: 70px;
         padding: 8px 12px;
         opacity: 0.9;
+        cursor: pointer;
       }
 
 

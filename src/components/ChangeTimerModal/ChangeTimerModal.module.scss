@@ -12,14 +12,17 @@
   @include timer-modal-properties;
   background-color: rgb(217, 85, 80);
 }
+
 .shortbreak {
   @include timer-modal-properties;
   background-color: rgb(76, 145, 149);
 }
+
 .longbreak {
   @include timer-modal-properties;
   background-color: rgb(69, 124, 163);
 }
+
 .modal__title {
   display: flex;
   justify-content: center;
@@ -32,6 +35,7 @@
   height: 20%;
   width: 100%;
 }
+
 .modal__body {
   font-family: "Arial, Helvetica, sans-serif";
   font-weight: bold;
@@ -40,11 +44,13 @@
 }
 
 .modal__footer {
+  border-top: 0.2px solid rgb(151, 151, 151);
   display: flex;
   width: 100%;
   justify-content: space-around;
   align-items: center;
   height: 20%;
+
   &__button {
     background-color: #ffffff;
     border: 1px solid rgb(209, 213, 219);
@@ -67,6 +73,7 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 2px;
   }
 
   &__button:hover {

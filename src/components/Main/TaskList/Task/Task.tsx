@@ -9,7 +9,8 @@ import {
   updateTask,
 } from "../../../../store/slices/tasksSlice";
 import { getActiveTask } from "../../../../lib/helpers/helpers";
-
+import { Task as TaskInterface } from "../../../../store/taskInterface";
+import Button from "../../../../UI/Button/Button";
 type MyProps = {
   task: TaskElement;
   taskIndex: number;
@@ -21,7 +22,7 @@ interface MyButtonEvent extends React.MouseEvent<HTMLButtonElement> {
   target: HTMLButtonElement;
 }
 
-const Task: React.FC<MyProps> = ({ task, taskIndex }) => {
+const Task: React.FC<MyProps> = ({ task }) => {
   const dispatch = useAppDispatch();
   const tasks = useAppSelector(selectTasks);
 
@@ -38,7 +39,7 @@ const Task: React.FC<MyProps> = ({ task, taskIndex }) => {
   };
 
   const activateTaskHandler = (id: string) => {
-    const activeTask = getActiveTask(tasks);
+    const activeTask: TaskInterface | undefined = getActiveTask(tasks);
 
     if (activeTask !== undefined) {
       dispatch(
@@ -59,27 +60,28 @@ const Task: React.FC<MyProps> = ({ task, taskIndex }) => {
     >
       <div className={classes["task-information"]}>
         <div
-          className={`${classes["complete-task"]} ${
-            task.completed ? classes["completed"] : ""
-          }`}
+          className={`${classes["complete-task"]} ${task.completed ? classes["completed"] : ""
+            }`}
           onClick={(event: MyDivEvent) => {
             completeTask(event, task.id, !task.completed);
           }}
         ></div>
         <span
-          className={`${classes["task-information__name"]} ${
-            task.completed ? classes["completed"] : ""
-          }`}
+          className={`${classes["task-information__name"]} ${task.completed ? classes["completed"] : ""
+            }`}
         >
           {task.name}
         </span>
       </div>
-      <button
+      <Button
         className={classes["delete-button"]}
-        onClick={(event: MyButtonEvent) => removeTaskHandler(event, task.id)}
+        onClickHandler={(event: MyButtonEvent) =>
+          removeTaskHandler(event, task.id)
+        }
+        disabled={false}
       >
         Delete
-      </button>
+      </Button>
       {/*TODO: Future improvement when adding actions to tasks */}
       {/* <div className={classes["actions"]}>
         <span>0/1</span>

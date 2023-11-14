@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import ReactDom from "react-dom";
 import classes from "./Modal.module.scss";
 import Spinner from "../Spinner/Spinner";
+import classNames from "classnames";
 
 interface BackdropProps {
   onCancel: () => void;
