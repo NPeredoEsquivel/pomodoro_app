@@ -1,15 +1,21 @@
 import React from "react";
 import Task from "./Task/Task";
 import TaskForm from "./TaskForm/TaskForm";
-import ThreeDots from "../../../assets/img/threedots-white.png";
+import Card from "../../../UI/Card/Card";
+import Button from "../../../UI/Button/Button";
 import classes from "./TaskList.module.scss";
 import { useAppSelector } from "../../../store/hooks";
 import { selectTasks } from "../../../store/slices/tasksSlice";
+import { Task as TaskInterface } from "../../../store/taskInterface";
+import { getActiveTask } from "../../../lib/helpers/helpers";
+import ThreeDots from "../../../assets/img/threedots-white.png";
 
 const TaskList: React.FC = () => {
   const tasks = useAppSelector(selectTasks);
 
   let taskList: null | JSX.Element[] = null;
+  let activeTask: TaskInterface | undefined = getActiveTask(tasks);
+
   const isTaskListEmpty = Object.keys(tasks).length === 0;
   if (!isTaskListEmpty) {
     const orderedTasks = tasks
@@ -22,20 +28,25 @@ const TaskList: React.FC = () => {
   }
 
   return (
-    <div className={classes["task_list_container"]}>
+    <Card className={classes["task_list_container"]}>
       <div className={classes["current_task"]}>#1</div>
-      <p>Time to focus!</p>
+      <p>{activeTask === undefined ? <></> : activeTask.name}</p>
       <div className={classes["task_list"]}>
         <div className={classes["task_list__header"]}>
           <div className={classes.title}>Tasks</div>
           <div className={classes.actions}>
-            <button className={classes["task_list__header_button"]}>
+            {/* TODO: Actions on the list. */}
+            <Button
+              className={classes["task_list__header_button"]}
+              disabled={true}
+              onClickHandler={() => { }}
+            >
               <img
                 className={classes["header_button_img"]}
                 src={ThreeDots}
                 alt="three-dots"
               />
-            </button>
+            </Button>
           </div>
         </div>
         <div className={classes["task_list__body"]}>
@@ -43,7 +54,7 @@ const TaskList: React.FC = () => {
         </div>
         <TaskForm />
       </div>
-    </div>
+    </Card>
   );
 };
 
