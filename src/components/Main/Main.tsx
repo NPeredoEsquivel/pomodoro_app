@@ -5,7 +5,7 @@ import TaskList from "./TaskList/TaskList";
 import classes from "./Main.module.scss";
 import Modal from "../../UI/Modal/Modal";
 import audioClick from "../../assets/audio/click_audio.wav";
-import ChangeTimerModal from "../../UI/Modal/ChangeTimerModal/ChangeTimerModal";
+import ChangeTimerModal from "../ChangeTimerModal/ChangeTimerModal";
 import endTimerAlarm from "../../assets/audio/clock_alarm.wav";
 import Timer from "./Timer/Timer";
 import classNames from "classnames";

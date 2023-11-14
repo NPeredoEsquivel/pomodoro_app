@@ -1,6 +1,6 @@
 import React from "react";
-import Card from "../../../UI/Card/Card";
-import Button from "../../../UI/Button/Button";
+import Card from "../../UI/Card/Card";
+import Button from "../../UI/Button/Button";
 import classes from "./ChangeTimerModal.module.scss";
 
 interface ChangeTimerModalProps {
@@ -21,6 +21,7 @@ const ChangeTimerModal: React.FC<ChangeTimerModalProps> = (props) => {
           className={classes.modal__footer__button}
           disabled={false}
           onClickHandler={props.onConfirm}
+          type="button"
         >
           Accept
         </Button>
@@ -28,6 +29,7 @@ const ChangeTimerModal: React.FC<ChangeTimerModalProps> = (props) => {
           className={classes.modal__footer__button}
           disabled={false}
           onClickHandler={props.onCancel}
+          type="button"
         >
           Cancel
         </Button>

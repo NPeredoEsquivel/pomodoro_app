@@ -6,7 +6,7 @@ interface MyButtonEvent extends React.MouseEvent<HTMLButtonElement> {
 
 interface ButtonProps {
   children: React.ReactNode;
-  onClickHandler: (event: MyButtonEvent) => void;
+  onClickHandler?: (event: MyButtonEvent) => void;
   disabled: boolean;
   className?: string;
   type: 'button' | 'submit';
