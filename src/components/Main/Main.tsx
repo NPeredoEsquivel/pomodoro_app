@@ -228,8 +228,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
             })}
             disabled={false}
             onClickHandler={() => handleTimerType(POMODORO)}
-            type="button"
-            >
+          >
             Pomodoro
           </Button>
           <Button
@@ -238,11 +237,10 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
                 [classes["btn--active"]]: state.timerType === SHORT_BREAK,
               },
               classes["btn"]
-              )}
-              disabled={false}
-              onClickHandler={() => handleTimerType(SHORT_BREAK)}
-              type="button"
-              >
+            )}
+            disabled={false}
+            onClickHandler={() => handleTimerType(SHORT_BREAK)}
+          >
             Short Break
           </Button>
           <Button
@@ -251,11 +249,10 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
                 [classes["btn--active"]]: state.timerType === LONG_BREAK,
               },
               classes["btn"]
-              )}
-              disabled={false}
-              onClickHandler={() => handleTimerType(LONG_BREAK)}
-              type="button"
-              >
+            )}
+            disabled={false}
+            onClickHandler={() => handleTimerType(LONG_BREAK)}
+          >
             Long Break
           </Button>
         </div>
@@ -265,7 +262,6 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
             className={classes[`btn__${state.timerType}`]}
             disabled={false}
             onClickHandler={buttonHandler}
-            type="button"
           >
             {buttonAction}
           </Button>

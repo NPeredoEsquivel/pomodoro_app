@@ -9,7 +9,7 @@ interface ButtonProps {
   onClickHandler?: (event: MyButtonEvent) => void;
   disabled: boolean;
   className?: string;
-  type: 'button' | 'submit';
+  type?: 'button' | 'submit';
 }
 
 const Button: React.FC<ButtonProps> = ({

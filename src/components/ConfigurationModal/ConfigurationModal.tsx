@@ -101,7 +101,6 @@ const ConfigurationModal: React.FC<ConfigurationModalProps> = (props) => {
             className={classes["action-buttons__cancel"]}
             disabled={false}
             onClickHandler={props.onCancel}
-            type="button"
             >
             Cancel
           </Button>
