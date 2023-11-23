@@ -172,14 +172,6 @@ const Main: React.FC = () => {
       ? `0${state.timerSeconds % 60}`
       : state.timerSeconds % 60;
 
-  const width = state.timeElapsed > 0
-    ? (
-      (100 * state.timeElapsed) /
-      (state.timerSeconds + state.timeElapsed)
-    ).toFixed(2)
-    : '0';
-
-
   return (
     <main>
       {state.showModal && (
@@ -191,7 +183,10 @@ const Main: React.FC = () => {
           />
         </Modal>
       )}
-      <DivisionBar width={width}/> 
+      <DivisionBar      
+        timeElapsed={state.timeElapsed}
+        timerSeconds={state.timerSeconds}      
+      /> 
       <Card className={classes["timer_container"]}>
         <TimerTypeButtons 
           timerType={state.timerType} 
