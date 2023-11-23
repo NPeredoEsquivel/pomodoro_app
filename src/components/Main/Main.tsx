@@ -11,7 +11,8 @@ import Timer from "../Timer/Timer";
 import classNames from "classnames";
 import { selectTimerConfiguration } from "../../store/slices/timerConfigSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setTimerType, selectTimerType } from "../../store/slices/timerTypeSlice";
+import { setTimerType } from "../../store/slices/timerTypeSlice";
+import DivisionBar from "../DivisionBar/DivisionBar";
 
 const TIMER_CONFIG = {};
 const POMODORO = "pomodoro";
@@ -173,13 +174,14 @@ const Main: React.FC = () => {
     (state.timerSeconds % 60).toString().length === 1
       ? `0${state.timerSeconds % 60}`
       : state.timerSeconds % 60;
-  console.log(state.timeElapsed)
+
   const width = state.timeElapsed > 0
     ? (
       (100 * state.timeElapsed) /
       (state.timerSeconds + state.timeElapsed)
     ).toFixed(2)
-    : 0;
+    : '0';
+    console.log(typeof width)
 
   const getButtonAction = () => {
     const { isTimerRunning, timerSeconds } = state;
@@ -219,15 +221,7 @@ const Main: React.FC = () => {
         </Modal>
       ) : null}
 
-      <div className={classes.division}>
-        <div className={classes["normal_division"]} />
-        <div
-          className={classes["timed_division"]}
-          style={{
-            width: `${width + "%"}`,
-          }}
-        ></div>
-      </div>
+      <DivisionBar width={width}/> 
       <Card className={classes["timer_container"]}>
         <div className={classes["timer_container__change-timertype_buttons"]}>
           <Button
