@@ -25,10 +25,6 @@ TIMER_CONFIG[SHORT_BREAK] = 300;
 TIMER_CONFIG[LONG_BREAK] = 900;
 
 Object.freeze(TIMER_CONFIG);
-interface ButtonActions {
-  buttonHandler: { (): void } | null;
-  action: string;
-}
 interface IMainState {
   timerType: string;
   isTimerRunning: boolean;
@@ -183,31 +179,6 @@ const Main: React.FC = () => {
     ).toFixed(2)
     : '0';
 
-  const getButtonAction = (): ButtonActions => {
-    const { isTimerRunning, timerSeconds } = state;
-    const buttonAction: ButtonActions = { buttonHandler: null, action: "" };
-    if (isTimerRunning) {
-      buttonAction.buttonHandler = handlePauseTimer;
-      buttonAction.action = "PAUSE";
-    } else {
-      if (timerSeconds === 0) {
-        buttonAction.buttonHandler = handleResetTimer;
-        buttonAction.action = "RESET";
-      } else {
-        buttonAction.buttonHandler = handleStartTimer;
-        buttonAction.action = "START";
-      }
-    }
-    return buttonAction;
-  };
-
-  const getButtonProperty = (property: string) => {
-    const buttonProperties = getButtonAction();
-    return buttonProperties[property];
-  };
-
-  const buttonHandler = getButtonProperty("buttonHandler");
-  const buttonAction = getButtonProperty("action");
 
   return (
     <main>
@@ -229,8 +200,11 @@ const Main: React.FC = () => {
         <Timer timer={`${minutes}:${seconds}`} />
         <UpdateTimerButton 
           timerType={state.timerType}
-          buttonHandler={buttonHandler}
-          buttonAction={buttonAction}
+          handlePauseTimer={handlePauseTimer}
+          handleResetTimer={handleResetTimer}
+          handleStartTimer={handleStartTimer}
+          isTimerRunning={state.isTimerRunning}
+          timerSeconds={state.timerSeconds}
         />
       </Card>
       <TaskList />
