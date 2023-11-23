@@ -8,12 +8,12 @@ import audioClick from "../../assets/audio/click_audio.wav";
 import ChangeTimerModal from "../ChangeTimerModal/ChangeTimerModal";
 import endTimerAlarm from "../../assets/audio/clock_alarm.wav";
 import Timer from "../Timer/Timer";
-import classNames from "classnames";
 import { selectTimerConfiguration } from "../../store/slices/timerConfigSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setTimerType } from "../../store/slices/timerTypeSlice";
 import DivisionBar from "../DivisionBar/DivisionBar";
-import TimerTypeButtonsContainer from "../TimerTypeButtonsContainer/TimerTypeButtonsContainer";
+import TimerTypeButtons from "../TimerTypeButtons/TimerTypeButtons";
+import UpdateTimerButton from "../UpdateTimerButton/UpdateTimerButton";
 
 const TIMER_CONFIG = {};
 const POMODORO = "pomodoro";
@@ -183,7 +183,7 @@ const Main: React.FC = () => {
     ).toFixed(2)
     : '0';
 
-  const getButtonAction = () => {
+  const getButtonAction = (): ButtonActions => {
     const { isTimerRunning, timerSeconds } = state;
     const buttonAction: ButtonActions = { buttonHandler: null, action: "" };
     if (isTimerRunning) {
@@ -201,7 +201,7 @@ const Main: React.FC = () => {
     return buttonAction;
   };
 
-  const getButtonProperty = (property) => {
+  const getButtonProperty = (property: string) => {
     const buttonProperties = getButtonAction();
     return buttonProperties[property];
   };
@@ -222,17 +222,16 @@ const Main: React.FC = () => {
       )}
       <DivisionBar width={width}/> 
       <Card className={classes["timer_container"]}>
-        <TimerTypeButtonsContainer timerType={state.timerType} handleTimerType={handleTimerType}/>
+        <TimerTypeButtons 
+          timerType={state.timerType} 
+          handleTimerType={handleTimerType}
+        />
         <Timer timer={`${minutes}:${seconds}`} />
-        <div className={classes["timer_container__update_timer_button"]}>
-          <Button
-            className={classes[`btn__${state.timerType}`]}
-            disabled={false}
-            onClickHandler={buttonHandler}
-          >
-            {buttonAction}
-          </Button>
-        </div>
+        <UpdateTimerButton 
+          timerType={state.timerType}
+          buttonHandler={buttonHandler}
+          buttonAction={buttonAction}
+        />
       </Card>
       <TaskList />
     </main>

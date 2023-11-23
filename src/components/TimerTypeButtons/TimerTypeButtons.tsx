@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../../UI/Button/Button';
-import classes from './TimerTypeButtonsContaienr.module.scss';
+import classes from './TimerTypeButtons.module.scss';
 
 type Props = {
   timerType: string;
@@ -21,7 +21,7 @@ interface ButtonElement {
   label: string;
 }
 
-export default function ButtonsContainer({ timerType, handleTimerType }: Props) {
+export default function TimerTypeButtons({ timerType, handleTimerType }: Props) {
   const buttonsArray: ButtonElement[] = [
     {
       className: `timer-type-buttons-container__btn${timerType === POMODORO ? '--active' : ''}`,
