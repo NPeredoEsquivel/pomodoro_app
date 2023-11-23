@@ -5,7 +5,7 @@ import Configuration from "../../assets/img/config-white.png";
 import AppIcon from "../../assets/img/icon-white.png";
 import User from "../../assets/img/user-white.png";
 import ConfigurationModal from "../ConfigurationModal/ConfigurationModal";
-import LoginModal from "../../UI/Modal/LoginModal/LoginModal";
+import LoginModal from "../LoginModal/LoginModal";
 import Modal from "../../UI/Modal/Modal";
 
 const Header: React.FC = () => {
