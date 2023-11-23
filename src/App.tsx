@@ -1,20 +1,25 @@
-import React, { useState } from "react";
-import Header from "./components/Header/Header";
+import React from "react";
 import Main from "./components/Main/Main";
-import classes from "./App.module.scss";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import RootLayoutScreen from "./screens/RootScreen/RootScreen";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayoutScreen />,
+    children: [
+      {
+        index: true, 
+        element: <Main />,
+      }
+    ],
+
+  }
+])
+
 
 const App: React.FC = () => {
-  const [background, setBackground] = useState<string>("pomodoro");
-  const handleContainerBgClass = (backgroundColor: string) => {
-    setBackground(backgroundColor);
-  };
-  return (
-    <div className={`${classes.container} ${classes[background]}`}>
-      <Header />
-      <Main handleBackgroundColor={handleContainerBgClass} />
-      <footer></footer>
-    </div>
-  );
+  return <RouterProvider router={router}></RouterProvider>
 };
 
 export default App;
