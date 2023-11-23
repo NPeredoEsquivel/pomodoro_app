@@ -13,6 +13,7 @@ import { selectTimerConfiguration } from "../../store/slices/timerConfigSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setTimerType } from "../../store/slices/timerTypeSlice";
 import DivisionBar from "../DivisionBar/DivisionBar";
+import TimerTypeButtonsContainer from "../TimerTypeButtonsContainer/TimerTypeButtonsContainer";
 
 const TIMER_CONFIG = {};
 const POMODORO = "pomodoro";
@@ -106,7 +107,7 @@ const Main: React.FC = () => {
 
   const handleResetTimer = () => {
     const { timerType } = state;
-    setState({ ...state, timerSeconds: TIMER_CONFIG[timerType] });
+    setState({ ...state, timerSeconds: TIMER_CONFIG[timerType], timeElapsed: 0});
   };
 
   const handleTimerType = (timerType: string) => {
@@ -181,7 +182,6 @@ const Main: React.FC = () => {
       (state.timerSeconds + state.timeElapsed)
     ).toFixed(2)
     : '0';
-    console.log(typeof width)
 
   const getButtonAction = () => {
     const { isTimerRunning, timerSeconds } = state;
@@ -211,7 +211,7 @@ const Main: React.FC = () => {
 
   return (
     <main>
-      {state.showModal ? (
+      {state.showModal && (
         <Modal renderContent={!!state.timerType} onCancel={onCancel}>
           <ChangeTimerModal
             onConfirm={onConfirm}
@@ -219,45 +219,10 @@ const Main: React.FC = () => {
             className={state.timerType}
           />
         </Modal>
-      ) : null}
-
+      )}
       <DivisionBar width={width}/> 
       <Card className={classes["timer_container"]}>
-        <div className={classes["timer_container__change-timertype_buttons"]}>
-          <Button
-            className={classNames(classes["btn"], {
-              [classes["btn--active"]]: state.timerType === POMODORO,
-            })}
-            disabled={false}
-            onClickHandler={() => handleTimerType(POMODORO)}
-          >
-            Pomodoro
-          </Button>
-          <Button
-            className={classNames(
-              {
-                [classes["btn--active"]]: state.timerType === SHORT_BREAK,
-              },
-              classes["btn"]
-            )}
-            disabled={false}
-            onClickHandler={() => handleTimerType(SHORT_BREAK)}
-          >
-            Short Break
-          </Button>
-          <Button
-            className={classNames(
-              {
-                [classes["btn--active"]]: state.timerType === LONG_BREAK,
-              },
-              classes["btn"]
-            )}
-            disabled={false}
-            onClickHandler={() => handleTimerType(LONG_BREAK)}
-          >
-            Long Break
-          </Button>
-        </div>
+        <TimerTypeButtonsContainer timerType={state.timerType} handleTimerType={handleTimerType}/>
         <Timer timer={`${minutes}:${seconds}`} />
         <div className={classes["timer_container__update_timer_button"]}>
           <Button

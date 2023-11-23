@@ -16,31 +16,6 @@ main {
     align-items: center;
     border-radius: 6px;
 
-    &__change-timertype_buttons {
-      display: inline-flex;
-
-      .btn {
-        border: none;
-        margin: 0px;
-        border-radius: 4px;
-        font-family: Arial, Helvetica, sans-serif;
-        padding: 2px 12px;
-        height: 20px;
-        cursor: pointer;
-        background: none;
-        box-shadow: none;
-        color: rgb(255, 255, 255);
-        opacity: 1;
-        font-weight: bold;
-
-        &--active {
-          @extend .btn;
-          background: none rgba(0, 0, 0, 0.15);
-          transition: background 20ms ease-in-out;
-        }
-      }
-    }
-
     &__update_timer_button {
       .btn {
         background-color: rgb(255, 255, 255);
