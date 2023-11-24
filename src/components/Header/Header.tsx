@@ -22,17 +22,15 @@ const Header: React.FC = () => {
 
   return (
     <>
-      {showConfigurationModal ? (
-        <Modal onCancel={toggleConfigurationModal}>
+      {showConfigurationModal && (
+        <Modal renderContent={true} onCancel={toggleConfigurationModal}>
           <ConfigurationModal
             onConfirm={toggleConfigurationModal}
             onCancel={toggleConfigurationModal}
             className="configuration-container"
           />
         </Modal>
-      ) : (
-        <></>
-      )}
+      )}     
       <header className={classes.container}>
         <div className={classes.app}>
           <div className={classes["app__icon"]}>
