@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
-import LoginModal from '../../components/LoginForm/LoginForm';
-import Modal from '../../UI/Modal/Modal';
+import LoginForm from '../../components/LoginForm/LoginForm';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -14,15 +13,11 @@ export default function Register() {
   }
 
   return (
-    (
-      <Modal onCancel={toggleUserModal}>
-        <LoginModal
-          onConfirm={toggleUserModal}
-          onCancel={toggleUserModal}
-          className="login-container"
-          isRegistration={true}
-        />
-      </Modal>
-    )
+      <LoginForm
+        onConfirm={toggleUserModal}
+        onCancel={toggleUserModal}
+        className="login-container"
+        isRegistration={true}
+      />
   )
 }

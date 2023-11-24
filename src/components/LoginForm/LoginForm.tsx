@@ -19,6 +19,7 @@ const LoginForm: React.FC<LoginFormProps> = ({onConfirm, onCancel, className, is
   const dispatch = useAppDispatch()
   const usernameRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
+  const repeatPasswordRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
 
   const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
@@ -66,18 +67,18 @@ const LoginForm: React.FC<LoginFormProps> = ({onConfirm, onCancel, className, is
     <Card className={`${className ? classes[className] : ""}`} >
       <>
         <Link to='/'>
-          <img src={pomodoroLoginLogo} className={classes['login-container__login-logo']} alt="app-icon" />
+          <img src={pomodoroLoginLogo} className={classes["login-container__login-logo"]} alt="login-logo" />
         </Link>
       </>
       <div className={classes["login-container__title"]}>
-        {isRegistration ? 'Register' : 'Login'}
+        {isRegistration ? 'Create Account' : 'Login'}
       </div>
       <form
         action="submit"
-        className={classes['login-form']}
+        className={classes["login-container__login-form"]}
         onSubmit={onSubmitHandler}
       >
-        <div className={classes["login-form__username"]}>
+        <div className={classes["login-container__username"]}>
           <FormInput
             ref={usernameRef}
             htmlFor='email'
@@ -90,7 +91,7 @@ const LoginForm: React.FC<LoginFormProps> = ({onConfirm, onCancel, className, is
             }}
           />
         </div>
-        <div className={classes["login-form__password"]}>
+        <div className={classes["login-container__password"]}>
           <FormInput
             ref={passwordRef}
             htmlFor='password'
@@ -102,12 +103,29 @@ const LoginForm: React.FC<LoginFormProps> = ({onConfirm, onCancel, className, is
             }}
           />
         </div>
-        <div className={classes["login-form__action-buttons"]}>
-          <div className={classes["login-form__action-buttons__forgot-password"]}>
-            <span>Forgot Password</span>
+        {
+          isRegistration && (
+            <div className={classes["login-container__password"]}>
+              <FormInput
+                ref={repeatPasswordRef}
+                htmlFor='password'
+                label='Repeat Password'
+                inputAttr={{
+                  type: 'password',
+                  name: 'password',
+                  defaultValue: '',
+                }}
+              />
+            </div>
+
+          )
+        }
+        <div className={classes["login-container__action-buttons"]}>
+          <div className={classes["login-container__forgot-password"]}>
+            {!isRegistration && <span>Forgot Password</span>}
           </div>
           <Button
-            className={classes["login-form__action-buttons__submit"]}
+            className={classes["login-container__submit"]}
             disabled={false}
             type="submit"
           >
@@ -115,17 +133,17 @@ const LoginForm: React.FC<LoginFormProps> = ({onConfirm, onCancel, className, is
             {isRegistration ? 'Register' : 'Login'}
           </Button>
           <Button
-            className={classes["login-form__action-buttons__cancel"]}
+            className={classes["login-container__cancel"]}
             disabled={false}
             onClickHandler={onCancel}
           >
             Cancel
           </Button>
-          <div className={classes["login-form__action-buttons__register"]}>
-            <span className={classes['register-question']}>
+          <div className={classes["login-container__register"]}>
+            <span className={classes["login-container__register-question"]}>
               {isRegistration ? 'Already have an account?' : 'Don\'t have an account ?'}
             </span>
-            <span className={classes['create-account']} onClick={toggleRegistrationHandler}>{isRegistration ? 'Login' : 'Create account'}</span>
+            <span className={classes["login-container__create-account-action"]} onClick={toggleRegistrationHandler}>{isRegistration ? 'Login' : 'Create account'}</span>
           </div>
         </div>
       </form>
