@@ -19,7 +19,7 @@ const Header: React.FC = () => {
   };
   return (
     <>
-      {showModal ? (
+      {showModal && (
         <Modal renderContent={true} onCancel={onCancel}>
           <ConfigurationModal
             onConfirm={onConfirm}
@@ -27,8 +27,6 @@ const Header: React.FC = () => {
             className="configuration-container"
           />
         </Modal>
-      ) : (
-        <></>
       )}
       <header className={classes.container}>
         <div className={classes.app}>
