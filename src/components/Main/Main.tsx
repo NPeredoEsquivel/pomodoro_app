@@ -5,9 +5,12 @@ import TaskList from "./TaskList/TaskList";
 import classes from "./Main.module.scss";
 import Modal from "../../UI/Modal/Modal";
 import audioClick from "../../assets/audio/click_audio.wav";
+import ChangeTimerModal from "../ChangeTimerModal/ChangeTimerModal";
 import endTimerAlarm from "../../assets/audio/clock_alarm.wav";
 import Timer from "./Timer/Timer";
 import classNames from "classnames";
+import { useAppSelector } from "../../store/hooks";
+import { selectTimerConfiguration } from "../../store/slices/timerConfigSlice";
 
 const TIMER_CONFIG = {};
 const POMODORO = "pomodoro";
@@ -40,7 +43,6 @@ interface IMainState {
 const defaultState = {
   timerType: POMODORO,
   isTimerRunning: false,
-  timerSeconds: 2700,
   timeElapsed: 0,
   timerIntervalId: 0,
   showModal: false,
@@ -48,9 +50,13 @@ const defaultState = {
 };
 
 const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
+  const timerConfiguration = useAppSelector(selectTimerConfiguration);
   const clickAudio = new Audio(audioClick);
   const endTimerAudio = new Audio(endTimerAlarm);
-  const [state, setState] = useState<IMainState>(defaultState);
+  const [state, setState] = useState<IMainState>({
+    ...defaultState,
+    timerSeconds: timerConfiguration[defaultState.timerType],
+  });
 
   useEffect(() => {
     const { timerSeconds, isTimerRunning, timerIntervalId } = state;
@@ -63,13 +69,13 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
 
   useEffect(() => {
     updateTimerType(state.timerType);
-  }, [state.timerType]);
+  }, [state.timerType, timerConfiguration]);
 
   const updateTimerType = (timerType: string) => {
     setState({
       ...state,
       isTimerRunning: false,
-      timerSeconds: TIMER_CONFIG[timerType],
+      timerSeconds: timerConfiguration[timerType],
     });
   };
 
@@ -115,9 +121,13 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
         showModal: true,
         transitionTimerType: timerType,
         isTimerRunning: false,
+        timeElapsed: 0,
       });
     } else {
-      setState({ ...state, timerType });
+      setState({
+        ...state, timerType,
+        timeElapsed: 0,
+      });
       handleBackgroundColor(timerType);
       if (timerIntervalId) {
         clearInterval(timerIntervalId);
@@ -130,6 +140,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
       ...state,
       showModal: false,
       timerType: state.transitionTimerType,
+      timeElapsed: 0,
     });
 
     handleBackgroundColor(state.transitionTimerType);
@@ -154,9 +165,8 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
     (state.timerSeconds % 60).toString().length === 1
       ? `0${state.timerSeconds % 60}`
       : state.timerSeconds % 60;
-  const changeTimerTypeModalTitle = "Change timer type";
-  const changeTimerTypeModalBody = "Are you sure of changing the timer type?";
-  const width = state.isTimerRunning
+  console.log(state.timeElapsed)
+  const width = state.timeElapsed > 0
     ? (
       (100 * state.timeElapsed) /
       (state.timerSeconds + state.timeElapsed)
@@ -192,13 +202,13 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
   return (
     <main className={classes[state.timerType]}>
       {state.showModal ? (
-        <Modal
-          title={changeTimerTypeModalTitle}
-          body={changeTimerTypeModalBody}
-          onConfirm={onConfirm}
-          onCancel={onCancel}
-          timerType={state.timerType}
-        ></Modal>
+        <Modal renderContent={!!state.timerType} onCancel={onCancel}>
+          <ChangeTimerModal
+            onConfirm={onConfirm}
+            onCancel={onCancel}
+            className={state.timerType}
+          />
+        </Modal>
       ) : null}
 
       <div className={classes.division}>
@@ -218,7 +228,8 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
             })}
             disabled={false}
             onClickHandler={() => handleTimerType(POMODORO)}
-          >
+            type="button"
+            >
             Pomodoro
           </Button>
           <Button
@@ -227,10 +238,11 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
                 [classes["btn--active"]]: state.timerType === SHORT_BREAK,
               },
               classes["btn"]
-            )}
-            disabled={false}
-            onClickHandler={() => handleTimerType(SHORT_BREAK)}
-          >
+              )}
+              disabled={false}
+              onClickHandler={() => handleTimerType(SHORT_BREAK)}
+              type="button"
+              >
             Short Break
           </Button>
           <Button
@@ -239,10 +251,11 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
                 [classes["btn--active"]]: state.timerType === LONG_BREAK,
               },
               classes["btn"]
-            )}
-            disabled={false}
-            onClickHandler={() => handleTimerType(LONG_BREAK)}
-          >
+              )}
+              disabled={false}
+              onClickHandler={() => handleTimerType(LONG_BREAK)}
+              type="button"
+              >
             Long Break
           </Button>
         </div>
@@ -252,6 +265,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
             className={classes[`btn__${state.timerType}`]}
             disabled={false}
             onClickHandler={buttonHandler}
+            type="button"
           >
             {buttonAction}
           </Button>

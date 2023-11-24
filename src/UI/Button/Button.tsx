@@ -6,10 +6,10 @@ interface MyButtonEvent extends React.MouseEvent<HTMLButtonElement> {
 
 interface ButtonProps {
   children: React.ReactNode;
-  onClickHandler: (event: MyButtonEvent) => void;
+  onClickHandler?: (event: MyButtonEvent) => void;
   disabled: boolean;
   className?: string;
-  type: string;
+  type: 'button' | 'submit';
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -20,7 +20,12 @@ const Button: React.FC<ButtonProps> = ({
   type = "button",
 }) => {
   return (
-    <button className={className} disabled={disabled} onClick={onClickHandler} >
+    <button
+      className={className}
+      disabled={disabled}
+      onClick={onClickHandler}
+      type={type}
+    >
       {children}
     </button>
   );

@@ -1,59 +1,37 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import ReactDom from "react-dom";
-import Card from "../Card/Card";
-import Button from "../Button/Button";
 import classes from "./Modal.module.scss";
 import Spinner from "../Spinner/Spinner";
 import classNames from "classnames";
 
-type BackdropProps = {
+interface BackdropProps {
   onCancel: () => void;
-};
+}
 
-type ModalProps = {
-  title: string;
-  body: string;
-  onConfirm: () => void;
-  onCancel: () => void;
-  timerType?: string;
-};
+interface ModalOverlayProps {
+  renderContent?: boolean;
+  children: ReactNode;
+}
+
+interface ModalProps extends BackdropProps, ModalOverlayProps {}
 
 const Backdrop: React.FC<BackdropProps> = ({ onCancel }) => {
   return <div onClick={onCancel} className={classes.backdrop}></div>;
 };
 
-const ModalOverlay: React.FC<ModalProps> = (props) => {
+const ModalOverlay: React.FC<ModalOverlayProps> = ({
+  renderContent,
+  children,
+}) => {
+  //Here the children is being rendered if the content is ready to render
   return (
-    <>
-      {props.timerType ? (
-        <Card className={classNames(classes.modal, classes[props.timerType])}>
-          <header className={classes.modal__title}>{props.title}</header>
-          <div className={classes.modal__body}>{props.body}</div>
-          <footer className={classes.modal__footer}>
-            <Button
-              className={classes.modal__footer__button}
-              disabled={false}
-              onClickHandler={props.onConfirm}
-            >
-              Ok
-            </Button>
-            <Button
-              className={classes.modal__footer__button}
-              disabled={false}
-              onClickHandler={props.onCancel}
-            >
-              Cancel
-            </Button>
-          </footer>
-        </Card>
-      ) : (
-        <Spinner />
-      )}
-    </>
+    <div className={classes.modal}>
+      {renderContent ? children : <Spinner />}
+    </div>
   );
 };
 
-const Modal: React.FC<ModalProps> = (props) => {
+const Modal: React.FC<ModalProps> = ({ onCancel, renderContent, children }) => {
   const portalBackdrop = document.getElementById("backdrop-root");
   const modalOverlay = document.getElementById("overlay-root");
 
@@ -62,17 +40,11 @@ const Modal: React.FC<ModalProps> = (props) => {
   return (
     <>
       {ReactDom.createPortal(
-        <Backdrop onCancel={props.onCancel} />,
+        <Backdrop onCancel={onCancel} />,
         portalBackdropElement
       )}
       {ReactDom.createPortal(
-        <ModalOverlay
-          title={props.title}
-          body={props.body}
-          onConfirm={props.onConfirm}
-          onCancel={props.onCancel}
-          timerType={props.timerType}
-        />,
+        <ModalOverlay renderContent={renderContent} children={children} />,
         modalOverlayElement
       )}
     </>

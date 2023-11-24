@@ -28,6 +28,10 @@
     align-items: center;
     display: flex;
 
+    .setting {
+      cursor: pointer;
+    }
+
     .report,
     .setting,
     .login {

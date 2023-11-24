@@ -1,86 +1,20 @@
 .backdrop {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: 10;
-    background: rgba(0, 0, 0, 0.75);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .modal {
-    position: fixed;
-    top: 30vh;
-    left: 25%;
-    width: 50%;
-    z-index: 100;
-    overflow: hidden;
-    background-color: rgba(255, 255, 255, 1);
-
-    &.pomodoro {
-        background-color: rgb(217, 85, 80);
-    }
-    &.shortbreak {
-        background-color: rgb(76, 145, 149);
-    }
-    &.longbreak {
-        background-color: rgb(69, 124, 163);
-    }
-    &__title {
-        font-family: "Arial, Helvetica, sans-serif";
-        font-weight: bold;
-        color: rgba(255, 255, 255, 1);
-        font-size: xx-large;
-    }
-    &__body {
-        font-family: "Arial, Helvetica, sans-serif";
-        font-weight: bold;
-        color: rgba(255, 255, 255, 1);
-        font-size: large;
-    }
-
-    &__footer {
-        display: flex;
-        width: 50%;
-        justify-content: space-around;
-        &__button {
-            background-color: #ffffff;
-            border: 1px solid rgb(209, 213, 219);
-            border-radius: 0.5rem;
-            box-sizing: border-box;
-            color: #111827;
-            font-family: "Inter var", ui-sans-serif, system-ui, -apple-system,
-                system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial,
-                "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-                "Segoe UI Symbol", "Noto Color Emoji";
-            font-size: 0.875rem;
-            font-weight: 600;
-            line-height: 1.25rem;
-            padding: 0.75rem 1rem;
-            text-align: center;
-            text-decoration: none #d1d5db solid;
-            text-decoration-thickness: auto;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            cursor: pointer;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: manipulation;
-        }
-
-        &__button:hover {
-            background-color: rgb(249, 250, 251);
-        }
-
-        &__button:focus {
-            outline: 2px solid transparent;
-            outline-offset: 2px;
-        }
-
-        &__button:focus-visible {
-            box-shadow: none;
-        }
-    }
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: fixed;
+  z-index: 100;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 7px;
 }
