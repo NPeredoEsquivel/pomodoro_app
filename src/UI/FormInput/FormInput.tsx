@@ -7,7 +7,8 @@ interface FormInputProps {
   inputAttr: {
     type: string;
     name: string;
-    defaultValue: number;
+    defaultValue: number | string;
+    placeholder?: string;
   };
 }
 

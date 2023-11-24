@@ -53,6 +53,7 @@ const ConfigurationModal: React.FC<ConfigurationModalProps> = (props) => {
     <Card className={`${props.className ? classes[props.className] : ""}`}>
       <div className={classes["header"]}>Setting</div>
       <form
+        action="submit"
         onSubmit={onSubmitHandler}
         className={classes["timer-settings-form"]}
       >
