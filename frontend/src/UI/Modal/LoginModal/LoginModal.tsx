@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import Card from '../../Card/Card';
-import FormInput from '../../../UI/FormInput/FormInput';
-import Button from '../../../UI/Button/Button';
+import FormInput from '../../FormInput/FormInput';
+import Button from '../../Button/Button';
 import classes from './LoginModal.module.scss';
 import { useAppDispatch } from '../../../store/hooks';
 import { setLoggedUser } from '../../../store/slices/userSlice';
