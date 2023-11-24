@@ -22,7 +22,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      {showConfigurationModal ? (
+      {showConfigurationModal && (
         <Modal renderContent={true} onCancel={toggleConfigurationModal}>
           <ConfigurationModal
             onConfirm={toggleConfigurationModal}
@@ -30,8 +30,15 @@ const Header: React.FC = () => {
             className="configuration-container"
           />
         </Modal>
-      ) : (
-        <></>
+      )}
+      {showUserLoginModal && (
+        <Modal renderContent={true} onCancel={toggleUserModal}>
+          <LoginModal
+            onConfirm={toggleUserModal}
+            onCancel={toggleUserModal}
+            className="login-container"
+          />
+        </Modal>
       )}
       {showUserLoginModal ? (
         <Modal renderContent={true} onCancel={toggleUserModal}>
