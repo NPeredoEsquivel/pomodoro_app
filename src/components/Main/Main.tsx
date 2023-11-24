@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Card from "../../UI/Card/Card";
-import Button from "../../UI/Button/Button";
 import TaskList from "../TaskList/TaskList";
 import classes from "./Main.module.scss";
 import Modal from "../../UI/Modal/Modal";
