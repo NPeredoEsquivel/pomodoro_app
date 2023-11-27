@@ -2,6 +2,7 @@ import "./loadEnvironment.mjs";
 import bodyParser from "body-parser"
 import express from "express"
 import users from "./routes/users/users.mjs"
+import auth from "./routes/auth/auth.mjs"
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get("/", (_, res) => res.send("Hello from express!"));
 
 
 app.use("/users", users);
+app.use("/api/auth", auth);
 
 app.use((error, req, res, next) => {
   console.log(error);
