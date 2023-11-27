@@ -2,26 +2,8 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100%;
+  height: 100vh;
 
-  .division {
-    position: relative;
-    width: 620px;
-    margin-bottom: 40px;
-
-    .normal_division {
-      position: absolute;
-      height: 1px;
-      background-color: rgba(0, 0, 0, 0.1);
-      width: 620px;
-    }
-    .timed_division {
-      position: absolute;
-      height: 3px;
-      background-color: white;
-      display: block;
-    }
-  }
   .timer_container {
     display: flex;
     background-color: rgba(255, 255, 255, 0.1);
@@ -33,61 +15,5 @@ main {
     margin-bottom: 20px;
     align-items: center;
     border-radius: 6px;
-
-    &__change-timertype_buttons {
-      display: inline-flex;
-
-      .btn {
-        border: none;
-        margin: 0px;
-        border-radius: 4px;
-        font-family: Arial, Helvetica, sans-serif;
-        padding: 2px 12px;
-        height: 20px;
-        cursor: pointer;
-        background: none;
-        box-shadow: none;
-        color: rgb(255, 255, 255);
-        opacity: 1;
-        font-weight: bold;
-
-        &--active {
-          @extend .btn;
-          background: none rgba(0, 0, 0, 0.15);
-          transition: background 20ms ease-in-out;
-        }
-      }
-    }
-
-    &__update_timer_button {
-      .btn {
-        background-color: rgb(255, 255, 255);
-        box-shadow: rgb(235 235 235) 0px 6px 0px;
-        border: none;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 22px;
-        font-weight: bold;
-        border-radius: 4px;
-        margin: 20px 0px 0px;
-        padding: 0px 12px;
-        cursor: pointer;
-        width: 200px;
-        height: 55px;
-        transition: color 0.5s ease-in-out 0s;
-
-        &__pomodoro {
-          @extend .btn;
-          color: rgb(217, 85, 80);
-        }
-        &__shortbreak {
-          @extend .btn;
-          color: rgb(76, 145, 149);
-        }
-        &__longbreak {
-          @extend .btn;
-          color: rgb(69, 124, 163);
-        }
-      }
-    }
   }
 }

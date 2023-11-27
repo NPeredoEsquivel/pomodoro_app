@@ -21,7 +21,6 @@ const ChangeTimerModal: React.FC<ChangeTimerModalProps> = (props) => {
           className={classes.modal__footer__button}
           disabled={false}
           onClickHandler={props.onConfirm}
-          type="button"
         >
           Accept
         </Button>
@@ -29,7 +28,6 @@ const ChangeTimerModal: React.FC<ChangeTimerModalProps> = (props) => {
           className={classes.modal__footer__button}
           disabled={false}
           onClickHandler={props.onCancel}
-          type="button"
         >
           Cancel
         </Button>

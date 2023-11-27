@@ -1,9 +1,9 @@
 .container {
-  justify-content: space-between;
+  justify-content: space-evenly;
   display: flex;
   height: 60px;
   color: white;
-  max-width: 620px;
+  width: 100%;
   margin: auto;
 
   .app {

@@ -5,19 +5,19 @@ import Configuration from "../../assets/img/config-white.png";
 import AppIcon from "../../assets/img/icon-white.png";
 import User from "../../assets/img/user-white.png";
 import ConfigurationModal from "../ConfigurationModal/ConfigurationModal";
-import LoginModal from "../../UI/Modal/LoginModal/LoginModal";
 import Modal from "../../UI/Modal/Modal";
+import { useNavigate } from "react-router-dom";
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
   const [showConfigurationModal, setShowConfigurationModal] = useState<boolean>(false);
-  const [showUserLoginModal, setUserLoginModal] = useState<boolean>(false);
 
   const toggleConfigurationModal = () => {
     setShowConfigurationModal(!showConfigurationModal);
   }
   
   const toggleUserModal = () => {
-    setUserLoginModal(!showUserLoginModal);
+    navigate('/login')
   }
 
   return (
@@ -30,27 +30,7 @@ const Header: React.FC = () => {
             className="configuration-container"
           />
         </Modal>
-      )}
-      {showUserLoginModal && (
-        <Modal renderContent={true} onCancel={toggleUserModal}>
-          <LoginModal
-            onConfirm={toggleUserModal}
-            onCancel={toggleUserModal}
-            className="login-container"
-          />
-        </Modal>
-      )}
-      {showUserLoginModal ? (
-        <Modal renderContent={true} onCancel={toggleUserModal}>
-          <LoginModal
-            onConfirm={toggleUserModal}
-            onCancel={toggleUserModal}
-            className="login-container"
-          />
-        </Modal>
-      ) : (
-        <></>
-      )}
+      )}     
       <header className={classes.container}>
         <div className={classes.app}>
           <div className={classes["app__icon"]}>
