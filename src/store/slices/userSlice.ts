@@ -3,12 +3,12 @@ import type {RootState} from "../store";
 import {User} from "../interfaces";
 
 const initialState: User = {
-    username: '',
+    email: '',
     password: '',
 }
 
 interface UpdateUser {
-    username: string;
+    email: string;
     password: string;
 }
 
@@ -17,10 +17,10 @@ const userSlice = createSlice({
     name: 'user',
     reducers: {
         setLoggedUser(state: UpdateUser, action: PayloadAction<UpdateUser>){
-            const {username, password} = action.payload;
+            const {email, password} = action.payload;
             return {
                 ...state,
-                username,
+                email,
                 password,
             }
         }
