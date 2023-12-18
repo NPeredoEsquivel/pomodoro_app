@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Card from "../../UI/Card/Card";
-import Button from "../../UI/Button/Button";
-import TaskList from "./TaskList/TaskList";
+import TaskList from "../TaskList/TaskList";
 import classes from "./Main.module.scss";
 import Modal from "../../UI/Modal/Modal";
 import audioClick from "../../assets/audio/click_audio.wav";
 import ChangeTimerModal from "../ChangeTimerModal/ChangeTimerModal";
 import endTimerAlarm from "../../assets/audio/clock_alarm.wav";
-import Timer from "./Timer/Timer";
-import classNames from "classnames";
-import { useAppSelector } from "../../store/hooks";
+import Timer from "../Timer/Timer";
 import { selectTimerConfiguration } from "../../store/slices/timerConfigSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setTimerType } from "../../store/slices/timerTypeSlice";
+import DivisionBar from "../DivisionBar/DivisionBar";
+import TimerTypeButtons from "../TimerTypeButtons/TimerTypeButtons";
+import UpdateTimerButton from "../UpdateTimerButton/UpdateTimerButton";
 
 const TIMER_CONFIG = {};
 const POMODORO = "pomodoro";
@@ -22,14 +24,6 @@ TIMER_CONFIG[SHORT_BREAK] = 300;
 TIMER_CONFIG[LONG_BREAK] = 900;
 
 Object.freeze(TIMER_CONFIG);
-interface IMainProps {
-  handleBackgroundColor: (backgroundColorToSet: string) => void;
-}
-interface ButtonActions {
-  buttonHandler: { (): void } | null;
-  action: string;
-}
-
 interface IMainState {
   timerType: string;
   isTimerRunning: boolean;
@@ -49,7 +43,8 @@ const defaultState = {
   transitionTimerType: POMODORO,
 };
 
-const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
+const Main: React.FC = () => {
+  const dispatch = useAppDispatch();
   const timerConfiguration = useAppSelector(selectTimerConfiguration);
   const clickAudio = new Audio(audioClick);
   const endTimerAudio = new Audio(endTimerAlarm);
@@ -107,7 +102,7 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
 
   const handleResetTimer = () => {
     const { timerType } = state;
-    setState({ ...state, timerSeconds: TIMER_CONFIG[timerType] });
+    setState({ ...state, timerSeconds: TIMER_CONFIG[timerType], timeElapsed: 0});
   };
 
   const handleTimerType = (timerType: string) => {
@@ -128,7 +123,13 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
         ...state, timerType,
         timeElapsed: 0,
       });
-      handleBackgroundColor(timerType);
+
+      dispatch(
+        setTimerType({
+          timerType
+        })
+      )
+
       if (timerIntervalId) {
         clearInterval(timerIntervalId);
       }
@@ -143,7 +144,11 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
       timeElapsed: 0,
     });
 
-    handleBackgroundColor(state.transitionTimerType);
+    dispatch(
+      setTimerType({
+        timerType: state.transitionTimerType,
+      })
+    )
   };
 
   const onCancel = () => {
@@ -165,43 +170,10 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
     (state.timerSeconds % 60).toString().length === 1
       ? `0${state.timerSeconds % 60}`
       : state.timerSeconds % 60;
-  console.log(state.timeElapsed)
-  const width = state.timeElapsed > 0
-    ? (
-      (100 * state.timeElapsed) /
-      (state.timerSeconds + state.timeElapsed)
-    ).toFixed(2)
-    : 0;
-
-  const getButtonAction = () => {
-    const { isTimerRunning, timerSeconds } = state;
-    const buttonAction: ButtonActions = { buttonHandler: null, action: "" };
-    if (isTimerRunning) {
-      buttonAction.buttonHandler = handlePauseTimer;
-      buttonAction.action = "PAUSE";
-    } else {
-      if (timerSeconds === 0) {
-        buttonAction.buttonHandler = handleResetTimer;
-        buttonAction.action = "RESET";
-      } else {
-        buttonAction.buttonHandler = handleStartTimer;
-        buttonAction.action = "START";
-      }
-    }
-    return buttonAction;
-  };
-
-  const getButtonProperty = (property) => {
-    const buttonProperties = getButtonAction();
-    return buttonProperties[property];
-  };
-
-  const buttonHandler = getButtonProperty("buttonHandler");
-  const buttonAction = getButtonProperty("action");
 
   return (
-    <main className={classes[state.timerType]}>
-      {state.showModal ? (
+    <main>
+      {state.showModal && (
         <Modal renderContent={!!state.timerType} onCancel={onCancel}>
           <ChangeTimerModal
             onConfirm={onConfirm}
@@ -209,67 +181,25 @@ const Main: React.FC<IMainProps> = ({ handleBackgroundColor }) => {
             className={state.timerType}
           />
         </Modal>
-      ) : null}
-
-      <div className={classes.division}>
-        <div className={classes["normal_division"]} />
-        <div
-          className={classes["timed_division"]}
-          style={{
-            width: `${width + "%"}`,
-          }}
-        ></div>
-      </div>
+      )}
+      <DivisionBar      
+        timeElapsed={state.timeElapsed}
+        timerSeconds={state.timerSeconds}      
+      /> 
       <Card className={classes["timer_container"]}>
-        <div className={classes["timer_container__change-timertype_buttons"]}>
-          <Button
-            className={classNames(classes["btn"], {
-              [classes["btn--active"]]: state.timerType === POMODORO,
-            })}
-            disabled={false}
-            onClickHandler={() => handleTimerType(POMODORO)}
-            type="button"
-            >
-            Pomodoro
-          </Button>
-          <Button
-            className={classNames(
-              {
-                [classes["btn--active"]]: state.timerType === SHORT_BREAK,
-              },
-              classes["btn"]
-              )}
-              disabled={false}
-              onClickHandler={() => handleTimerType(SHORT_BREAK)}
-              type="button"
-              >
-            Short Break
-          </Button>
-          <Button
-            className={classNames(
-              {
-                [classes["btn--active"]]: state.timerType === LONG_BREAK,
-              },
-              classes["btn"]
-              )}
-              disabled={false}
-              onClickHandler={() => handleTimerType(LONG_BREAK)}
-              type="button"
-              >
-            Long Break
-          </Button>
-        </div>
+        <TimerTypeButtons 
+          timerType={state.timerType} 
+          handleTimerType={handleTimerType}
+        />
         <Timer timer={`${minutes}:${seconds}`} />
-        <div className={classes["timer_container__update_timer_button"]}>
-          <Button
-            className={classes[`btn__${state.timerType}`]}
-            disabled={false}
-            onClickHandler={buttonHandler}
-            type="button"
-          >
-            {buttonAction}
-          </Button>
-        </div>
+        <UpdateTimerButton 
+          timerType={state.timerType}
+          handlePauseTimer={handlePauseTimer}
+          handleResetTimer={handleResetTimer}
+          handleStartTimer={handleStartTimer}
+          isTimerRunning={state.isTimerRunning}
+          timerSeconds={state.timerSeconds}
+        />
       </Card>
       <TaskList />
     </main>

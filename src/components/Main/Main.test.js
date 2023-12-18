@@ -10,7 +10,7 @@ import {
 import Main from "./Main";
 import { Provider } from "react-redux";
 import store from "../../store/store";
-import { prettyDOM } from "@testing-library/dom";
+
 
 afterEach(() => {
   cleanup();

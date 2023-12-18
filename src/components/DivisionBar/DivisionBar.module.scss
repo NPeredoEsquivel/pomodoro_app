@@ -1,0 +1,19 @@
+.division-bar-container {
+position: relative;
+width: 620px;
+margin-bottom: 40px;
+
+&__normal-division {
+  position: absolute;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+  width: 620px;
+}
+
+&__timed-division {
+  position: absolute;
+  height: 3px;
+  background-color: white;
+  display: block;
+}
+}

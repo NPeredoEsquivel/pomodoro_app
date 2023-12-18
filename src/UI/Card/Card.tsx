@@ -1,7 +1,7 @@
 import React from "react";
 
 type CardProps = {
-  className: string;
+  className?: string;
   children: React.ReactNode;
 };
 

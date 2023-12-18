@@ -20,7 +20,7 @@ const Backdrop: React.FC<BackdropProps> = ({ onCancel }) => {
 };
 
 const ModalOverlay: React.FC<ModalOverlayProps> = ({
-  renderContent,
+  renderContent = true,
   children,
 }) => {
   //Here the children is being rendered if the content is ready to render
