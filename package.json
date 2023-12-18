@@ -10,7 +10,8 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "turbo dev"
+    "dev": "turbo dev",
+    "build": "turbo build"
   },
   "devDependencies": {
     "turbo": "^1.11.2"
