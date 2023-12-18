@@ -20,8 +20,8 @@ app.use((req, res, next) => {
 app.get("/", (_, res) => res.send("Hello from express!"));
 
 
-app.use("/users", users);
-app.use("/api/auth", auth);
+app.use("/backend/users", users);
+app.use("/backend/api/auth", auth);
 
 app.use((error, req, res, next) => {
   console.log(error);
