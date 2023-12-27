@@ -1,16 +1,16 @@
 import React from "react";
 import classes from "./Task.module.scss";
-import ThreeDotsTask from "../../../../assets/img/vertical-ellipsis.png";
-import { Task as TaskElement } from "../../../../store/taskInterface";
-import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import ThreeDotsTask from "@assets/img/vertical-ellipsis.png";
+import { Task as TaskElement } from "@store/interfaces";
+import { useAppSelector, useAppDispatch } from "@store/hooks";
 import {
   selectTasks,
   removeTask,
   updateTask,
-} from "../../store/slices/tasksSlice";
-import { getActiveTask } from "../../lib/helpers/helpers";
-import { Task as TaskInterface } from "../../../../store/taskInterface";
-import Button from "../../UI/Button/Button";
+} from "@store/slices/tasksSlice";
+import { getActiveTask } from "@lib/helpers/helpers";
+import { Task as TaskInterface } from "@store/interfaces";
+import Button from "@UI/Button/Button";
 type MyProps = {
   task: TaskElement;
   taskIndex: number;

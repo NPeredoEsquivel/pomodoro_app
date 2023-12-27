@@ -1,16 +1,14 @@
 import React, { useEffect, useState, useRef, ChangeEvent } from "react";
 import classes from "./TaskForm.module.scss";
-import AddTask from "../../assets/img/plus-circle-white.png";
-/*import CaretUp from "../../../../assets/img/caret-up.png";
-import CaretDown from "../../../../assets/img/caret-down.png"; */
-import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import AddTask from "@assets/img/plus-circle-white.png";
+import { useAppSelector, useAppDispatch } from "@store/hooks";
 import {
   selectTasks,
   addTask,
   updateTask,
-} from "../../store/slices/tasksSlice";
-import { getActiveTask } from "../../lib/helpers/helpers";
-import Button from "../../UI/Button/Button";
+} from "@store/slices/tasksSlice";
+import { getActiveTask } from "@lib/helpers/helpers";
+import Button from "@UI/Button/Button";
 
 const TaskForm: React.FC = () => {
   const [taskName, setTaskName] = useState("");

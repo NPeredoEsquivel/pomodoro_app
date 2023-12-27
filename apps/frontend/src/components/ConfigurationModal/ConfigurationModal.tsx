@@ -1,13 +1,13 @@
 import React, { useRef } from "react";
-import Card from "../../UI/Card/Card";
-import Button from "../../UI/Button/Button";
+import Card from "@UI/Card/Card";
+import Button from "@UI/Button/Button";
 import classes from "./ConfigurationModal.module.scss";
-import FormInput from "../../UI/FormInput/FormInput";
-import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import FormInput from "@UI/FormInput/FormInput";
+import { useAppSelector, useAppDispatch } from "@store/hooks";
 import {
   selectTimerConfiguration,
   setTimerConfiguration,
-} from "../../store/slices/timerConfigSlice";
+} from "@store/slices/timerConfigSlice";
 
 interface ConfigurationModalProps {
   onConfirm: () => void;
