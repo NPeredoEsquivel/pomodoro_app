@@ -1,14 +1,16 @@
 import React from "react";
-import HomeScreen from "@pages/Home/Home";
-import LoginScreen from "@pages/Login/Login";
-import RegisterScreen from "@pages/Register/Register";
-import Root from "@pages/Root/Root";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { 
+  Root as RootScreen,
+  Home as HomeScreen,
+  Login as LoginScreen,
+  Register as RegisterScreen
+} from "./pages";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: <RootScreen />,
     children: [
       {
         index: true, 
