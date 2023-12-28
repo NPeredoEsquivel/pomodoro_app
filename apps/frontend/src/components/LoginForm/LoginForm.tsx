@@ -51,7 +51,7 @@ const LoginForm: React.FC<LoginFormProps> = ({onConfirm, onCancel, className, is
   }
 
   const sendRequest = async (data: { email: string, password: string }) => {
-    const baseUrl = 'http://localhost:8080/api/auth/';
+    const baseUrl = '/backend/api/auth/';
 
     const url = baseUrl + (isRegistration ? 'signup' : 'signin');
 

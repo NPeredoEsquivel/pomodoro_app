@@ -7,13 +7,13 @@
   "license": "ISC",
   "private": true,
   "workspaces": [
-    "backend",
-    "frontend"
+    "apps/*"
   ],
   "scripts": {
-    "start": "concurrently \"yarn workspace backend run start\" \"yarn workspace frontend run dev\""
+    "dev": "turbo dev",
+    "build": "turbo build"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "turbo": "^1.11.2"
   }
 }
