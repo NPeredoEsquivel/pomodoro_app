@@ -106,7 +106,7 @@
       "@components/*": ["./src/components/*"],
       "@assets/*": ["./src/assets/*"],
       "@pages/*": ["./src/pages/*"],
-      "@tore/*": ["./src/store/*"],
+      "@store/*": ["./src/store/*"],
       "@UI/*": ["./src/UI/*"],
       "@utils/*": ["./src/utils/*"],
       "@lib/*": ["./src/lib/*"],

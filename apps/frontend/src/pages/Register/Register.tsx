@@ -1,5 +1,6 @@
-import React, {useState} from 'react'
-import LoginForm from '@components/LoginForm/LoginForm';
+import React, {Fragment, useState} from 'react'
+import LoginForm from '@/components/LoginScreen/LoginForm/LoginForm';
+import Header from '@/components/LoginScreen/LoginHeader/Header';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -13,11 +14,14 @@ export default function Register() {
   }
 
   return (
-      <LoginForm
-        onConfirm={toggleUserModal}
-        onCancel={toggleUserModal}
-        className="login-container"
-        isRegistration={true}
-      />
+      <Fragment>
+        <Header isRegistration={true}/>
+        <LoginForm
+          onConfirm={toggleUserModal}
+          onCancel={toggleUserModal}
+          className="login-container"
+          isRegistration={true}
+        />
+      </Fragment>
   )
 }
