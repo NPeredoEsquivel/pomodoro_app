@@ -1,0 +1,83 @@
+.login-buttons {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  &__forgot-password {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 4px;
+    opacity: 0.9;
+    font-size: 14px;
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: rgba(0, 0, 0, 0.4);
+    font-weight: bold;
+    letter-spacing: 0.02em;
+    text-decoration: underline;
+    margin-top: 28px;
+
+    span {
+      cursor: pointer;
+    }
+  }
+
+  &__submit {
+    box-sizing: border-box;
+    margin-top: 28px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 2px;
+    color: white;
+    opacity: 0.9;
+    font-size: 14px;
+    padding: 12px;
+    min-width: 70px;
+    background-color: rgb(34, 34, 34);
+    border: 2px solid rgb(34, 34, 34);
+    width: 100%;
+  }
+
+  &__cancel {
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    margin-top: 20px;
+    border-radius: 4px;
+  }
+
+  &__register {
+    margin-top: 24px;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.4);
+    text-align: center;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  &__register-question {
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  &__create-account-action {
+    text-decoration: underline;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0.9;
+    font-size: 14px;
+  }
+}

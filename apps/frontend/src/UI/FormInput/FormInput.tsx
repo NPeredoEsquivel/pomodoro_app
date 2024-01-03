@@ -1,13 +1,14 @@
 import React from "react";
 
 interface FormInputProps {
-  htmlFor: string;
-  label: string;
-  ref: HTMLInputElement;
-  inputAttr: {
-    type: string;
-    name: string;
-    defaultValue: number | string;
+  htmlFor?: string;
+  label?: string;
+  ref?: HTMLInputElement;
+  className?: string;
+  inputAttr?: {
+    type?: string;
+    name?: string;
+    defaultValue?: number | string;
     placeholder?: string;
   };
 }
@@ -15,10 +16,10 @@ interface FormInputProps {
 const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
   (props, ref) => {
     return (
-      <>
+      <div className={props.className || ''}>
         <label htmlFor={props.htmlFor}>{props.label}</label>
         <input ref={ref} {...props.inputAttr} />
-      </>
+      </div>
     );
   }
 );
