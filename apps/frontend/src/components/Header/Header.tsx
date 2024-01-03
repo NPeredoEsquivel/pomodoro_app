@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import classes from "./Header.module.scss";
-import Configuration from "../../assets/img/config-white.png";
-//import Graph from "../../assets/img/graph-white.png";
-import AppIcon from "../../assets/img/icon-white.png";
-import User from "../../assets/img/user-white.png";
-import ConfigurationModal from "../ConfigurationModal/ConfigurationModal";
-import Modal from "../../UI/Modal/Modal";
+import { Configuration, AppIcon, User } from "@/assets/img/index";
+import ConfigurationModal from "@components/ConfigurationModal/ConfigurationModal";
+import Modal from "@UI/Modal/Modal";
 import { useNavigate } from "react-router-dom";
 
 const Header: React.FC = () => {

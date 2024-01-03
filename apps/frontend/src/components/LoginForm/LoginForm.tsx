@@ -1,13 +1,13 @@
 import React, { useRef, useState } from 'react';
-import Card from '../../UI/Card/Card';
-import FormInput from '../../UI/FormInput/FormInput';
-import Button from '../../UI/Button/Button';
+import Card from '@UI/Card/Card';
+import FormInput from '@UI/FormInput/FormInput';
+import Button from '@UI/Button/Button';
 import classes from './LoginForm.module.scss';
-import { useAppDispatch } from '../../store/hooks';
-import { setLoggedUser } from '../../store/slices/userSlice';
+import { useAppDispatch } from '@store/hooks';
+import { setLoggedUser } from '@store/slices/userSlice';
 import { Link, useNavigate, json } from 'react-router-dom';
-import pomodoroLoginLogo from "../../assets/img/brandlogo-white.png";
-import {setAuthToken, setExpirationDate} from '../../utils/auth'
+import pomodoroLoginLogo from "@assets/img/brandlogo-white.png";
+import {setAuthToken, setExpirationDate} from '@utils/auth'
 
 interface LoginFormProps {
   onConfirm: () => void;

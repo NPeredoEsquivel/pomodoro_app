@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './UpdateTimerButton.module.scss';
-import Button from '../../../src/UI/Button/Button';
+import Button from '@UI/Button/Button';
 
 type Props = {
   timerType: string;

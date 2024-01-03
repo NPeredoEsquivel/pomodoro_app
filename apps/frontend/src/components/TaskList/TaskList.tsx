@@ -1,14 +1,14 @@
 import React from "react";
-import Task from "../Task/Task";
-import TaskForm from "../TaskForm/TaskForm";
-import Card from "../../UI/Card/Card";
-import Button from "../../UI/Button/Button";
+import Task from "@components/Task/Task";
+import TaskForm from "@components/TaskForm/TaskForm";
+import Card from "@UI/Card/Card";
+import Button from "@UI/Button/Button";
 import classes from "./TaskList.module.scss";
-import { useAppSelector } from "../../store/hooks";
-import { selectTasks } from "../../store/slices/tasksSlice";
-import { Task as TaskInterface } from "../../store/interfaces";
-import { getActiveTask } from "../../lib/helpers/helpers";
-import ThreeDots from "../../assets/img/threedots-white.png";
+import { useAppSelector } from "@store/hooks";
+import { selectTasks } from "@store/slices/tasksSlice";
+import { Task as TaskInterface } from "@store/interfaces";
+import { getActiveTask } from "@lib/helpers/helpers";
+import ThreeDots from "@assets/img/threedots-white.png";
 
 const TaskList: React.FC = () => {
   const tasks = useAppSelector(selectTasks);
