@@ -1,6 +1,6 @@
 import React from 'react';
-import Main from '@components/Main/Main';
-import Header from '@components/Header/Header';
+import Main from '@/components/HomeScreen/Main/Main';
+import Header from '@/components/HomeScreen/HomeHeader/Header';
 
 export default function HomeScreen() {
   return (
