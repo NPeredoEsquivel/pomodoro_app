@@ -1,0 +1,21 @@
+.login-header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 20px;
+
+  &__login-logo {
+    width: 280px;
+  }
+
+  &__title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    opacity: 0.8;
+    letter-spacing: 0.05em;
+    margin-top: 18px;
+    margin-bottom: 38px;
+  }
+}
